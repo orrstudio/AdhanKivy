@@ -1,7 +1,7 @@
- # OrrClock
+ # AdhanKivy
 
 <div align="center">
-  <img src="images/logo.png" alt="OrrClock Logo" width="400"/>
+  <img src="images/logo.png" alt="Adhan Logo" width="400"/>
 </div>
 
 <div align="center">
@@ -9,26 +9,13 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![Kivy](https://img.shields.io/badge/Kivy-2.2.1-brightgreen)](https://kivy.org/)
-[![GitHub release](https://img.shields.io/badge/Release-v1.0.0-blue)](https://github.com/OrrStudio/OrrClock/releases)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/OrrStudio/OrrClock/graphs/commit-activity)
-[![GitHub issues](https://img.shields.io/github/issues/OrrStudio/OrrClock)](https://github.com/OrrStudio/OrrClock/issues)
+[![GitHub release](https://img.shields.io/badge/Release-v1.0.0-blue)](https://github.com/OrrStudio/AdhanKivy/releases)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/OrrStudio/AdhanKivy/graphs/commit-activity)
+[![GitHub issues](https://img.shields.io/github/issues/OrrStudio/AdhanKivy)](https://github.com/OrrStudio/AdhanKivy/issues)
 
 </div>
 
 Adaptive digital clock with a modern minimalist design, developed using the Kivy Framework.
-
-[🇦🇿 Azərbaycan](readmes/README.az.md) |  
-[🇹🇷 Türkçe](readmes/README.tr.md) |  
-[🇸🇦 العربية](readmes/README.ar.md)  
-[🇮🇷 فارسی](readmes/README.fa.md) |  
-[🇷🇺 Русский](readmes/README.ru.md) |  
-[🇩🇪 Deutsch](readmes/README.de.md) |  
-[🇮🇹 Italiano](readmes/README.it.md) |  
-[🇪🇸 Español](readmes/README.es.md) |  
-[🇫🇷 Français](readmes/README.fr.md) |  
-[🇯🇵 日本語](readmes/README.ja.md) |  
-[🇨🇳 中文](readmes/README.zh.md) |  
-[🇮🇳 हिंदी](readmes/README.hi.md) |  
 
 ## Features
 
@@ -40,7 +27,7 @@ Adaptive digital clock with a modern minimalist design, developed using the Kivy
 
 ## Applications and Capabilities
 
-OrrClock is not just a clock, it's a multifunctional time display application that can be used in various scenarios:
+AdhanKivy is not just a clock, it's a multifunctional time display application that can be used in various scenarios:
 
 ### Home Use
 - As a desktop clock on your computer or laptop
@@ -70,7 +57,7 @@ The application is easily customizable:
 
 ## Project Structure
 ```
-OrrClock/
+AdhanKivy/
 ├── main.py                 # Main application file
 ├── ui/                     # UI components
 │   ├── base_clock.py       # Base clock class
@@ -86,8 +73,8 @@ OrrClock/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/OrrStudio/OrrClock.git
-cd OrrClock
+git clone https://github.com/orrstudio/AdhanKivy.git
+cd AdhanKivy
 ```
 
 2. Create and activate virtual environment:
@@ -157,30 +144,30 @@ chmod +x appimagetool-x86_64.AppImage
 
 2. Create AppDir structure:
 ```bash
-mkdir -p OrrClock.AppDir/usr/bin
-mkdir -p OrrClock.AppDir/usr/share/applications
-mkdir -p OrrClock.AppDir/usr/share/icons
+mkdir -p AdhanKivy.AppDir/usr/bin
+mkdir -p AdhanKivy.AppDir/usr/share/applications
+mkdir -p AdhanKivy.AppDir/usr/share/icons
 ```
 
 3. Copy files and create .desktop file
 ```bash
-cp dist/main OrrClock.AppDir/usr/bin/orrclock
-cp icons/iconEzanClock.svg OrrClock.AppDir/usr/share/icons/orrclock.svg
+cp dist/main AdhanKivy.AppDir/usr/bin/adhankivy
+cp icons/iconEzanClock.svg AdhanKivy.AppDir/usr/share/icons/adhankivy.svg
 ```
 
-4. Create OrrClock.desktop:
+4. Create AdhanKivy.desktop:
 ```
 [Desktop Entry]
-Name=OrrClock
-Exec=orrclock
-Icon=orrclock
+Name=Adhan
+Exec=adhankivy
+Icon=adhankivy
 Type=Application
-Categories=Utility;Clock;
+Categories=Utility;Adhan;
 ```
 
 5. Generate AppImage:
 ```bash
-./appimagetool-x86_64.AppImage OrrClock.AppDir
+./appimagetool-x86_64.AppImage AdhanKivy.AppDir
 ```
 
 ### Windows Packaging
@@ -198,22 +185,22 @@ pyinstaller --onefile --windowed --add-data "fonts;fonts" --add-data "icons;icon
 
 #### Inno Setup (Installer)
 1. Download and install [Inno Setup](https://jrsoftware.org/isdl.php)
-2. Create a script (OrrClock_Installer.iss):
+2. Create a script (AdhanKivy_Installer.iss):
 ```
 [Setup]
-AppName=OrrClock
+AppName=AdhanKivy
 AppVersion=1.0.0
-DefaultDirName={pf}\OrrClock
-DefaultGroupName=OrrClock
-OutputBaseFilename=OrrClock_Installer
+DefaultDirName={pf}\AdhanKivy
+DefaultGroupName=AdhanKivy
+OutputBaseFilename=AdhanKivy_Installer
 
 [Files]
-Source: "dist\main.exe"; DestDir: "{app}"; DestName: "OrrClock.exe"
+Source: "dist\main.exe"; DestDir: "{app}"; DestName: "AdhanKivy.exe"
 Source: "icons\*"; DestDir: "{app}\icons"
 Source: "fonts\*"; DestDir: "{app}\fonts"
 
 [Icons]
-Name: "{group}\OrrClock"; Filename: "{app}\OrrClock.exe"
+Name: "{group}\AdhanKivy"; Filename: "{app}\AdhanKivy.exe"
 ```
 
 3. Compile the installer using Inno Setup Compiler
