@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it using these metadata."
-title: "OrrClock"
+title: "AdhanKivy"
 abstract: "Адаптивные цифровые часы с современным минималистичным дизайном, разработанные с использованием Kivy Framework"
 type: software
 authors:
@@ -9,11 +9,13 @@ authors:
     email: orr888@gmail.com
 version: 1.0.0
 date-released: "2024-01-15"
-repository-code: "https://github.com/OrrStudio/OrrClock"
+repository-code: "https://github.com/orrstudio/AdhanKivy"
 keywords:
   - python
   - kivy
-  - clock
+  - adhan
+  - ezan
+  - prayer-time
   - desktop-application
   - gui
 license: MIT
