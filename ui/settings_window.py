@@ -242,12 +242,14 @@ class SettingsWindow(ModalView):
         # Кнопки управления
         cancel_button = Button(
             text="Cancel",
-            background_color=(0.8, 0.2, 0.2, 1),
+            background_normal='',  # Убираем стандартный фон
+            background_color=(3, 0, 0, 1),  # Более светлый красный
             **button_style
         )
         accept_button = Button(
             text="Save",
-            background_color=(0.2, 0.8, 0.2, 1),
+            background_normal='',  # Убираем стандартный фон
+            background_color=(0, 0.7, 0, 1),  # Более светлый зеленый
             **button_style
         )
         
