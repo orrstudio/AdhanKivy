@@ -1,6 +1,7 @@
 # ui/portrait_clock.py
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
+from kivy.core.window import Window
 from ui.base_clock import BaseClockLabel
 from ui.settings_window import SettingsWindow
 from data.database import SettingsDatabase
@@ -13,6 +14,19 @@ class PortraitClockLayout(FloatLayout):
         # Создаем метку времени
         self.clock_label = PortraitClockLabel()
         self.add_widget(self.clock_label)
+        
+        # Создаем кнопку тестового окна
+        self.test_button = Button(
+            text="TEST",
+            size_hint=(None, None),
+            size=(120, 50),
+            background_color=(0.2, 0.2, 0.2, 1),
+            pos_hint={'center_x': 0.5, 'y': 0.05 + 50/Window.height},  # Размещаем прямо над кнопкой settings
+            color=(0.9, 0.9, 0.9, 1),
+            font_size='16sp'
+        )
+        self.test_button.bind(on_release=self.show_test_window)
+        self.add_widget(self.test_button)
         
         # Создаем кнопку настроек
         self.settings_button = Button(
@@ -40,6 +54,13 @@ class PortraitClockLayout(FloatLayout):
     def apply_settings(self, color):
         """Применить настройки"""
         self.clock_label.color = color
+        
+    def show_test_window(self, instance):
+        """Показать тестовое окно"""
+        from kivy.app import App
+        app = App.get_running_app()
+        if hasattr(app, 'toggle_test_window'):
+            app.toggle_test_window()
 
 class PortraitClockLabel(BaseClockLabel):
     def setup_style(self):
