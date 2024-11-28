@@ -10,6 +10,7 @@ from kivy.animation import Animation
 
 from ui.portrait_clock import PortraitClockLayout
 from ui.landscape_clock import LandscapeClockLabel
+from ui.test_window import TestWindow
 
 class ClockApp(App):
     # Список доступных цветов
@@ -28,6 +29,7 @@ class ClockApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.current_orientation = None
+        self.current_window = 'clock'
         
     def build(self):
         # Черный фон
@@ -35,6 +37,9 @@ class ClockApp(App):
         
         # Использование FloatLayout для гибкого размещения
         self.layout = FloatLayout()
+        
+        # Создаем тестовое окно
+        self.test_window = TestWindow()
         
         # Определение initial orientation
         self.check_and_set_orientation()
@@ -143,6 +148,29 @@ class ClockApp(App):
                 self.clock_widget.clock_label.color = color_tuple
             else:
                 self.clock_widget.color = color_tuple
+
+    def toggle_test_window(self):
+        """Переключение между основным и тестовым окном"""
+        self.layout.clear_widgets()
+        if self.current_window == 'clock':
+            self.layout.add_widget(self.test_window)
+            self.current_window = 'test'
+        else:
+            # Определяем ориентацию
+            aspect_ratio = Window.width / Window.height
+            LANDSCAPE_THRESHOLD = 1.1
+            PORTRAIT_THRESHOLD = 0.9
+            
+            if aspect_ratio > LANDSCAPE_THRESHOLD:
+                self.clock_widget = LandscapeClockLabel()
+                self.current_orientation = 'landscape'
+            else:
+                self.clock_widget = PortraitClockLayout()
+                self.current_orientation = 'portrait'
+            
+            # Добавляем виджет часов
+            self.layout.add_widget(self.clock_widget)
+            self.current_window = 'clock'
 
 if __name__ == "__main__":
     ClockApp().run()
