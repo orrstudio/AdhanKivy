@@ -28,13 +28,13 @@ class TestWindow(FloatLayout):
         )
         
         # Тестовые данные времен молитв
-        # Формат: (время, название молитвы)
+        # Формат: (название молитвы, время)
         self.prayer_times = [
-            ('05:30', 'Фаджр'),
-            ('13:00', 'Зухр'),
-            ('16:30', 'Аср'),
-            ('19:00', 'Магриб'),
-            ('20:30', 'Иша')
+            (' Фаджр---', '05:30 '),
+            (' Зухр----', '13:00 '),
+            (' Аср-----', '16:30 '),
+            (' Магриб--', '19:00 '),
+            (' Иша-----', '20:30 ')
         ]
         
         # Создаем метки для всех времен молитв
@@ -43,7 +43,7 @@ class TestWindow(FloatLayout):
         # Добавляем таблицу в окно
         self.add_widget(self.table)
         
-        # Создаем кнопку "назад" для возврата к основному окну
+        # Создаем кнопку "BACK" для возврата к основному окну
         self.back_button = Button(
             text='BACK',
             size_hint=(None, None),  # Фиксированный размер
@@ -80,30 +80,30 @@ class TestWindow(FloatLayout):
         font_size = self.calculate_font_size()
         
         # Создаем метки для каждого времени молитвы
-        for time, prayer in self.prayer_times:
-            # Метка для времени (левая колонка)
-            time_label = Label(
-                text=time,
-                font_size=font_size,  # Адаптивный размер шрифта
-                size_hint=(0.5, None),  # 50% ширины, высота по контенту
-                height=font_size * 1.5,  # Высота зависит от размера шрифта
-                halign='left',  # Выравнивание текста влево
-                valign='middle',  # Вертикально по центру
-                text_size=(Window.width/2, font_size * 1.5)  # Область текста
-            )
-            # Метка для названия молитвы (правая колонка)
+        for prayer, time in self.prayer_times:
+            # Метка для названия молитвы (левая колонка)
             prayer_label = Label(
                 text=prayer,
                 font_size=font_size,
-                size_hint=(0.5, None),
+                size_hint=(0.7, None),
                 height=font_size * 1.5,
-                halign='right',  # Выравнивание текста вправо
+                halign='left',  # Выравнивание текста влево
                 valign='middle',
-                text_size=(Window.width/2, font_size * 1.5)
+                text_size=(Window.width*0.7, font_size * 1.5)
+            )
+            # Метка для времени (правая колонка)
+            time_label = Label(
+                text=time,
+                font_size=font_size,  # Адаптивный размер шрифта
+                size_hint=(0.3, None),
+                height=font_size * 1.5,  # Высота зависит от размера шрифта
+                halign='right',  # Выравнивание текста вправо
+                valign='middle',  # Вертикально по центру
+                text_size=(Window.width*0.3, font_size * 1.5)  # Область текста
             )
             # Добавляем метки в таблицу
-            self.table.add_widget(time_label)
             self.table.add_widget(prayer_label)
+            self.table.add_widget(time_label)
     
     def on_window_resize(self, instance, width, height):
         """
