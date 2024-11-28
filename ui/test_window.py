@@ -6,6 +6,13 @@ from kivy.core.window import Window  # Для работы с окном при�
 from kivy.metrics import dp  # Для работы с независимыми от устройства пикселями
 from kivy.app import App  # Для доступа к основному приложению
 from kivy.uix.gridlayout import GridLayout  # Для создания табличной структуры
+from kivy.core.text import LabelBase  # Для регистрации шрифтов
+
+# Регистрируем пользовательские шрифты
+LabelBase.register(name='DSEG14', 
+                  fn_regular='fonts/DSEG14Classic-Regular.ttf')
+LabelBase.register(name='DSEG7', 
+                  fn_regular='fonts/DSEG7Classic-Bold.ttf')
 
 class TestWindow(FloatLayout):
     """
@@ -30,11 +37,13 @@ class TestWindow(FloatLayout):
         # Тестовые данные времен молитв
         # Формат: (название молитвы, время)
         self.prayer_times = [
-            (' Фаджр---', '05:30 '),
-            (' Зухр----', '13:00 '),
-            (' Аср-----', '16:30 '),
-            (' Магриб--', '19:00 '),
-            (' Иша-----', '20:30 ')
+            ('Midnight-', '05:30'),
+            ('Fajr-----', '05:30'),
+            ('Sunrise--', '05:30'),
+            ('Dhuhr----', '13:00'),
+            ('Asr------', '16:30'),
+            ('Maghrib--', '19:00'),
+            ('Isha-----', '20:30')
         ]
         
         # Создаем метки для всех времен молитв
@@ -77,29 +86,32 @@ class TestWindow(FloatLayout):
         self.table.clear_widgets()  # Очищаем старые метки
         
         # Получаем размер шрифта на основе текущей ширины окна
-        font_size = self.calculate_font_size()
+        time_font_size = self.calculate_font_size()  # Размер для времени
+        prayer_font_size = time_font_size * 0.7  # Размер для названий (70% от размера времени)
         
         # Создаем метки для каждого времени молитвы
         for prayer, time in self.prayer_times:
             # Метка для названия молитвы (левая колонка)
             prayer_label = Label(
                 text=prayer,
-                font_size=font_size,
-                size_hint=(0.7, None),
-                height=font_size * 1.5,
+                font_size=prayer_font_size,  # Используем меньший размер для названий
+                font_name='DSEG14',  # Используем шрифт DSEG14
+                size_hint=(0.65, None),
+                height=time_font_size * 1.5,  # Высота остается как у времени для выравнивания
                 halign='left',  # Выравнивание текста влево
                 valign='middle',
-                text_size=(Window.width*0.7, font_size * 1.5)
+                text_size=(Window.width*0.65, time_font_size * 2.5)
             )
             # Метка для времени (правая колонка)
             time_label = Label(
                 text=time,
-                font_size=font_size,  # Адаптивный размер шрифта
-                size_hint=(0.3, None),
-                height=font_size * 1.5,  # Высота зависит от размера шрифта
+                font_size=time_font_size,  # Больший размер для времени
+                font_name='DSEG7',  # Используем шрифт DSEG7
+                size_hint=(0.35, None),
+                height=time_font_size * 1.5,  # Высота зависит от размера шрифта
                 halign='right',  # Выравнивание текста вправо
                 valign='middle',  # Вертикально по центру
-                text_size=(Window.width*0.3, font_size * 1.5)  # Область текста
+                text_size=(Window.width*0.35, time_font_size * 1.5)  # Область текста
             )
             # Добавляем метки в таблицу
             self.table.add_widget(prayer_label)
@@ -120,3 +132,4 @@ class TestWindow(FloatLayout):
         """
         if hasattr(App.get_running_app(), 'toggle_test_window'):
             App.get_running_app().toggle_test_window()
+            return  # Добавляем return для завершения функции

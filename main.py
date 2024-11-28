@@ -38,7 +38,7 @@ class ClockApp(App):
         # Использование FloatLayout для гибкого размещения
         self.layout = FloatLayout()
         
-        # Создаем тестовое окно
+        # Создаем тестовое окно, но пока не показываем
         self.test_window = TestWindow()
         
         # Определение initial orientation
@@ -153,6 +153,9 @@ class ClockApp(App):
         """Переключение между основным и тестовым окном"""
         self.layout.clear_widgets()
         if self.current_window == 'clock':
+            # Очищаем основной layout
+            self.layout.clear_widgets()
+            # Показываем тестовое окно
             self.layout.add_widget(self.test_window)
             self.current_window = 'test'
         else:
