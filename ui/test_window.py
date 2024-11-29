@@ -9,10 +9,10 @@ from kivy.uix.gridlayout import GridLayout  # Для создания табли
 from kivy.core.text import LabelBase  # Для регистрации шрифтов
 
 # Регистрируем пользовательские шрифты
-LabelBase.register(name='DSEG14', 
+LabelBase.register(name='PrayerNameFont', 
+                  fn_regular='fonts/SourceCodePro/SourceCodePro-ExtraLight.ttf')
+LabelBase.register(name='PrayerTimeFont', 
                   fn_regular='fonts/DSEG14Classic-Regular.ttf')
-LabelBase.register(name='DSEG7', 
-                  fn_regular='fonts/DSEG7Classic-Bold.ttf')
 
 class TestWindow(FloatLayout):
     """
@@ -37,13 +37,13 @@ class TestWindow(FloatLayout):
         # Тестовые данные времен молитв
         # Формат: (название молитвы, время)
         self.prayer_times = [
-            ('Midnight-', '05:30'),
-            ('Fajr-----', '05:30'),
-            ('Sunrise--', '05:30'),
-            ('Dhuhr----', '13:00'),
-            ('Asr------', '16:30'),
-            ('Maghrib--', '19:00'),
-            ('Isha-----', '20:30')
+            ('Təhəccüd -', '05:30'),
+            ('İmsak ----', '05:30'),
+            ('Günəş ----', '05:30'),
+            ('Günorta --', '13:00'),
+            ('İkindi ---', '15:00'), 
+            ('Axşam ----', '16:30'),
+            ('Gecə -----', '20:30')
         ]
         
         # Создаем метки для всех времен молитв
@@ -58,12 +58,12 @@ class TestWindow(FloatLayout):
             size_hint=(None, None),  # Фиксированный размер
             size=(120, 50),  # Размер кнопки в пикселях
             pos_hint={'center_x': 0.5, 'y': 0.05},  # Позиция внизу по центру
-            background_color=(0.2, 0.2, 0.2, 1),  # Темно-серый фон
+            background_color=(0.6, 0.6, 0.6, 1),  # Серый фон
             color=(0.9, 0.9, 0.9, 1),  # Светло-серый текст
             font_size='16sp'  # Размер шрифта
         )
         # Привязываем обработчик нажатия
-        self.back_button.bind(on_press=self.on_back_button_press)
+        self.back_button.bind(on_release=self.on_back_button_press)
         self.add_widget(self.back_button)
         
         # Привязываем обработчик изменения размера окна
@@ -87,7 +87,7 @@ class TestWindow(FloatLayout):
         
         # Получаем размер шрифта на основе текущей ширины окна
         time_font_size = self.calculate_font_size()  # Размер для времени
-        prayer_font_size = time_font_size * 0.7  # Размер для названий (70% от размера времени)
+        prayer_font_size = time_font_size * 1  # Размер для названий (70% от размера времени)
         
         # Создаем метки для каждого времени молитвы
         for prayer, time in self.prayer_times:
@@ -95,7 +95,7 @@ class TestWindow(FloatLayout):
             prayer_label = Label(
                 text=prayer,
                 font_size=prayer_font_size,  # Используем меньший размер для названий
-                font_name='DSEG14',  # Используем шрифт DSEG14
+                font_name='PrayerNameFont',  # Используем шрифт PrayerNameFont
                 size_hint=(0.65, None),
                 height=time_font_size * 1.5,  # Высота остается как у времени для выравнивания
                 halign='left',  # Выравнивание текста влево
@@ -106,7 +106,7 @@ class TestWindow(FloatLayout):
             time_label = Label(
                 text=time,
                 font_size=time_font_size,  # Больший размер для времени
-                font_name='DSEG7',  # Используем шрифт DSEG7
+                font_name='PrayerTimeFont',  # Используем шрифт PrayerTimeFont
                 size_hint=(0.35, None),
                 height=time_font_size * 1.5,  # Высота зависит от размера шрифта
                 halign='right',  # Выравнивание текста вправо
@@ -132,4 +132,3 @@ class TestWindow(FloatLayout):
         """
         if hasattr(App.get_running_app(), 'toggle_test_window'):
             App.get_running_app().toggle_test_window()
-            return  # Добавляем return для завершения функции

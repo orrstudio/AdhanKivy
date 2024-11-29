@@ -20,7 +20,7 @@ class PortraitClockLayout(FloatLayout):
             text="TEST",
             size_hint=(None, None),
             size=(120, 50),
-            background_color=(0.2, 0.2, 0.2, 1),
+            background_color=(0.6, 0.6, 0.6, 1),
             pos_hint={'center_x': 0.5, 'y': 0.05 + 50/Window.height},  # Размещаем прямо над кнопкой settings
             color=(0.9, 0.9, 0.9, 1),
             font_size='16sp'
@@ -33,7 +33,7 @@ class PortraitClockLayout(FloatLayout):
             text="SETTINGS",
             size_hint=(None, None),
             size=(120, 50),
-            background_color=(0.2, 0.2, 0.2, 1),
+            background_color=(0.6, 0.6, 0.6, 1),
             pos_hint={'center_x': 0.5, 'y': 0.05},
             color=(0.9, 0.9, 0.9, 1),
             font_size='16sp'
