@@ -12,7 +12,7 @@ from kivy.core.text import LabelBase  # Для регистрации шрифт
 LabelBase.register(name='PrayerNameFont', 
                   fn_regular='fonts/SourceCodePro/SourceCodePro-ExtraLight.ttf')
 LabelBase.register(name='PrayerTimeFont', 
-                  fn_regular='fonts/DSEG14Classic-Regular.ttf')
+                  fn_regular='fonts/DSEG-Classic/DSEG14Classic-Regular.ttf')
 
 class TestWindow(FloatLayout):
     """
