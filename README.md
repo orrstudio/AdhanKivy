@@ -1,4 +1,4 @@
- # AdhanKivy
+ # AdhanKivy: Времена молитвы
 
 <div align="center">
   <img src="images/logo.png" alt="Adhan Logo" width="400"/>
@@ -15,112 +15,50 @@
 
 </div>
 
-Adaptive digital clock with a modern minimalist design, developed using the Kivy Framework.
+## 🕰️ О Проекте
 
-## Features
+AdhanKivy - это приложение для отображения и напоминания о времени молитвы.
 
-- Automatic interface adaptation for portrait and landscape orientation
-- Smooth animations when changing orientation and updating time
-- Customizable color scheme with 9 preset colors
-- Minimalist design with black background
-- Optimized performance using hysteresis for orientation detection
+## ✨ Ключевые Особенности
 
-## Applications and Capabilities
+- 🌓 Адаптивный интерфейс для портретной и ландшафтной ориентации
+- 🎨 Настраиваемая цветовая схема для цифровых часов
+- 🕌 Функционал расчета времени намаза
+- 🔇 Настраиваемые звуковые уведомления
 
-AdhanKivy is not just a clock, it's a multifunctional time display application that can be used in various scenarios:
+## 🛠 Технологии
 
-### Home Use
-- As a desktop clock on your computer or laptop
-- As a clock for presentations or online meetings
-- As a fullscreen clock for home theater
+- **Язык**: Python 3.8+
+- **Фреймворк**: Kivy 2.2.1
+- **Платформы**: Cross-platform (Linux, Android)
 
-### Professional Use
-- In TV studios for current time display
-- On information displays in offices and public spaces
-- In educational institutions for time control
+## 🚀 Быстрый Старт
 
-### Advantages
-- Adaptive design allows using the application on screens of any orientation
-- High readability thanks to contrasting colors and minimalist design
-- Customizable colors allow adapting the clock to any interior or corporate style
+1. Клонируйте репозиторий
+2. Установите зависимости: `pip install -r requirements.txt`
+3. Запустите приложение: `python main.py`
 
-### Customization
-The application is easily customizable:
-- Choice of color schemes
-- Adaptation to portrait or landscape mode
+## 📦 Установка
 
-## Technologies
+Чтобы создать APK с помощью Buildozer, выполните следующие действия:
 
-- Python 3
-- Kivy 2.2.1
-- Modular architecture with UI component separation
+1. **Установите Buildozer**:
+   Следуйте инструкциям по установке из [Документации Buildozer](https://buildozer.readthedocs.io/en/latest/installation.html).
 
-## Project Structure
-```
-AdhanKivy/
-├── main.py                 # Main application file
-├── ui/                     # UI components
-│   ├── base_clock.py       # Base clock class
-│   ├── landscape_clock.py  # Landscape orientation
-│   ├── portrait_clock.py   # Portrait orientation
-│   └── settings_window.py  # Settings window
-├── data/                   # Additional data
-├── fonts/                  # Fonts
-└── requirements.txt        # Dependencies
-```
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/orrstudio/AdhanKivy.git
-cd AdhanKivy
-```
-
-2. Create and activate virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # for Linux/Mac
-```
-
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-4. Run the application:
-```bash
-python main.py
-```
-
-## System Requirements
-
-- Python 3.8 or higher
-- Kivy 2.2.1
-- Minimum 512MB RAM
-- Any operating system supporting Python and Kivy (Windows, Linux, macOS)
-
-## Building APK for Android with Buildozer
-
-To build an APK using Buildozer, follow these steps:
-
-1. **Install Buildozer**:
-   Follow the installation instructions from the [Buildozer Documentation](https://buildozer.readthedocs.io/en/latest/installation.html).
-
-2. **Build the APK**:
-   Run the following command to build the APK:
+2. **Создайте APK**:
+   Запустите следующую команду для сборки APK:
    ```bash
    buildozer android debug
    ```
-   The built APK will be located in the `bin/` directory of your project.
+   Собранный APK будет находиться в директории `bin/` вашего проекта.
 
-3. **Deploy to a device** (optional):
-   If you have an Android device connected, you can deploy the APK directly using:
+3. **Развертывание на устройстве** (optional):
+   Если у вас подключен устройство Android, вы можете развернуть APK напрямую с помощью:
    ```bash
    buildozer android deploy run
    ```
 
-## Building Standalone Executables and Packages
+## Создание автономных исполняемых файлов и пакетов
 
 ### Linux Packaging
 
@@ -170,7 +108,7 @@ Categories=Utility;Adhan;
 ./appimagetool-x86_64.AppImage AdhanKivy.AppDir
 ```
 
-### Windows Packaging
+### Упаковка для Windows
 
 #### PyInstaller (Executable)
 1. Install PyInstaller:

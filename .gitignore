@@ -17,7 +17,6 @@ build/
 build-*
 
 # Temporary files
-# buildozer.spec
 buildozer.log
 buildozer-*.log
 
@@ -34,13 +33,9 @@ buildozer-*.log
 .DS_Store
 
 # User settings and data
-TODO.md
 *.db
 settings.db
 data/*.db
 
 # Project specific
-План.md
-
-# Documentation and planning
-ui/portrait_layout_plan.md
+draft.md
