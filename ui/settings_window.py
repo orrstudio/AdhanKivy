@@ -140,11 +140,13 @@ class SettingsWindow(ModalView):
         self.height = Window.height
         
         # Основной layout
-        self.layout = BoxLayout(
-            orientation='vertical',
+        self.layout = GridLayout(
+            cols=1,  # Один столбец
             spacing=dp(10),
+            size_hint_y=None,  # Важно: разрешаем динамическую высоту
             padding=[dp(0), dp(0), dp(0), dp(0)]
         )
+        self.layout.bind(minimum_height=self.layout.setter('height'))
         
         # Создание заголовка
         title_layout = BoxLayout(
@@ -175,10 +177,10 @@ class SettingsWindow(ModalView):
         colors_grid = GridLayout(
             cols=3,
             spacing=dp(10),
-            size_hint_y=None,
-            height=dp(180),
+            size_hint_y=None,  # Динамическая высота
             padding=[dp(20), dp(10)]
         )
+        colors_grid.bind(minimum_height=colors_grid.setter('height'))
         
         # Создаем кнопки цветов
         for color_name, color_tuple in self.colors.items():
@@ -200,6 +202,56 @@ class SettingsWindow(ModalView):
         
         # Добавляем сетку цветов сразу после заголовка
         self.layout.add_widget(colors_grid)
+        
+        # Вторая сетка цветов
+        colors_grid2 = GridLayout(
+            cols=3,
+            spacing=dp(10),
+            size_hint_y=None,  # Динамическая высота
+            padding=[dp(20), dp(10)]
+        )
+        colors_grid2.bind(minimum_height=colors_grid2.setter('height'))
+        
+        # Создаем кнопки цветов для второй сетки
+        for color_name, color_tuple in self.colors.items():
+            color_button = ColorButton(
+                color_name=color_name,
+                color_tuple=color_tuple,
+                text='',  # Без текста для минималистичного дизайна
+                size_hint=(1, None),
+                height=dp(50),
+                background_normal=''
+            )
+            color_button.bind(on_release=self._on_color_button_press)
+            colors_grid2.add_widget(color_button)
+        
+        # Добавляем вторую сетку цветов
+        self.layout.add_widget(colors_grid2)
+        
+        # Третья сетка цветов
+        colors_grid3 = GridLayout(
+            cols=3,
+            spacing=dp(10),
+            size_hint_y=None,  # Динамическая высота
+            padding=[dp(20), dp(10)]
+        )
+        colors_grid3.bind(minimum_height=colors_grid3.setter('height'))
+        
+        # Создаем кнопки цветов для третьей сетки
+        for color_name, color_tuple in self.colors.items():
+            color_button = ColorButton(
+                color_name=color_name,
+                color_tuple=color_tuple,
+                text='',  # Без текста для минималистичного дизайна
+                size_hint=(1, None),
+                height=dp(50),
+                background_normal=''
+            )
+            color_button.bind(on_release=self._on_color_button_press)
+            colors_grid3.add_widget(color_button)
+        
+        # Добавляем третью сетку цветов
+        self.layout.add_widget(colors_grid3)
         
         # Растягивающийся виджет между сеткой и кнопками
         self.layout.add_widget(Widget())
@@ -248,7 +300,19 @@ class SettingsWindow(ModalView):
         bottom_panel.add_widget(accept_button)
         
         self.layout.add_widget(bottom_panel)
-        self.add_widget(self.layout)
+        
+        # Создаем ScrollView
+        scroll_view = ScrollView(
+            size_hint=(1, 1),
+            do_scroll_x=False,  # Запрещаем горизонтальную прокрутку
+            do_scroll_y=True   # Разрешаем вертикальную прокрутку
+        )
+
+        # Добавляем основной layout в ScrollView
+        scroll_view.add_widget(self.layout)
+
+        # Добавляем ScrollView в окно
+        self.add_widget(scroll_view)
         
         # Добавляем рамку к активной кнопке после отрисовки
         Clock.schedule_once(self._add_initial_border, 0)
