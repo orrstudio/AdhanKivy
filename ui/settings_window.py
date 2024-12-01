@@ -24,11 +24,12 @@ from data.database import SettingsDatabase
 import logging
 logger = logging.getLogger(__name__)
 
-class SettingsCard(BoxLayout):
+class SettingsCard(GridLayout):
     """Карточка для группы настроек"""
     def __init__(self, title="", **kwargs):
         super().__init__(**kwargs)
-        self.orientation = 'vertical'
+        self.cols = 1
+        self.row_default_height = dp(5)
         self.size_hint_y = None
         self.height = dp(200)  # Начальная высота
         self.padding = [dp(10), dp(5)]
