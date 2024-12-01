@@ -16,7 +16,7 @@ class TestWindow(GridLayout):
     """
     Окно для отображения времен молитв в табличном формате.
     Использует двухколоночную структуру, где первая колонка - время,
-    вторая - название молитвы. Закрывается по касанию в любом месте окна.
+    вторая - название молитвы. Закрывается по двойному касанию в любом месте окна.
     """
     def __init__(self, **kwargs):
         # Инициализация родительского класса
@@ -113,7 +113,7 @@ class TestWindow(GridLayout):
     def on_touch_down(self, touch: MotionEvent, *args) -> bool:
         """
         Обработчик касания экрана.
-        Закрывает тестовое окно при любом касании внутри него.
+        Закрывает тестовое окно при двойном касании внутри него.
         
         Args:
             touch (MotionEvent): Событие касания с координатами
@@ -122,12 +122,14 @@ class TestWindow(GridLayout):
         Returns:
             bool: True если касание обработано, False если нет
         """
-        # Проверяем, было ли касание внутри окна
-        if self.collide_point(*touch.pos):
+        # Сначала передаем касание родительскому классу для обработки базовой функциональности
+        ret = super().on_touch_down(touch)
+        
+        # Проверяем, что touch - это объект касания и было двойное касание внутри окна
+        if isinstance(touch, MotionEvent) and self.collide_point(*touch.pos) and hasattr(touch, 'is_double_tap') and touch.is_double_tap:
             app = App.get_running_app()
-            # Проверяем наличие метода переключения окон
             if hasattr(app, 'switch_to_main'):
-                app.switch_to_main()  # Переключаемся на главное окно
-                return True  # Касание обработано
-        # Если касание не в нашей области, передаем его дальше
-        return super().on_touch_down(touch, *args)
+                app.switch_to_main()
+            return True
+        
+        return ret
