@@ -41,7 +41,6 @@ class SettingsManager:
             # Сохраняем выбранный цвет в базу
             color_name = SettingsWindow.get_color_name(color_tuple)
             self.db.save_setting('color', color_name)
-            print(f"Applied color: {color_name}, Tuple: {color_tuple}")  # Отладочная печать
             self.initial_color = color_name
 
     def cancel_settings(self):
