@@ -5,6 +5,7 @@ kivy.require('2.2.1')
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
+from kivy.input.motionevent import MotionEvent
 
 from ui.test_window import TestWindow
 from ui.clock_widget import ClockWidget
@@ -45,6 +46,9 @@ class MainWindowApp(App):
         # Создаем тестовое окно, но пока не показываем
         self.test_window = TestWindow()
         
+        # Привязываем обработчик двойного клика к окну
+        Window.bind(on_touch_down=self.on_window_touch_down)
+        
         return self.layout
 
     def switch_to_test(self):
@@ -62,6 +66,22 @@ class MainWindowApp(App):
             self.layout.add_widget(self.clock_widget)
             self.layout.add_widget(self.buttons_widget)
             self.current_window = 'main'
+
+    def on_window_touch_down(self, instance, touch):
+        """
+        Обработчик касания окна.
+        Открывает окно настроек при двойном касании только в основном окне.
+        """
+        if isinstance(touch, MotionEvent) and hasattr(touch, 'is_double_tap') and touch.is_double_tap:
+            # Проверяем, что мы находимся в основном окне
+            if self.current_window == 'main':
+                # Получаем текущий виджет кнопок
+                if hasattr(self, 'buttons_widget') and hasattr(self.buttons_widget, 'buttons_layout'):
+                    buttons_layout = self.buttons_widget.buttons_layout
+                    if hasattr(buttons_layout, 'on_settings_press'):
+                        buttons_layout.on_settings_press(None)
+                return True
+        return False
 
 if __name__ == "__main__":
     MainWindowApp().run()
