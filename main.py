@@ -101,9 +101,12 @@ class MainWindowApp(App):
         self.touch_start_x = None
         self.touch_start_y = None
 
-        # Проверяем горизонтальный свайп вправо
-        if dx > self.SWIPE_THRESHOLD and abs(dy) < 100:
-            print("Свайп вправо - переключение на тестовый экран")
+        # Определяем пороги для свайпа
+        SWIPE_THRESHOLD = 200  # Минимальная длина свайпа в пикселях
+
+        # Проверяем свайп в любом направлении
+        if (abs(dx) > SWIPE_THRESHOLD or abs(dy) > SWIPE_THRESHOLD):
+            print("Свайп обнаружен - переключение на тестовый экран")
             self.switch_to_test()
             return True
 
