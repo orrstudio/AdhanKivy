@@ -319,6 +319,7 @@ class SettingsWindow(ModalView):
                     self.db.save_setting('color', color_key)
                     # Применяем цвет через callback
                     if self.apply_callback:
+                        print(f"SettingsWindow: Calling apply_callback with color {color_key}")  # Отладочная печать
                         self.apply_callback(self.colors[color_key])
                 else:
                     logger.warning(f"Unknown color: {self.selected_color}")
@@ -370,3 +371,19 @@ class SettingsWindow(ModalView):
             'white': (1, 1, 1, 1)
         }
         return colors.get(color_name, (0, 1, 0, 1))  # По умолчанию возвращаем Lime
+
+    @staticmethod
+    def get_color_name(color_tuple):
+        """Преобразование RGB в название цвета"""
+        colors = {
+            (0, 1, 0, 1): 'lime',
+            (0, 1, 1, 1): 'aqua',
+            (0, 0, 1, 1): 'blue',
+            (1, 0, 0, 1): 'red',
+            (1, 1, 0, 1): 'yellow',
+            (1, 0, 1, 1): 'magenta',
+            (1, 0.75, 0.8, 1): 'pink',
+            (0.7, 0.7, 0.7, 1): 'grey',
+            (1, 1, 1, 1): 'white'
+        }
+        return colors.get(color_tuple, 'lime')  # По умолчанию возвращаем 'lime'
