@@ -11,30 +11,11 @@ class PortraitButtonsLayout(FloatLayout):
         self.db = SettingsDatabase()
         self.clock_label = clock_label
         
-        # В портретном режиме кнопки будут внизу одна над другой
-        self.test_button = Button(
-            text='TEST',
-            size_hint=(None, None),
-            size=(120, 50),
-            background_color=(0.6, 0.6, 0.6, 1),
-            pos_hint={'center_x': 0.5, 'y': 0.05 + 50/Window.height},
-            color=(0.9, 0.9, 0.9, 1),
-            font_size='16sp'
-        )
-        self.test_button.bind(on_release=self.on_test_press)
-        
-        self.add_widget(self.test_button)
-        
         # Применяем сохраненные настройки
         saved_color = self.db.get_setting('color')
         if saved_color and hasattr(self.clock_label, 'color'):
             self.clock_label.color = SettingsWindow.get_color_tuple(saved_color)
 
-    def on_test_press(self, instance):
-        app = App.get_running_app()
-        if hasattr(app, 'switch_to_test'):
-            app.switch_to_test()
-            
     def open_settings_window(self, *args):
         """Показать окно настроек"""
         settings_window = SettingsWindow(self.db, self, self.apply_settings)
