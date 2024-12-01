@@ -1,71 +1,58 @@
 # ui/portrait_clock.py
-from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
-from kivy.core.window import Window
-from ui.base_clock import BaseClockLabel
-from ui.settings_window import SettingsWindow
-from data.database import SettingsDatabase
 
-class PortraitClockLayout(FloatLayout):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.db = SettingsDatabase()
-        
-        # Создаем метку времени
-        self.clock_label = PortraitClockLabel()
-        self.add_widget(self.clock_label)
-        
-        # Создаем кнопку тестового окна
-        self.test_button = Button(
-            text="TEST",
-            size_hint=(None, None),
-            size=(120, 50),
-            background_color=(0.2, 0.2, 0.2, 1),
-            pos_hint={'center_x': 0.5, 'y': 0.05 + 50/Window.height},  # Размещаем прямо над кнопкой settings
-            color=(0.9, 0.9, 0.9, 1),
-            font_size='16sp'
-        )
-        self.test_button.bind(on_release=self.show_test_window)
-        self.add_widget(self.test_button)
-        
-        # Создаем кнопку настроек
-        self.settings_button = Button(
-            text="SETTINGS",
-            size_hint=(None, None),
-            size=(120, 50),
-            background_color=(0.2, 0.2, 0.2, 1),
-            pos_hint={'center_x': 0.5, 'y': 0.05},
-            color=(0.9, 0.9, 0.9, 1),
-            font_size='16sp'
-        )
-        self.settings_button.bind(on_release=self.show_settings)
-        self.add_widget(self.settings_button)
-        
-        # Применяем сохраненные настройки
-        saved_color = self.db.get_setting('color')
-        if saved_color:
-            self.clock_label.color = SettingsWindow.get_color_tuple(saved_color)
-    
-    def show_settings(self, instance):
-        """Показать окно настроек"""
-        settings_window = SettingsWindow(self.db, self, self.apply_settings)
-        settings_window.open()
-    
-    def apply_settings(self, color):
-        """Применить настройки"""
-        self.clock_label.color = color
-        
-    def show_test_window(self, instance):
-        """Показать тестовое окно"""
-        from kivy.app import App
-        app = App.get_running_app()
-        if hasattr(app, 'toggle_test_window'):
-            app.toggle_test_window()
+"""
+Модуль отвечает за отображение часов в портретном режиме.
+Реализует виджет часов с автоматической загрузкой цвета из базы данных
+и возможностью его обновления через настройки.
+"""
+
+from ui.base_clock import BaseClockLabel
+from logic.time_handler import TimeHandler
+from data.database import SettingsDatabase
+from ui.settings_window import SettingsWindow
 
 class PortraitClockLabel(BaseClockLabel):
+    """
+    Виджет часов для портретной ориентации.
+    Наследуется от BaseClockLabel и добавляет:
+    - Загрузку цвета из базы данных
+    - Управление видимостью двоеточия
+    - Специфичное позиционирование для портретного режима
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.is_colon_visible = True  # Флаг видимости двоеточия для мигания
+        
+        # Инициализация базы данных и загрузка сохраненного цвета
+        self.db = SettingsDatabase()
+        saved_color = self.db.get_setting('color')
+        if saved_color:
+            self.color = SettingsWindow.get_color_tuple(saved_color)
+
     def setup_style(self):
-        """Настройка стиля для портретной ориентации"""
+        """
+        Настройка стиля для портретной ориентации.
+        Размещает часы вверху экрана по центру.
+        """
         super().setup_style()
-        # Специфичные настройки для портретного режима
-        self.valign = 'top'
-        self.pos_hint = {'center_x': 0.5, 'top': 1}
+        self.valign = 'top'  # Выравнивание по верхнему краю
+        self.pos_hint = {'center_x': 0.5, 'top': 1}  # Центрирование по горизонтали и прижатие к верху
+
+    def toggle_colon_visibility(self):
+        """
+        Переключает видимость двоеточия для создания эффекта мигания.
+        Вызывается периодически для обновления отображения времени.
+        """
+        self.is_colon_visible = not self.is_colon_visible
+        self.text = TimeHandler.get_formatted_time(self.is_colon_visible)
+        
+    def apply_settings(self, color):
+        """
+        Применяет новые настройки цвета к часам.
+        
+        Args:
+            color: Кортеж (r, g, b, a) с компонентами цвета
+                  r, g, b - красный, зеленый, синий (0-1)
+                  a - прозрачность (0-1)
+        """
+        self.color = color

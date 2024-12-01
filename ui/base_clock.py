@@ -5,7 +5,7 @@ from logic.time_handler import TimeHandler
 class BaseClockLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.font_name = "fonts/DSEG7Classic-Bold.ttf"
+        self.font_name = "fonts/DSEG-Classic/DSEG7Classic-Bold.ttf"
         self.color = (0, 1, 0, 1)
         self.is_colon_visible = True
         
