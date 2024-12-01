@@ -23,25 +23,34 @@ class MainWindowApp(App):
         # Основной layout
         self.layout = FloatLayout()
         
+        # Инициализируем buttons_widget как None перед определением коллбэка
+        self.buttons_widget = None
+        
         # Добавляем часы
         self.clock_widget = ClockWidget()
-        self.layout.add_widget(self.clock_widget)
         
-        # Добавляем кнопки
-        self.buttons_widget = None  # Инициализируем как None
-        
+        # Определяем коллбэк ПЕРЕД добавлением виджета
         def on_clock_widget_created():
             # Получаем clock_label из текущего clock_widget
             clock_label = self.clock_widget.clock_widget
             
+            print("on_clock_widget_created START")  # Отладочная печать
+            print(f"clock_label: {clock_label}")  # Отладочная печать
+            
             # Создаем buttons_widget если его еще нет, или обновляем clock_label если он уже есть
-            if self.buttons_widget is None:
-                self.buttons_widget = ButtonsWidget(clock_label=clock_label)
-                self.layout.add_widget(self.buttons_widget)
-            else:
-                self.buttons_widget.clock_label = clock_label
+            print("Creating buttons_widget")  # Отладочная печать
+            self.buttons_widget = ButtonsWidget(clock_label=clock_label)
+            self.layout.add_widget(self.buttons_widget)
+            
+            print("on_clock_widget_created END")  # Отладочная печать
         
+        # Устанавливаем коллбэк
         self.clock_widget.bind_on_clock_widget_created(on_clock_widget_created)
+        
+        # Добавляем часы в layout
+        self.layout.add_widget(self.clock_widget)
+        
+        print("build method: before return")  # Отладочная печать
         
         # Создаем тестовое окно, но пока не показываем
         self.test_window = TestWindow()
@@ -72,12 +81,19 @@ class MainWindowApp(App):
         Обработчик касания окна.
         Открывает окно настроек при двойном касании только в основном окне.
         """
+        print(f"Touch event: {touch}, is_double_tap: {hasattr(touch, 'is_double_tap')}")  # Отладочная печать
         if isinstance(touch, MotionEvent) and hasattr(touch, 'is_double_tap') and touch.is_double_tap:
+            print("Double tap detected!")  # Отладочная печать
             # Проверяем, что мы находимся в основном окне
             if self.current_window == 'main':
+                print("Current window is main")  # Отладочная печать
+                print(f"Buttons widget: {self.buttons_widget}")  # Отладочная печать
+                print(f"Buttons widget type: {type(self.buttons_widget)}")  # Отладочная печать
                 # Получаем текущий виджет кнопок
                 if hasattr(self, 'buttons_widget') and hasattr(self.buttons_widget, 'buttons_layout'):
                     buttons_layout = self.buttons_widget.buttons_layout
+                    print(f"Buttons layout: {buttons_layout}")  # Отладочная печать
+                    print(f"Buttons layout type: {type(buttons_layout)}")  # Отладочная печать
                     if hasattr(buttons_layout, 'open_settings_window'):
                         buttons_layout.open_settings_window()
                 return True

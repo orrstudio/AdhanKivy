@@ -10,8 +10,16 @@ class ButtonsWidget(FloatLayout):
         super().__init__(**kwargs)
         self.clock_label = clock_label
         self.current_orientation = None
+        
+        print("ButtonsWidget __init__ START")  # Отладочная печать
+        print(f"Initial window size: {Window.width}x{Window.height}")  # Отладочная печать
+        
+        # Принудительная установка ориентации при инициализации
         self.check_and_set_orientation()
+        
         Window.bind(on_resize=self.on_window_resize)
+
+        print("ButtonsWidget __init__ END")  # Отладочная печать
 
     @property
     def clock_label(self):
@@ -34,22 +42,32 @@ class ButtonsWidget(FloatLayout):
         LANDSCAPE_THRESHOLD = 1.1
         PORTRAIT_THRESHOLD = 0.9
         
+        print(f"ButtonsWidget check_and_set_orientation START")  # Отладочная печать
+        print(f"Window size: {Window.width}x{Window.height}, aspect ratio: {aspect_ratio}")  # Отладочная печать
+        
         new_orientation = None
         if aspect_ratio > LANDSCAPE_THRESHOLD:
             new_orientation = 'landscape'
         elif aspect_ratio < PORTRAIT_THRESHOLD:
             new_orientation = 'portrait'
         else:
+            print("Orientation not determined")  # Отладочная печать
             return
         
+        print(f"Detected orientation: {new_orientation}")  # Отладочная печать
+        
         if new_orientation == self.current_orientation:
+            print("Orientation unchanged")  # Отладочная печать
             return
             
         self.switch_orientation(new_orientation)
+        
+        print(f"ButtonsWidget check_and_set_orientation END")  # Отладочная печать
 
     def switch_orientation(self, new_orientation):
         # Создаем новый виджет в соответствии с ориентацией
-        new_widget = (LandscapeButtonsLayout() if new_orientation == 'landscape' 
+        print(f"Switching to orientation: {new_orientation}")  # Отладочная печать
+        new_widget = (LandscapeButtonsLayout(clock_label=self.clock_label) if new_orientation == 'landscape' 
                      else PortraitButtonsLayout(clock_label=self.clock_label))
         
         # Если есть предыдущий виджет, удаляем его
@@ -61,3 +79,4 @@ class ButtonsWidget(FloatLayout):
         self.add_widget(new_widget)
         
         self.current_orientation = new_orientation
+        print(f"Current buttons_layout: {type(self.buttons_layout).__name__}")  # Отладочная печать
