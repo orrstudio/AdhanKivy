@@ -44,7 +44,7 @@ class ClockWidget(FloatLayout):
         # Если виджет уже создан, вызываем коллбэк немедленно
         if hasattr(self, 'clock_widget') and self.clock_widget is not None:
             print("Immediately calling _on_clock_widget_created")  # Отладочная печать
-            Clock.schedule_once(lambda dt: self._on_clock_widget_created(), 0)
+            Clock.schedule_once(lambda dt: self._on_clock_widget_created(self.clock_widget), 0)
 
     def on_window_resize(self, instance, width, height):
         if hasattr(self, '_resize_trigger'):
@@ -98,7 +98,7 @@ class ClockWidget(FloatLayout):
                 print(f"_on_clock_widget_created: {self._on_clock_widget_created}")  
                 if self._on_clock_widget_created:
                     print("Calling _on_clock_widget_created")  
-                    self._on_clock_widget_created()
+                    self._on_clock_widget_created(self.clock_widget)
             
             anim_old.bind(on_complete=on_complete)
             anim_old.start(self.clock_widget)
@@ -108,7 +108,7 @@ class ClockWidget(FloatLayout):
             print(f"_on_clock_widget_created: {self._on_clock_widget_created}")  
             if self._on_clock_widget_created:
                 print("Calling _on_clock_widget_created (else)")  
-                self._on_clock_widget_created()
+                self._on_clock_widget_created(self.clock_widget)
         
         anim_new = Animation(opacity=1, duration=0.15)
         anim_new.start(new_widget)
