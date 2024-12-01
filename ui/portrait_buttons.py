@@ -23,19 +23,7 @@ class PortraitButtonsLayout(FloatLayout):
         )
         self.test_button.bind(on_release=self.on_test_press)
         
-        self.settings_button = Button(
-            text='SETTINGS',
-            size_hint=(None, None),
-            size=(120, 50),
-            background_color=(0.6, 0.6, 0.6, 1),
-            pos_hint={'center_x': 0.5, 'y': 0.05},
-            color=(0.9, 0.9, 0.9, 1),
-            font_size='16sp'
-        )
-        self.settings_button.bind(on_release=self.on_settings_press)
-        
         self.add_widget(self.test_button)
-        self.add_widget(self.settings_button)
         
         # Применяем сохраненные настройки
         saved_color = self.db.get_setting('color')
@@ -47,11 +35,11 @@ class PortraitButtonsLayout(FloatLayout):
         if hasattr(app, 'switch_to_test'):
             app.switch_to_test()
             
-    def on_settings_press(self, instance):
+    def open_settings_window(self, *args):
         """Показать окно настроек"""
         settings_window = SettingsWindow(self.db, self, self.apply_settings)
         settings_window.open()
-        
+            
     def apply_settings(self, color_tuple):
         """Применить настройки цвета к часам
         

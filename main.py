@@ -78,8 +78,8 @@ class MainWindowApp(App):
                 # Получаем текущий виджет кнопок
                 if hasattr(self, 'buttons_widget') and hasattr(self.buttons_widget, 'buttons_layout'):
                     buttons_layout = self.buttons_widget.buttons_layout
-                    if hasattr(buttons_layout, 'on_settings_press'):
-                        buttons_layout.on_settings_press(None)
+                    if hasattr(buttons_layout, 'open_settings_window'):
+                        buttons_layout.open_settings_window()
                 return True
         return False
 
