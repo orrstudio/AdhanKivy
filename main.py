@@ -15,6 +15,9 @@ class MainWindowApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.current_window = 'main'
+        self.touch_start_x = None
+        self.touch_start_y = None
+        self.SWIPE_THRESHOLD = 200  # Минимальная длина свайпа в пикселях
         
     def build(self):
         # Черный фон
@@ -55,8 +58,12 @@ class MainWindowApp(App):
         # Создаем тестовое окно, но пока не показываем
         self.test_window = TestWindow()
         
-        # Привязываем обработчик двойного клика к окну
+        # Привязываем обработчики свайпа
         Window.bind(on_touch_down=self.on_window_touch_down)
+        Window.bind(on_touch_up=self.on_window_touch_up)
+        
+        # Привязываем обработчик двойного клика к окну
+        Window.bind(on_touch_down=self.on_window_touch_down_double_tap)
         
         return self.layout
 
@@ -76,7 +83,33 @@ class MainWindowApp(App):
             self.layout.add_widget(self.buttons_widget)
             self.current_window = 'main'
 
-    def on_window_touch_down(self, instance, touch):
+    def on_window_touch_down(self, window, touch):
+        # Сохраняем начальную позицию свайпа
+        self.touch_start_x = touch.x
+        self.touch_start_y = touch.y
+        return False
+
+    def on_window_touch_up(self, window, touch):
+        if self.touch_start_x is None or self.touch_start_y is None:
+            return False
+
+        # Вычисляем смещение свайпа
+        dx = touch.x - self.touch_start_x
+        dy = touch.y - self.touch_start_y
+
+        # Сбрасываем начальную позицию
+        self.touch_start_x = None
+        self.touch_start_y = None
+
+        # Проверяем горизонтальный свайп вправо
+        if dx > self.SWIPE_THRESHOLD and abs(dy) < 100:
+            print("Свайп вправо - переключение на тестовый экран")
+            self.switch_to_test()
+            return True
+
+        return False
+
+    def on_window_touch_down_double_tap(self, instance, touch):
         """
         Обработчик касания окна.
         Открывает окно настроек при двойном касании только в основном окне.
