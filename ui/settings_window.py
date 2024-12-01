@@ -9,7 +9,7 @@ Settings Window Module для OrrClock.
 """
 
 from kivy.uix.modalview import ModalView
-from kivy.uix.button import Button
+from ui.color_settings import ColorButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -19,23 +19,10 @@ from kivy.graphics import Color, Line, Rectangle
 from kivy.metrics import dp, sp
 from kivy.core.window import Window
 from kivy.clock import Clock
+from kivy.uix.button import Button
 from data.database import SettingsDatabase
 import logging
 logger = logging.getLogger(__name__)
-
-class ColorButton(Button):
-    """Кнопка выбора цвета"""
-    def __init__(self, color_name, color_tuple, **kwargs):
-        super().__init__(**kwargs)
-        self.color_name = color_name
-        self.color_tuple = color_tuple
-        self.background_color = color_tuple
-        self.background_normal = ''
-        self.size_hint = (1, None)
-        self.height = self.width  # Квадратная кнопка
-        
-    def on_size(self, *args):
-        self.height = self.width  # Поддерживаем квадратную форму при изменении размера
 
 class SettingsCard(BoxLayout):
     """Карточка для группы настроек"""
