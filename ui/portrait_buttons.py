@@ -44,8 +44,8 @@ class PortraitButtonsLayout(FloatLayout):
 
     def on_test_press(self, instance):
         app = App.get_running_app()
-        if hasattr(app, 'toggle_test_window'):
-            app.toggle_test_window()
+        if hasattr(app, 'switch_to_test'):
+            app.switch_to_test()
             
     def on_settings_press(self, instance):
         """Показать окно настроек"""

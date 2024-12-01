@@ -3,7 +3,7 @@ from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.core.window import Window
 
-from .portrait_clock import PortraitClockLayout
+from .portrait_clock import PortraitClockLabel
 from .landscape_clock import LandscapeClockLabel
 
 class ClockWidget(FloatLayout):
@@ -56,16 +56,13 @@ class ClockWidget(FloatLayout):
 
     def switch_orientation(self, new_orientation):
         new_widget = (LandscapeClockLabel() if new_orientation == 'landscape' 
-                     else PortraitClockLayout())
+                     else PortraitClockLabel())
         new_widget.opacity = 0
         
         self.add_widget(new_widget)
         
         if hasattr(self, 'clock_widget'):
-            if hasattr(self.clock_widget, 'clock_label'):
-                new_widget.color = self.clock_widget.clock_label.color
-            else:
-                new_widget.color = self.clock_widget.color
+            new_widget.color = self.clock_widget.color
                 
             anim_old = Animation(opacity=0, duration=0.15)
             
@@ -89,17 +86,11 @@ class ClockWidget(FloatLayout):
 
     def update_time(self, dt):
         if hasattr(self, 'clock_widget'):
-            if isinstance(self.clock_widget, PortraitClockLayout):
-                self.clock_widget.clock_label.toggle_colon_visibility()
-            else:
-                self.clock_widget.toggle_colon_visibility()
+            self.clock_widget.toggle_colon_visibility()
 
     def update_color(self, color_name):
         if hasattr(self, 'clock_widget'):
             color_key = color_name.lower()
             color_tuple = self.colors.get(color_key, (1, 1, 1, 1))
             
-            if isinstance(self.clock_widget, PortraitClockLayout):
-                self.clock_widget.clock_label.color = color_tuple
-            else:
-                self.clock_widget.color = color_tuple
+            self.clock_widget.color = color_tuple

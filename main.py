@@ -9,7 +9,6 @@ from kivy.uix.floatlayout import FloatLayout
 from ui.test_window import TestWindow
 from ui.clock_widget import ClockWidget
 from ui.buttons_widget import ButtonsWidget
-from ui.portrait_clock import PortraitClockLayout
 
 class MainWindowApp(App):
     def __init__(self, **kwargs):
@@ -32,9 +31,7 @@ class MainWindowApp(App):
         
         def on_clock_widget_created():
             # Получаем clock_label из текущего clock_widget
-            clock_label = (self.clock_widget.clock_widget.clock_label 
-                         if isinstance(self.clock_widget.clock_widget, PortraitClockLayout)
-                         else self.clock_widget.clock_widget)
+            clock_label = self.clock_widget.clock_widget
             
             # Создаем buttons_widget если его еще нет, или обновляем clock_label если он уже есть
             if self.buttons_widget is None:
@@ -50,12 +47,18 @@ class MainWindowApp(App):
         
         return self.layout
 
-    def toggle_test_window(self):
-        self.layout.clear_widgets()
+    def switch_to_test(self):
+        """Переключение на тестовое окно"""
         if self.current_window == 'main':
+            self.layout.remove_widget(self.clock_widget)
+            self.layout.remove_widget(self.buttons_widget)
             self.layout.add_widget(self.test_window)
             self.current_window = 'test'
-        else:
+        
+    def switch_to_main(self):
+        """Переключение на главное окно"""
+        if self.current_window == 'test':
+            self.layout.remove_widget(self.test_window)
             self.layout.add_widget(self.clock_widget)
             self.layout.add_widget(self.buttons_widget)
             self.current_window = 'main'

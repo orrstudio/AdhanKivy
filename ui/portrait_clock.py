@@ -2,31 +2,14 @@
 
 """
 Модуль отвечает за отображение часов в портретном режиме.
-Содержит два основных класса:
-- PortraitClockLayout: контейнер для размещения часов
-- PortraitClockLabel: сами часы с настройками отображения
-
-Часы автоматически загружают свой цвет из базы данных при создании
-и могут обновлять его через метод apply_settings.
+Реализует виджет часов с автоматической загрузкой цвета из базы данных
+и возможностью его обновления через настройки.
 """
 
-from kivy.uix.floatlayout import FloatLayout
 from ui.base_clock import BaseClockLabel
 from logic.time_handler import TimeHandler
 from data.database import SettingsDatabase
 from ui.settings_window import SettingsWindow
-
-class PortraitClockLayout(FloatLayout):
-    """
-    Контейнер для размещения часов в портретном режиме.
-    Наследуется от FloatLayout для поддержки свободного позиционирования виджетов.
-    """
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        
-        # Создаем метку времени и добавляем её в контейнер
-        self.clock_label = PortraitClockLabel()
-        self.add_widget(self.clock_label)
 
 class PortraitClockLabel(BaseClockLabel):
     """

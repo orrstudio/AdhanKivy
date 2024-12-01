@@ -130,5 +130,5 @@ class TestWindow(FloatLayout):
         Обработчик нажатия кнопки "назад".
         Возвращает пользователя к основному окну приложения.
         """
-        if hasattr(App.get_running_app(), 'toggle_test_window'):
-            App.get_running_app().toggle_test_window()
+        if hasattr(App.get_running_app(), 'switch_to_main'):
+            App.get_running_app().switch_to_main()
