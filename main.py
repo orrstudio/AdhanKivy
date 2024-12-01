@@ -8,6 +8,7 @@ from kivy.uix.floatlayout import FloatLayout
 
 from ui.test_window import TestWindow
 from ui.clock_widget import ClockWidget
+from ui.buttons_widget import ButtonsWidget
 
 class MainWindowApp(App):
     def __init__(self, **kwargs):
@@ -25,6 +26,10 @@ class MainWindowApp(App):
         self.clock_widget = ClockWidget()
         self.layout.add_widget(self.clock_widget)
         
+        # Добавляем кнопки
+        self.buttons_widget = ButtonsWidget()
+        self.layout.add_widget(self.buttons_widget)
+        
         # Создаем тестовое окно, но пока не показываем
         self.test_window = TestWindow()
         
@@ -37,6 +42,7 @@ class MainWindowApp(App):
             self.current_window = 'test'
         else:
             self.layout.add_widget(self.clock_widget)
+            self.layout.add_widget(self.buttons_widget)
             self.current_window = 'main'
 
 if __name__ == "__main__":
