@@ -22,9 +22,13 @@ class ClockWidget(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.current_orientation = None
+        self._on_clock_widget_created = None
         self.check_and_set_orientation()
         Window.bind(on_resize=self.on_window_resize)
         Clock.schedule_interval(self.update_time, 0.5)
+
+    def bind_on_clock_widget_created(self, callback):
+        self._on_clock_widget_created = callback
 
     def on_window_resize(self, instance, width, height):
         if hasattr(self, '_resize_trigger'):
@@ -68,11 +72,15 @@ class ClockWidget(FloatLayout):
             def on_complete(*args):
                 self.remove_widget(self.clock_widget)
                 self.clock_widget = new_widget
+                if self._on_clock_widget_created:
+                    self._on_clock_widget_created()
             
             anim_old.bind(on_complete=on_complete)
             anim_old.start(self.clock_widget)
         else:
             self.clock_widget = new_widget
+            if self._on_clock_widget_created:
+                self._on_clock_widget_created()
         
         anim_new = Animation(opacity=1, duration=0.15)
         anim_new.start(new_widget)
