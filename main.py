@@ -87,7 +87,6 @@ class MainWindowApp(App):
 
         # Проверяем свайп в любом направлении
         if (abs(dx) > SWIPE_THRESHOLD or abs(dy) > SWIPE_THRESHOLD):
-            print("Свайп обнаружен - переключение на тестовый экран")
             self.switch_to_test()
             return True
 
@@ -100,7 +99,6 @@ class MainWindowApp(App):
         """
         # Проверяем количество касаний
         if touch.is_double_tap or getattr(touch, 'tap_count', 0) == 2:
-            print(f"Double tap detected! Current window: {self.current_window}")
             
             # Если текущее окно - тестовое, возвращаемся в основное
             if self.current_window == 'test':
@@ -122,7 +120,6 @@ class MainWindowApp(App):
         if clock_widget is None and hasattr(self.clock_widget, 'clock_widget'):
             clock_widget = self.clock_widget.clock_widget
         
-        print("_on_clock_widget_created: Updating settings manager")
         self.settings_manager.clock_label = clock_widget
         self.settings_manager.apply_saved_color()
 

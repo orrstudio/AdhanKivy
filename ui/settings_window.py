@@ -319,7 +319,6 @@ class SettingsWindow(ModalView):
                     self.db.save_setting('color', color_key)
                     # Применяем цвет через callback
                     if self.apply_callback:
-                        print(f"SettingsWindow: Calling apply_callback with color {color_key}")  # Отладочная печать
                         self.apply_callback(self.colors[color_key])
                 else:
                     logger.warning(f"Unknown color: {self.selected_color}")
