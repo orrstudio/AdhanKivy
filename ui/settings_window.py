@@ -316,7 +316,15 @@ class SettingsWindow(ModalView):
         button.canvas.after.clear()
         with button.canvas.after:
             Color(1, 1, 1, 1)
-            Line(rectangle=(button.x, button.y, button.width, button.height), width=2)
+            self.border_line = Line(rectangle=(button.x, button.y, button.width, button.height), width=2)
+        
+        # Привязываем обновление рамки к изменению размера и позиции кнопки
+        button.bind(pos=self._update_border, size=self._update_border)
+    
+    def _update_border(self, instance, value):
+        """Обновляет размер и позицию рамки при изменении размера кнопки"""
+        if hasattr(self, 'border_line'):
+            self.border_line.rectangle = (instance.x, instance.y, instance.width, instance.height)
 
     def _on_color_button_press(self, button):
         """
