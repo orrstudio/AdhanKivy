@@ -390,9 +390,11 @@ class SettingsWindow(ModalView):
             if self.selected_color:
                 # Преобразуем название цвета в нижний регистр
                 color_key = self.selected_color.lower()
+                
                 if color_key in self.colors:
                     # Сохраняем в базу данных
                     self.db.save_setting('color', color_key)
+                    
                     # Применяем цвет через callback
                     if self.apply_callback:
                         self.apply_callback(self.colors[color_key])

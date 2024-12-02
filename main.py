@@ -84,7 +84,10 @@ from kivy.input.motionevent import MotionEvent
 from kivy.clock import Clock
 
 from ui.test_window import TestWindow
+from ui.settings_window import SettingsWindow
 from ui.settings_manager import SettingsManager
+from ui.clock_widget import ClockWidget
+from data.database import SettingsDatabase
 from logic.time_handler import TimeHandler
 
 class MainWindowApp(App):
@@ -96,15 +99,15 @@ class MainWindowApp(App):
         self.SWIPE_THRESHOLD = 200  # Минимальная длина свайпа в пикселях
         
     def build(self):
-        # Черный фон
-        Window.clearcolor = (0, 0, 0, 1)
-        
         # Основной layout
         self.layout = GridLayout(
             cols=1,  # Один столбец
             spacing=0,
             padding=0
         )
+        
+        # Черный фон
+        Window.clearcolor = (0, 0, 0, 1)
         
         # Создаем заголовок
         self.title_label = Label(
@@ -139,76 +142,37 @@ class MainWindowApp(App):
         Clock.schedule_interval(self.update_time_with_colon, 0.5)
         
         # Создаем менеджер настроек
-        self.settings_manager = SettingsManager(None)
-        self.settings_manager.apply_saved_color()
-        
-        # Привязываем обработчики свайпа
-        Window.bind(on_touch_down=self.on_window_touch_down)
-        Window.bind(on_touch_up=self.on_window_touch_up)
+        self.settings_manager = SettingsManager(None, self)
+        # Отложенное применение цвета
+        Clock.schedule_once(self.apply_initial_color, 0)
         
         # Привязываем обработчик двойного клика к окну
         Window.bind(on_touch_down=self.on_window_touch_down_double_tap)
         
+        # Устанавливаем текущее окно
+        self.current_window = 'main'
+        
         return self.layout
-
+        
     def switch_to_test(self):
         """Переключение на тестовое окно"""
         if self.current_window == 'main':
             self.layout.remove_widget(self.title_label)
+            self.layout.add_widget(self.test_window)
             self.current_window = 'test'
         
-    def switch_to_main(self):
+    def switch_to_main(self, *args):
         """Переключение на главное окно"""
         if self.current_window == 'test':
+            self.layout.remove_widget(self.test_window)
             self.layout.add_widget(self.title_label)
             self.current_window = 'main'
-
-    def on_window_touch_down(self, window, touch):
-        # Сохраняем начальную позицию свайпа
-        self.touch_start_x = touch.x
-        self.touch_start_y = touch.y
-        return False
-
-    def on_window_touch_up(self, window, touch):
-        if self.touch_start_x is None or self.touch_start_y is None:
-            return False
-
-        # Вычисляем смещение свайпа
-        dx = touch.x - self.touch_start_x
-        dy = touch.y - self.touch_start_y
-
-        # Сбрасываем начальную позицию
-        self.touch_start_x = None
-        self.touch_start_y = None
-
-        # Определяем пороги для свайпа
-        SWIPE_THRESHOLD = 200  # Минимальная длина свайпа в пикселях
-
-        # Проверяем свайп в любом направлении
-        if (abs(dx) > SWIPE_THRESHOLD or abs(dy) > SWIPE_THRESHOLD):
-            self.switch_to_test()
-            return True
-
-        return False
-
-    def on_window_touch_down_double_tap(self, instance, touch):
-        """
-        Обработчик касания окна.
-        Открывает окно настроек или возвращается в основное окно.
-        """
-        # Проверяем количество касаний
-        if touch.is_double_tap or getattr(touch, 'tap_count', 0) == 2:
-            
-            # Если текущее окно - тестовое, возвращаемся в основное
-            if self.current_window == 'test':
-                self.switch_to_main()
-                return True
-            
-            # Если основное окно, открываем настройки
-            elif self.current_window == 'main':
-                self.settings_manager.open_settings_window()
-                return True
         
+    def on_window_touch_down_double_tap(self, window, touch):
+        """Обработчик двойного касания"""
+        if touch.is_double_tap:
+            # Открываем окно настроек
+            self.settings_manager.open_settings_window()
         return False
 
     def update_title_font_size(self, instance, width):
@@ -239,5 +203,21 @@ class MainWindowApp(App):
         self.settings_manager.clock_label = clock_widget
         self.settings_manager.apply_saved_color()
 
+    def apply_initial_color(self, dt):
+        """Применение начального цвета после инициализации"""
+        initial_color = self.settings_manager.db.get_setting('color')
+        if initial_color:
+            color_tuple = SettingsWindow.get_color_tuple(initial_color)
+            self.update_title_color(color_tuple)
+        
+    def update_title_color(self, color):
+        """Обновляем цвет заголовка"""
+        self.title_label.color = color
+        
+    def update_color(self, color_name):
+        """Обновляем цвет по имени"""
+        color_tuple = SettingsWindow.get_color_tuple(color_name)
+        self.update_title_color(color_tuple)
+        
 if __name__ == "__main__":
     MainWindowApp().run()

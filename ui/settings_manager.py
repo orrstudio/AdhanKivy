@@ -3,15 +3,17 @@ from data.database import SettingsDatabase
 from kivy.core.window import Window  # Локальный импорт для избежания циклических зависимостей
 
 class SettingsManager:
-    def __init__(self, clock_label):
+    def __init__(self, clock_label, main_window):
         """
         Инициализация менеджера настроек
         
         Args:
             clock_label: Виджет часов для применения настроек
+            main_window: Главное окно для обновления цвета заголовка
         """
         self.db = SettingsDatabase()
         self.clock_label = clock_label
+        self.main_window = main_window
         self.initial_color = self.db.get_setting('color')
 
     def apply_saved_color(self):
@@ -24,7 +26,7 @@ class SettingsManager:
         """Открытие окна настроек"""
         settings_window = SettingsWindow(
             self.db, 
-            main_window=Window,  # Передаем Window вместо None
+            main_window=self.main_window,  
             apply_callback=self.apply_settings
         )
         settings_window.open()
@@ -36,12 +38,23 @@ class SettingsManager:
         Args:
             color_tuple: Кортеж цвета (r, g, b, a)
         """
-        if hasattr(self.clock_label, 'color'):
+        if hasattr(self.clock_label, 'apply_settings'):
+            # Вызываем apply_settings у часов
+            self.clock_label.apply_settings(color_tuple)
+        elif hasattr(self.clock_label, 'color'):
+            # Резервный вариант - напрямую устанавливаем цвет
             self.clock_label.color = color_tuple
-            # Сохраняем выбранный цвет в базу
-            color_name = SettingsWindow.get_color_name(color_tuple)
-            self.db.save_setting('color', color_name)
-            self.initial_color = color_name
+        
+        # Сохраняем выбранный цвет в базу
+        color_name = SettingsWindow.get_color_name(color_tuple)
+        self.db.save_setting('color', color_name)
+        self.initial_color = color_name
+        
+        # Обновляем цвет заголовка, если есть ссылка на главное окно
+        if hasattr(self, 'main_window') and hasattr(self.main_window, 'update_color'):
+            self.main_window.update_color(color_name)
+        else:
+            pass
 
     def cancel_settings(self):
         """
