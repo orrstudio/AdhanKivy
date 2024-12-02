@@ -71,12 +71,11 @@ class TestWindow(GridLayout):
     вторая - название молитвы. Закрывается по двойному касанию в любом месте окна.
     """
     def __init__(self, 
-                 prayer_name_font='fonts/SourceCodePro/SourceCodePro-ExtraLight.ttf', 
-                 prayer_time_font='fonts/DSEG-Classic/DSEG14Classic-Regular.ttf',
-                 prayer_times=None,
-                 on_double_tap=None,
-                 text_config=None,
-                 **kwargs):
+             prayer_name_font='fonts/SourceCodePro/SourceCodePro-ExtraLight.ttf', 
+             prayer_time_font='fonts/DSEG-Classic/DSEG14Classic-Regular.ttf',
+             prayer_times=None,
+             on_double_tap=None,
+             **kwargs):
         super().__init__(**kwargs)
         
         # Регистрация шрифтов
@@ -85,32 +84,6 @@ class TestWindow(GridLayout):
         
         # Сохраняем коллбэк
         self.on_double_tap = on_double_tap
-        
-        # Конфигурация по умолчанию
-        self.default_text_config = {
-            'prayer_name': {
-                'scale_factor': 0.15,  # Возвращаем прежний коэффициент
-                'height_factor': 2.0,  # Высота метки
-                'font_scale': 1.5,     # Дополнительный множитель размера шрифта
-                'halign': 'left',
-                'valign': 'middle',
-                'color': (1, 1, 1, 1)  # Белый цвет
-            },
-            'prayer_time': {
-                'scale_factor': 0.15,
-                'height_factor': 2.0,
-                'font_scale': 1.5,
-                'halign': 'right',
-                'valign': 'middle',
-                'color': (1, 1, 1, 1)  # Белый цвет
-            }
-        }
-        
-        # Обновляем конфигурацию если передана
-        if text_config:
-            for key in ['prayer_name', 'prayer_time']:
-                if key in text_config:
-                    self.default_text_config[key].update(text_config[key])
         
         # Устанавливаем цвет фона
         self.background_color = (0, 0, 0, 1)  # Темно-серый фон
@@ -138,12 +111,18 @@ class TestWindow(GridLayout):
         ]
         
         # Привязываем обработчик изменения размера
-        self.bind(size=self.on_size)
+        self.bind(width=self.on_width_change)
+        
+        # Создаем метки при инициализации
+        self.create_labels()
+        
+        # Включаем обработку касаний
+        self.bind(on_touch_down=self.on_touch_down)
     
     def on_size(self, *args):
         # Перерисовываем метки при первом получении размера
         self.create_labels()
-        
+
     def calculate_font_size(self, scale_factor=0.1):
         # Логарифмическая шкала для более плавного масштабирования
         base_size = min(self.width, self.height)
