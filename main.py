@@ -3,66 +3,57 @@
 
 📁 AdhanKivy/
 │
-├── 🐍 main.py
+├── ⏰ main.py
 │   └── 🏛️ MainWindowApp (Основной класс приложения)
 │       ├── __init__()
-│       │   - Инициализация параметров свайпа
-│       │   - Установка начальных значений
+│       │   - Инициализация параметров
 │       │
 │       ├── build()
 │       │   - Настройка окна
 │       │   - Создание основного layout
 │       │   - Добавление виджетов:
-│       │     • ClockWidget
+│       │     • ClockWidget (часы)
 │       │     • SettingsManager
-│       │   - Привязка обработчиков событий
 │       │
-│       ├── Методы переключения окон
-│       │   
-│       ├── Обработчики событий
-│       │   - on_window_touch_down()
-│       │   - on_window_touch_up()
-│       │   - on_window_touch_down_double_tap()
+│       ├── Методы адаптивности
+│       │   - calculate_font_size()
+│       │   - create_prayer_labels()
+│       │   - on_width_change()
 │       │
-│       └── Служебные методы
-│           - _on_clock_widget_created()
+│       ├── Методы обновления времени
+│       │   - update_time_with_colon()
+│       │   - get_current_time()
+│       │
+│       └── Методы управления цветом
+│           - update_title_color()
+│           - update_title_font_size()
 │
-└── 📂 ui/
-    ├── 🕰️ clock_widget.py
-    ├── 🔧 settings_manager.py
-    └── 🧪 test_window.py
-
-Структура класса MainWindowApp:
-
-MainWindowApp
+├── � ui/
+│   ├── 🕰️ clock_widget.py
+│   │   └── ClockWidget
+│   │       - Виджет часов с обновлением времени
+│   │
+│   ├── 🕰️ clock_functions.py
+│   │   └── BaseClockLabel
+│   │       - Адаптивный Label для часов
+│   │
+│   ├── 🔧 settings_manager.py
+│   │   └── SettingsManager
+│   │       - Управление настройками
+│   │
+│   └── 🖥️ settings_window.py
+│       └── SettingsWindow
+│           - Окно настроек
 │
-├── Атрибуты
-│   - current_window: текущее активное окно
-│   - touch_start_x, touch_start_y: координаты начала свайпа
-│   - SWIPE_THRESHOLD: порог длины свайпа
+├── 📁 data/
+│   └── 📊 database.py
+│       └── SettingsDatabase
+│           - Работа с базой настроек
 │
-├── Методы создания интерфейса
-│   - build(): основной метод создания интерфейса
-│   - _on_clock_widget_created(): обновление виджета часов
-│
-├── Методы навигации
-│   
-├── Обработчики событий
-    - on_window_touch_down(): начало касания
-    - on_window_touch_up(): обработка свайпа
-    - on_window_touch_down_double_tap(): обработка двойного тапа
-
-🔍 Основные компоненты:
-
-1. Главное окно с часами
-2. Окно настроек
-3. Система навигации жестами
-
-Интересные особенности:
-- Использует Kivy для создания кроссплатформенного интерфейса
-- Реализована навигация через свайпы и двойные тапы
-- Гибкая система переключения между экранами
-
+└── 📁 logic/
+    └── ⏰ time_handler.py
+        └── TimeHandler
+            - Логика работы с временем
 """
 
 # main.py
