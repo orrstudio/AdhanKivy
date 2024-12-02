@@ -171,6 +171,9 @@ class SettingsWindow(ModalView):
         # Настройка размеров окна
         self.size_hint = (1, 1)  # Полный размер экрана
         self.auto_dismiss = True
+        self.padding = 0  # Убираем внутренний отступ ModalView
+        self.background = ''  # Убираем стандартный фон
+        self.background_color = (0, 0, 0, 1)  # Черный фон
         
         # Основной layout
         main_layout = GridLayout(
