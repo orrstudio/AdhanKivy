@@ -1,16 +1,57 @@
+"""
+TestWindow (GridLayout)
+│
+├── Свойства:
+│   ├── cols = 2 (две колонки)
+│   ├── spacing = (0, 0) (без отступов между ячейками)
+│   ├── size_hint = (None, None) (фиксированный размер)
+│   ├── size = (Window.width * 0.9, Window.height * 0.8) (относительный размер)
+│   ├── pos_hint = {'center_x': 0.5, 'top': 1} (по центру по горизонтали и прижато к верху)
+│   └── pos_hint = {'top': 1} (прижато к верху)
+│
+├── Данные:
+│   └── prayer_times - список времен молитв
+│       ├── Тахаджуд (05:30)
+│       ├── Имсак (05:30)
+│       ├── Восход солнца (05:30)
+│       ├── Полуденная молитва (13:00)
+│       ├── Послеполуденная молитва (15:00)
+│       ├── Вечерняя молитва (16:30)
+│       └── Ночная молитва (20:30)
+│
+├── Методы:
+│   ├── __init__(): Инициализация окна
+│   ├── calculate_font_size(): Расчет размера шрифта
+│   ├── create_labels(): Создание меток времени молитв
+│   ├── on_window_resize(): Обработка изменения размера окна
+│   └── on_touch_down(): Обработка двойного касания для закрытия окна
+│
+└── Особенности:
+    ├── Использует два пользовательских шрифта
+    ├── Адаптивный размер шрифта
+    ├── Двухколоночный макет (название молитвы | время)
+    └── Закрытие окна по двойному касанию
+
+Основные характеристики:
+
+1. Окно представляет собой таблицу с двумя колонками
+2. Шрифты:
+    - PrayerNameFont для названий молитв
+    - PrayerTimeFont для времени
+3. Размер шрифта динамически меняется в зависимости от ширины окна
+4. Поддерживает закрытие по двойному касанию
+
+Это тестовое окно для отображения времен молитв с адаптивным дизайном.
+
+
+"""
+
 # Импорты из Kivy фреймворка
+import math
 from kivy.uix.label import Label  # Для текстовых меток в таблице
-from kivy.core.window import Window  # Для работы с окном приложения
-from kivy.app import App  # Для доступа к основному приложению
 from kivy.uix.gridlayout import GridLayout  # Для создания табличной структуры
 from kivy.core.text import LabelBase  # Для регистрации шрифтов
 from kivy.input.motionevent import MotionEvent  # Для обработки касаний
-
-# Регистрируем пользовательские шрифты
-LabelBase.register(name='PrayerNameFont',  # Шрифт для названий молитв
-                  fn_regular='fonts/SourceCodePro/SourceCodePro-ExtraLight.ttf')
-LabelBase.register(name='PrayerTimeFont',  # Шрифт для времени
-                  fn_regular='fonts/DSEG-Classic/DSEG14Classic-Regular.ttf')
 
 class TestWindow(GridLayout):
     """
@@ -18,21 +59,64 @@ class TestWindow(GridLayout):
     Использует двухколоночную структуру, где первая колонка - время,
     вторая - название молитвы. Закрывается по двойному касанию в любом месте окна.
     """
-    def __init__(self, **kwargs):
-        # Инициализация родительского класса
+    def __init__(self, 
+                 prayer_name_font='fonts/SourceCodePro/SourceCodePro-ExtraLight.ttf', 
+                 prayer_time_font='fonts/DSEG-Classic/DSEG14Classic-Regular.ttf',
+                 prayer_times=None,
+                 on_double_tap=None,
+                 text_config=None,
+                 **kwargs):
+        # Регистрация шрифтов
+        LabelBase.register(name='PrayerNameFont', fn_regular=prayer_name_font)
+        LabelBase.register(name='PrayerTimeFont', fn_regular=prayer_time_font)
+        
+        # Сохраняем коллбэк
+        self.on_double_tap = on_double_tap
+        
+        # Конфигурация по умолчанию
+        self.default_text_config = {
+            'prayer_name': {
+                'scale_factor': 0.15,  # Возвращаем прежний коэффициент
+                'height_factor': 2.0,  # Высота метки
+                'font_scale': 1.5,     # Дополнительный множитель размера шрифта
+                'halign': 'left',
+                'valign': 'middle',
+                'color': (1, 1, 1, 1)  # Белый цвет
+            },
+            'prayer_time': {
+                'scale_factor': 0.15,
+                'height_factor': 2.0,
+                'font_scale': 1.5,
+                'halign': 'right',
+                'valign': 'middle',
+                'color': (1, 1, 1, 1)  # Белый цвет
+            }
+        }
+        
+        # Обновляем конфигурацию если передана
+        if text_config:
+            for key in ['prayer_name', 'prayer_time']:
+                if key in text_config:
+                    self.default_text_config[key].update(text_config[key])
+        
         super().__init__(**kwargs)
+        
+        # Устанавливаем цвет фона
+        self.background_color = (0, 0, 0, 1)  # Темно-серый фон
+        self.background = True
         
         # Настраиваем таблицу
         self.cols = 2  # Две колонки: время и название молитвы
         self.spacing = (0, 0)  # Без отступов между ячейками
-        self.size_hint = (1, None)  # Ширина 100%, высота фиксированная
-        self.height = Window.height  # Высота на весь экран
-        self.pos_hint = {'top': 1}  # Прижимаем к верхнему краю окна
+        
+        # Адаптивные параметры
+        self.size_hint = (0.9, 0.8)  # 90% ширины и 80% высоты родительского контейнера
+        self.pos_hint = {'center_x': 0.5, 'top': 1}  # По центру по горизонтали и прижато к верху
+        
         self.padding = (0, 0)  # Без отступов от краев
         
-        # Тестовые данные времен молитв
-        # Формат: (название молитвы, время)
-        self.prayer_times = [
+        # Тестовые данные времен молитв, если не переданы
+        self.prayer_times = prayer_times or [
             ('Təhəccüd -', '05:30'),  # Тахаджуд (ночная молитва)
             ('İmsak ----', '05:30'),  # Имсак (начало поста)
             ('Günəş ----', '05:30'),  # Восход солнца
@@ -42,74 +126,90 @@ class TestWindow(GridLayout):
             ('Gecə -----', '20:30')   # Ночная молитва
         ]
         
-        # Создаем метки для всех времен молитв
+        # Сохраняем начальную ширину как базовую
+        self.initial_width = self.width
+        
+        # Привязываем обработчик изменения размера
+        self.bind(width=self.on_width_change)
+        
+        # Создаем метки при инициализации
         self.create_labels()
             
-        # Привязываем обработчик изменения размера окна
-        Window.bind(on_resize=self.on_window_resize)
-        
         # Включаем обработку касаний
         self.bind(on_touch_down=self.on_touch_down)
 
-    def calculate_font_size(self):
-        """
-        Рассчитывает размер шрифта на основе ширины окна.
-        Размер шрифта = 10% от ширины окна, что обеспечивает
-        адаптивность текста под разные размеры экрана.
-        """
-        return Window.width * 0.1  # 10% от ширины окна
-    
+    def calculate_font_size(self, scale_factor=0.1):
+        # Логарифмическая шкала для более плавного масштабирования
+        base_size = min(self.width, self.height)
+        
+        # Используем логарифмическую функцию для более естественного масштабирования
+        logarithmic_scale = math.log(base_size + 1, 10)  # +1 чтобы избежать деления на ноль
+        
+        # Применяем нелинейное масштабирование
+        font_size = logarithmic_scale * base_size * scale_factor
+        
+        # Устанавливаем жесткие границы
+        return max(min(font_size, base_size * 0.2), 10)
+
     def create_labels(self):
-        """
-        Создает и размещает метки для всех времен молитв.
-        Каждая строка состоит из двух меток: время и название молитвы.
-        Метки автоматически подстраиваются под размер шрифта.
-        """
-        # Очищаем старые метки перед созданием новых
         self.clear_widgets()
         
-        # Получаем размер шрифта на основе текущей ширины окна
-        time_font_size = self.calculate_font_size()  # Размер для времени
-        prayer_font_size = time_font_size * 1  # Размер для названий
+        # Базовый размер шрифта
+        base_font_size = self.calculate_font_size(scale_factor=0.15)
         
-        # Создаем метки для каждого времени молитвы
+        # Устанавливаем равномерное распределение колонок
+        self.cols = 2
+        self.spacing = (10, 10)  # Небольшой отступ
+        
         for prayer, time in self.prayer_times:
-            # Метка для названия молитвы (левая колонка)
+            # Динамический расчет размера шрифта для названия молитвы
+            prayer_font_size = base_font_size * max(1, self.width / 500)  # Уменьшаем коэффициент
+            
+            # Динамический расчет размера шрифта для времени
+            time_font_size = base_font_size * max(1, self.width / 500)  # Уменьшаем коэффициент
+            
             prayer_label = Label(
-                text=prayer,  # Текст с названием молитвы
-                font_size=prayer_font_size,  # Размер шрифта
-                font_name='PrayerNameFont',  # Специальный шрифт для названий
-                size_hint=(0.65, None),  # 65% ширины, высота по контенту
-                height=time_font_size * 1.5,  # Высота зависит от размера шрифта
-                halign='left',  # Выравнивание текста влево
-                valign='middle',  # Вертикальное выравнивание по центру
-                text_size=(Window.width*0.65, time_font_size * 2.5)  # Область текста
+                text=prayer,
+                font_size=prayer_font_size * 0.45,
+                font_name='PrayerNameFont',
+                size_hint_x=None,  # Отключаем относительные размеры по горизонтали
+                size_hint_y=None,  # Отключаем относительные размеры по вертикали
+                width=self.width * 0.55,  # Абсолютная ширина
+                height=prayer_font_size * 0.5,  # Динамическая высота
+                halign='left',
+                valign='middle',
+                text_size=(self.width * 0.58, None),  # Указываем размер текста
+                color=(1, 1, 1, 1)  # Белый цвет
             )
-            # Метка для времени (правая колонка)
             time_label = Label(
-                text=time,  # Текст со временем
-                font_size=time_font_size,  # Размер шрифта
-                font_name='PrayerTimeFont',  # Специальный шрифт для времени
-                size_hint=(0.35, None),  # 35% ширины, высота по контенту
-                height=time_font_size * 1.5,  # Высота зависит от размера шрифта
-                halign='right',  # Выравнивание текста вправо
-                valign='middle',  # Вертикальное выравнивание по центру
-                text_size=(Window.width*0.35, time_font_size * 1.5)  # Область текста
+                text=time,
+                font_size=time_font_size * 0.6,
+                font_name='PrayerTimeFont',
+                size_hint_x=None,  # Отключаем относительные размеры по горизонтали
+                size_hint_y=None,  # Отключаем относительные размеры по вертикали
+                width=self.width * 0.35,  # Абсолютная ширина
+                height=time_font_size * 0.6,  # Динамическая высота
+                halign='right',
+                valign='middle',
+                text_size=(self.width * 0.52, None),  # Указываем размер текста
+                color=(1, 1, 1, 1)  # Белый цвет
             )
-            # Добавляем метки в таблицу
-            self.add_widget(prayer_label)  # Сначала название молитвы
-            self.add_widget(time_label)    # Затем время
-    
+            
+            self.add_widget(prayer_label)
+            self.add_widget(time_label)
+
     def on_window_resize(self, instance, width, height):
         """
-        Обработчик изменения размера окна.
-        Пересоздает все метки с новым размером шрифта,
-        обеспечивая адаптивность интерфейса.
+        Обработчик изменения размера виджета.
+        Пересоздает метки с учетом новых собственных размеров.
         """
-        # При изменении размера окна пересоздаем все метки
-        self.height = height  # Обновляем высоту таблицы
-        self.create_labels()  # Пересоздаем метки с новыми размерами
-    
+        # Пересоздаем метки с текущими размерами виджета
+        self.create_labels()
+
+    def on_width_change(self, instance, width):
+        # Перересовываем метки при изменении ширины
+        self.create_labels()
+
     def on_touch_down(self, touch: MotionEvent, *args) -> bool:
         """
         Обработчик касания экрана.
@@ -127,9 +227,8 @@ class TestWindow(GridLayout):
         
         # Проверяем, что touch - это объект касания и было двойное касание внутри окна
         if isinstance(touch, MotionEvent) and self.collide_point(*touch.pos) and hasattr(touch, 'is_double_tap') and touch.is_double_tap:
-            app = App.get_running_app()
-            if hasattr(app, 'switch_to_main'):
-                app.switch_to_main()
+            if self.on_double_tap:
+                self.on_double_tap()
             return True
         
         return ret
