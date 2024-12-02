@@ -54,6 +54,21 @@
     └── ⏰ time_handler.py
         └── TimeHandler
             - Логика работы с временем
+
+- prayer_times_table.spacing = (10, 10):
+  - Это горизонтальный и вертикальный отступ между ячейками таблицы (GridLayout)
+  - Первое число (10) - расстояние между столбцами
+  - Второе число (10) - расстояние между строками
+  - Измеряется в пикселях
+  - Чем больше число, тем больше расстояние между ячейками
+  - Если поставить (0, 0), ячейки будут вплотную друг к другу
+
+- size_hint=(0.9, 0.8):
+  - Относительный размер виджета внутри родительского контейнера
+  - Первое число (0.9) означает 90% ширины родительского контейнера
+  - Второе число (0.8) означает 80% высоты родительского контейнера
+  - Диапазон от 0 до 1
+  - Позволяет адаптивно масштабировать элемент под разные размеры экрана
 """
 
 # main.py
@@ -70,6 +85,7 @@ from kivy.input.motionevent import MotionEvent
 from kivy.clock import Clock
 from kivy.core.text import LabelBase
 from kivy.metrics import sp
+from kivy.uix.anchorlayout import AnchorLayout
 
 from ui.settings_window import SettingsWindow
 from ui.settings_manager import SettingsManager
@@ -105,7 +121,7 @@ class MainWindowApp(App):
         # Основной layout - GridLayout
         self.layout = GridLayout(
             cols=1,  # Один столбец
-            spacing=0,
+            spacing=Window.height * 0.01,  # Увеличить отступ между виджетами
             padding=0
         )
         
@@ -132,10 +148,9 @@ class MainWindowApp(App):
         # Создаем таблицу молитв
         prayer_times_table = GridLayout(
             cols=2,  # Две колонки: время и название молитвы
-            spacing=(0, 0),  # Без отступов между ячейками
-            size_hint=(0.9, 0.8),  # 90% ширины и 80% высоты родительского контейнера
-            pos_hint={'center_x': 0.5, 'top': 1},  # По центру по горизонтали и прижато к верху
-            padding=(0, 0)  # Без отступов от краев
+            spacing=(10, 10),  # Отступы между ячейками
+            size_hint=(0.9, None),  # 90% ширины
+            pos_hint={'center_x': 0.5}  # По центру по горизонтали
         )
         
         # Привязываем обработчик изменения размера
@@ -241,35 +256,35 @@ class MainWindowApp(App):
         
         for prayer, time in prayer_times:
             # Динамический расчет размера шрифта для названия молитвы
-            prayer_font_size = base_font_size * max(1, Window.width / 500)  # Уменьшаем коэффициент
+            prayer_font_size = base_font_size * max(1, Window.width / 600)  # Уменьшаем коэффициент
             
             # Динамический расчет размера шрифта для времени
-            time_font_size = base_font_size * max(1, Window.width / 500)  # Уменьшаем коэффициент
+            time_font_size = base_font_size * max(1, Window.width / 600)  # Уменьшаем коэффициент
             
             prayer_label = Label(
                 text=prayer,
-                font_size=prayer_font_size * 0.45,
+                font_size=prayer_font_size * 0.40, 
                 font_name='PrayerNameFont',
                 size_hint_x=None,  # Отключаем относительные размеры по горизонтали
                 size_hint_y=None,  # Отключаем относительные размеры по вертикали
-                width=Window.width * 0.55,  # Абсолютная ширина
-                height=prayer_font_size * 0.5,  # Динамическая высота
+                width=Window.width * 0.68,  # Абсолютная ширина
+                height=prayer_font_size * 0.35,  # Динамическая высота
                 halign='left',
                 valign='middle',
-                text_size=(Window.width * 0.58, None),  # Указываем размер текста
+                text_size=(Window.width * 0.52, None),  # Указываем размер текста
                 color=(1, 1, 1, 1)  # Белый цвет
             )
             time_label = Label(
                 text=time,
-                font_size=time_font_size * 0.6,
+                font_size=time_font_size * 0.50,
                 font_name='PrayerTimeFont',
                 size_hint_x=None,  # Отключаем относительные размеры по горизонтали
                 size_hint_y=None,  # Отключаем относительные размеры по вертикали
-                width=Window.width * 0.35,  # Абсолютная ширина
-                height=time_font_size * 0.6,  # Динамическая высота
+                width=Window.width * 0.0,  # Абсолютная ширина
+                height=time_font_size * 0.5,  # Динамическая высота
                 halign='right',
                 valign='middle',
-                text_size=(Window.width * 0.52, None),  # Указываем размер текста
+                text_size=(Window.width * 0.42, None),  # Указываем размер текста
                 color=(1, 1, 1, 1)  # Белый цвет
             )
             
