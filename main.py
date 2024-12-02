@@ -15,13 +15,10 @@
 │       │   - Добавление виджетов:
 │       │     • ClockWidget
 │       │     • SettingsManager
-│       │     • TestWindow
 │       │   - Привязка обработчиков событий
 │       │
 │       ├── Методы переключения окон
-│       │   - switch_to_test()
-│       │   - switch_to_main()
-│       │
+│       │   
 │       ├── Обработчики событий
 │       │   - on_window_touch_down()
 │       │   - on_window_touch_up()
@@ -49,10 +46,8 @@ MainWindowApp
 │   - _on_clock_widget_created(): обновление виджета часов
 │
 ├── Методы навигации
-│   - switch_to_test(): переход в тестовый режим
-│   - switch_to_main(): возврат в главный экран
-│
-└── Обработчики событий
+│   
+├── Обработчики событий
     - on_window_touch_down(): начало касания
     - on_window_touch_up(): обработка свайпа
     - on_window_touch_down_double_tap(): обработка двойного тапа
@@ -60,9 +55,8 @@ MainWindowApp
 🔍 Основные компоненты:
 
 1. Главное окно с часами
-2. Тестовое окно
-3. Окно настроек
-4. Система навигации жестами
+2. Окно настроек
+3. Система навигации жестами
 
 Интересные особенности:
 - Использует Kivy для создания кроссплатформенного интерфейса
@@ -86,7 +80,6 @@ from kivy.clock import Clock
 from kivy.core.text import LabelBase
 from kivy.metrics import sp
 
-from ui.test_window import TestWindow
 from ui.settings_window import SettingsWindow
 from ui.settings_manager import SettingsManager
 from ui.clock_widget import ClockWidget
@@ -114,6 +107,9 @@ class MainWindowApp(App):
 
         # Черный фон
         Window.clearcolor = (0, 0, 0, 1)
+        
+        # Привязываем обработчик двойного касания
+        Window.bind(on_touch_down=self.on_window_touch_down_double_tap)
         
         # Основной layout - GridLayout
         self.layout = GridLayout(
@@ -176,23 +172,6 @@ class MainWindowApp(App):
         self.current_window = 'main'
         
         return self.layout
-        
-    def switch_to_test(self):
-        """Переключение на тестовое окно"""
-        if self.current_window == 'main':
-            self.layout.remove_widget(self.title_label)
-            self.test_window = TestWindow(
-                on_double_tap=self.switch_to_main  # Привязываем двойное касание к возврату в главное окно
-            )
-            self.layout.add_widget(self.test_window)
-            self.current_window = 'test'
-        
-    def switch_to_main(self, *args):
-        """Переключение на главное окно"""
-        if self.current_window == 'test':
-            self.layout.remove_widget(self.test_window)
-            self.layout.add_widget(self.title_label)
-            self.current_window = 'main'
         
     def on_window_touch_down_double_tap(self, window, touch):
         """Обработчик двойного касания"""
