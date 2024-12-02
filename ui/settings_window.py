@@ -75,8 +75,8 @@ class SettingsSection(ScrollView):
         # Основной layout с адаптивными отступами
         self.layout = BoxLayout(
             orientation='vertical', 
-            spacing=dp(15),
-            padding=[dp(20), dp(10), dp(20), dp(20)],
+            spacing=0,
+            padding=0,
             pos_hint={'center_x': 0.5, 'center_y': 0.5},
             size_hint_y=None
         )
@@ -134,24 +134,19 @@ class SettingsWindow(ModalView):
         self.active_button = None  # Инициализируем как None
         
         # Настройка размеров окна
-        # Настройка размеров окна
         self.size_hint = (1, 1)  # Полный размер экрана
-        self.width = Window.width
-        self.height = Window.height
+        self.auto_dismiss = True
         
         # Основной layout
-        self.layout = GridLayout(
-            cols=1,  # Один столбец
-            spacing=dp(10),
-            size_hint_y=None,  # Важно: разрешаем динамическую высоту
-            padding=[dp(0), dp(0), dp(0), dp(0)]
+        main_layout = BoxLayout(
+            orientation='vertical',
+            spacing=dp(0)
         )
-        self.layout.bind(minimum_height=self.layout.setter('height'))
         
-        # Создание заголовка
+        # Заголовок
         title_layout = BoxLayout(
             size_hint_y=None,
-            height=dp(40),
+            height=dp(30),  
             padding=[dp(20), 0]
         )
         
@@ -165,19 +160,39 @@ class SettingsWindow(ModalView):
         title_label = Label(
             text='SETTINGS',
             color=(1, 1, 1, 1),
-            font_size=sp(20),
+            font_size=sp(16),  
             bold=True,
             halign='center',
             valign='center'
         )
         title_layout.add_widget(title_label)
-        self.layout.add_widget(title_layout)
+        
+        # Контент и кнопки
+        content_layout = BoxLayout(
+            orientation='vertical',
+            spacing=dp(10)
+        )
+        
+        # Создаем ScrollView только для контента
+        scroll_view = ScrollView(
+            do_scroll_x=False,  
+            do_scroll_y=True    
+        )
+        
+        # Layout для прокручиваемого контента
+        self.layout = GridLayout(
+            cols=1,  
+            spacing=dp(10),
+            size_hint_y=None,  
+            padding=[dp(0), dp(0), dp(0), dp(0)]
+        )
+        self.layout.bind(minimum_height=self.layout.setter('height'))
         
         # Сетка цветов сразу после заголовка
         colors_grid = GridLayout(
             cols=3,
             spacing=dp(10),
-            size_hint_y=None,  # Динамическая высота
+            size_hint_y=None,  
             padding=[dp(20), dp(10)]
         )
         colors_grid.bind(minimum_height=colors_grid.setter('height'))
@@ -187,7 +202,7 @@ class SettingsWindow(ModalView):
             color_button = ColorButton(
                 color_name=color_name,
                 color_tuple=color_tuple,
-                text='',  # Без текста для минималистичного дизайна
+                text='',  
                 size_hint=(1, None),
                 height=dp(50),
                 background_normal=''
@@ -200,7 +215,7 @@ class SettingsWindow(ModalView):
             
             colors_grid.add_widget(color_button)
         
-        # Добавляем сетку цветов сразу после заголовка
+        # Добавляем сетку цветов
         self.layout.add_widget(colors_grid)
         
         # Растягивающийся виджет между сеткой и кнопками
@@ -212,7 +227,7 @@ class SettingsWindow(ModalView):
             size_hint_y=None,
             height=dp(60),
             spacing=dp(10),
-            padding=[dp(20), dp(5)]
+            padding=[dp(20), dp(5)]  # Отступы для кнопок
         )
         
         # Фон нижней панели
@@ -249,20 +264,19 @@ class SettingsWindow(ModalView):
         bottom_panel.add_widget(cancel_button)
         bottom_panel.add_widget(accept_button)
         
-        self.layout.add_widget(bottom_panel)
-        
-        # Создаем ScrollView
-        scroll_view = ScrollView(
-            size_hint=(1, 1),
-            do_scroll_x=False,  # Запрещаем горизонтальную прокрутку
-            do_scroll_y=True   # Разрешаем вертикальную прокрутку
-        )
-
-        # Добавляем основной layout в ScrollView
+        # Добавляем контент в ScrollView
         scroll_view.add_widget(self.layout)
-
-        # Добавляем ScrollView в окно
-        self.add_widget(scroll_view)
+        
+        # Добавляем контент и кнопки в основной layout
+        content_layout.add_widget(scroll_view)
+        content_layout.add_widget(bottom_panel)
+        
+        # Добавляем заголовок и контент в основной layout
+        main_layout.add_widget(title_layout)
+        main_layout.add_widget(content_layout)
+        
+        # Добавляем основной layout в окно
+        self.add_widget(main_layout)
         
         # Добавляем рамку к активной кнопке после отрисовки
         Clock.schedule_once(self._add_initial_border, 0)
@@ -352,7 +366,7 @@ class SettingsWindow(ModalView):
     
     def dismiss(self, *args):
         """При отмене возвращаем исходный цвет"""
-        if not self.selected_color or args:  # args будут не пусты при явном вызове dismiss
+        if not self.selected_color or args:  
             if hasattr(self.main_window, 'update_color') and self.initial_color:
                 self.main_window.update_color(self.initial_color)
         super().dismiss()
@@ -371,7 +385,7 @@ class SettingsWindow(ModalView):
             'grey': (0.7, 0.7, 0.7, 1),
             'white': (1, 1, 1, 1)
         }
-        return colors.get(color_name, (0, 1, 0, 1))  # По умолчанию возвращаем Lime
+        return colors.get(color_name, (0, 1, 0, 1))  
 
     @staticmethod
     def get_color_name(color_tuple):
@@ -387,4 +401,4 @@ class SettingsWindow(ModalView):
             (0.7, 0.7, 0.7, 1): 'grey',
             (1, 1, 1, 1): 'white'
         }
-        return colors.get(color_tuple, 'lime')  # По умолчанию возвращаем 'lime'
+        return colors.get(color_tuple, 'lime')  
