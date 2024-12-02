@@ -78,6 +78,7 @@ kivy.require('2.2.1')
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
 from kivy.input.motionevent import MotionEvent
 
 from ui.test_window import TestWindow
@@ -102,6 +103,24 @@ class MainWindowApp(App):
             spacing=0,
             padding=0
         )
+        
+        # Создаем заголовок
+        self.title_label = Label(
+            text='00:88', 
+            color=(1, 1, 1, 1),  # белый цвет
+            size_hint_x=1,  # занимает всю ширину
+            size_hint_y=None,  # отключаем автоматическую высоту
+            height=str(Window.width * 0.3) + 'dp',  # высота зависит от ширины
+            pos_hint={'top': 1},  # прижат к верху
+            font_size=str(Window.width // 2.5) + 'sp'  # начальный размер шрифта
+        )
+        
+        # Привязываем обновление размера шрифта и высоты к изменению размера окна
+        Window.bind(width=self.update_title_font_size)
+        Window.bind(height=self.update_title_height)
+        
+        # Добавляем заголовок в начало макета
+        self.layout.add_widget(self.title_label)
         
         # Добавляем часы
         self.clock_widget = ClockWidget()
@@ -188,6 +207,14 @@ class MainWindowApp(App):
                 return True
         
         return False
+
+    def update_title_font_size(self, instance, width):
+        """Обновляем размер шрифта в зависимости от ширины окна"""
+        self.title_label.font_size = str(width // 2.5) + 'sp'
+
+    def update_title_height(self, instance, height):
+        """Обновляем высоту заголовка в зависимости от ширины окна"""
+        self.title_label.height = str(Window.width * 0.3) + 'dp'
 
     def _on_clock_widget_created(self, clock_widget=None):
         """
