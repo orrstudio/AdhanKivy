@@ -84,7 +84,6 @@ from kivy.input.motionevent import MotionEvent
 from kivy.clock import Clock
 
 from ui.test_window import TestWindow
-from ui.clock_widget import ClockWidget
 from ui.settings_manager import SettingsManager
 from logic.time_handler import TimeHandler
 
@@ -127,20 +126,20 @@ class MainWindowApp(App):
         # Добавляем заголовок в начало макета
         self.layout.add_widget(self.title_label)
         
+        # Создаем тестовое окно
+        self.test_window = TestWindow(
+            on_double_tap=self.switch_to_main  # Привязываем двойное касание к возврату в главное окно
+        )
+        
+        # Добавляем тестовое окно в основной layout
+        self.layout.add_widget(self.test_window)
+        
         # Запускаем таймер обновления времени и мигания точек каждые 0.5 секунды
         self.is_colon_visible = True
         Clock.schedule_interval(self.update_time_with_colon, 0.5)
         
-        # Добавляем часы
-        self.clock_widget = ClockWidget()
-        
-        # Устанавливаем коллбэк для обновления виджета часов
-        self.clock_widget.bind_on_clock_widget_created(self._on_clock_widget_created)
-        
-        self.layout.add_widget(self.clock_widget)
-        
         # Создаем менеджер настроек
-        self.settings_manager = SettingsManager(self.clock_widget.clock_widget)
+        self.settings_manager = SettingsManager(None)
         self.settings_manager.apply_saved_color()
         
         # Привязываем обработчики свайпа
@@ -150,23 +149,18 @@ class MainWindowApp(App):
         # Привязываем обработчик двойного клика к окну
         Window.bind(on_touch_down=self.on_window_touch_down_double_tap)
         
-        # Создаем тестовое окно, но пока не показываем
-        self.test_window = TestWindow()
-        
         return self.layout
 
     def switch_to_test(self):
         """Переключение на тестовое окно"""
         if self.current_window == 'main':
-            self.layout.remove_widget(self.clock_widget)
-            self.layout.add_widget(self.test_window)
+            self.layout.remove_widget(self.title_label)
             self.current_window = 'test'
         
     def switch_to_main(self):
         """Переключение на главное окно"""
         if self.current_window == 'test':
-            self.layout.remove_widget(self.test_window)
-            self.layout.add_widget(self.clock_widget)
+            self.layout.add_widget(self.title_label)
             self.current_window = 'main'
 
     def on_window_touch_down(self, window, touch):
