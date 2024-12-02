@@ -1,10 +1,7 @@
 from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
-from kivy.animation import Animation
-from kivy.core.window import Window
 
-from .clock_widget_portrait import PortraitClockLabel
-from .clock_widget_landscape import LandscapeClockLabel
+from .clock_functions import BaseClockLabel
 
 class ClockWidget(GridLayout):
     colors = {
@@ -22,84 +19,24 @@ class ClockWidget(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.cols = 1
-        self.current_orientation = None
-        self._on_clock_widget_created = None
         
-        self.check_and_set_orientation()
+        # Создаем базовый виджет часов
+        self.clock_widget = BaseClockLabel()
+        self.add_widget(self.clock_widget)
         
-        Window.bind(on_resize=self.on_window_resize)
+        # Запускаем обновление времени
         Clock.schedule_interval(self.update_time, 0.5)
 
-    def bind_on_clock_widget_created(self, callback):
-        
-        # Устанавливаем коллбэк
-        self._on_clock_widget_created = callback
-        
-        # Если виджет уже создан, вызываем коллбэк немедленно
-        if hasattr(self, 'clock_widget') and self.clock_widget is not None:
-            Clock.schedule_once(lambda dt: self._on_clock_widget_created(self.clock_widget), 0)
-
-    def on_window_resize(self, instance, width, height):
-        if hasattr(self, '_resize_trigger'):
-            Clock.unschedule(self._resize_trigger)
-        self._resize_trigger = Clock.schedule_once(
-            lambda dt: self.check_and_set_orientation(), 0.1)
-
-    def check_and_set_orientation(self, *args):
-        aspect_ratio = Window.width / Window.height
-        LANDSCAPE_THRESHOLD = 1.1
-        PORTRAIT_THRESHOLD = 0.9
-        
-        new_orientation = None
-        if aspect_ratio > LANDSCAPE_THRESHOLD:
-            new_orientation = 'landscape'
-        elif aspect_ratio < PORTRAIT_THRESHOLD:
-            new_orientation = 'portrait'
-        else:
-            return
-        
-        if new_orientation == self.current_orientation:
-            return
-            
-        self.switch_orientation(new_orientation)
-
-    def switch_orientation(self, new_orientation):
-        new_widget = (LandscapeClockLabel() if new_orientation == 'landscape' 
-                     else PortraitClockLabel())
-        new_widget.opacity = 0
-        
-        self.add_widget(new_widget)
-        
-        if hasattr(self, 'clock_widget'):
-            new_widget.color = self.clock_widget.color
-                
-            anim_old = Animation(opacity=0, duration=0.15)
-            
-            def on_complete(*args):
-                self.remove_widget(self.clock_widget)
-                self.clock_widget = new_widget
-                if self._on_clock_widget_created:
-                    self._on_clock_widget_created(self.clock_widget)
-            
-            anim_old.bind(on_complete=on_complete)
-            anim_old.start(self.clock_widget)
-        else:
-            self.clock_widget = new_widget
-            if self._on_clock_widget_created:
-                self._on_clock_widget_created(self.clock_widget)
-        
-        anim_new = Animation(opacity=1, duration=0.15)
-        anim_new.start(new_widget)
-        
-        self.current_orientation = new_orientation
-
     def update_time(self, dt):
-        if hasattr(self, 'clock_widget'):
-            self.clock_widget.toggle_colon_visibility()
+        """Обновляем время и мигание двоеточия"""
+        self.clock_widget.toggle_colon_visibility()
 
     def update_color(self, color_name):
-        if hasattr(self, 'clock_widget'):
-            color_key = color_name.lower()
-            color_tuple = self.colors.get(color_key, (1, 1, 1, 1))
-            
-            self.clock_widget.color = color_tuple
+        """Обновляем цвет часов"""
+        color_key = color_name.lower()
+        color_tuple = self.colors.get(color_key, (1, 1, 1, 1))
+        self.clock_widget.color = color_tuple
+
+    def bind_on_clock_widget_created(self, callback):
+        """Вызываем коллбэк с виджетом часов"""
+        callback(self.clock_widget)
