@@ -140,7 +140,8 @@ class SettingsWindow(ModalView):
         # Основной layout
         main_layout = BoxLayout(
             orientation='vertical',
-            spacing=dp(0)
+            spacing=dp(0),
+            size_hint=(1, 1)
         )
         
         # Заголовок
@@ -167,32 +168,18 @@ class SettingsWindow(ModalView):
         )
         title_layout.add_widget(title_label)
         
-        # Контент и кнопки
-        content_layout = BoxLayout(
-            orientation='vertical',
-            spacing=dp(10)
+        # Контент (ScrollView)
+        content_layout = ScrollView(
+            do_scroll_x=False,
+            do_scroll_y=True,
+            size_hint=(1, 1)
         )
         
-        # Создаем ScrollView только для контента
-        scroll_view = ScrollView(
-            do_scroll_x=False,  
-            do_scroll_y=True    
-        )
-        
-        # Layout для прокручиваемого контента
-        self.layout = GridLayout(
-            cols=1,  
-            spacing=dp(10),
-            size_hint_y=None,  
-            padding=[dp(0), dp(0), dp(0), dp(0)]
-        )
-        self.layout.bind(minimum_height=self.layout.setter('height'))
-        
-        # Сетка цветов сразу после заголовка
+        # Сетка цветов
         colors_grid = GridLayout(
             cols=3,
             spacing=dp(10),
-            size_hint_y=None,  
+            size_hint_y=None,
             padding=[dp(20), dp(10)]
         )
         colors_grid.bind(minimum_height=colors_grid.setter('height'))
@@ -215,11 +202,8 @@ class SettingsWindow(ModalView):
             
             colors_grid.add_widget(color_button)
         
-        # Добавляем сетку цветов
-        self.layout.add_widget(colors_grid)
-        
-        # Растягивающийся виджет между сеткой и кнопками
-        self.layout.add_widget(Widget())
+        # Добавляем сетку цветов в ScrollView
+        content_layout.add_widget(colors_grid)
         
         # Нижняя панель с кнопками
         bottom_panel = BoxLayout(
@@ -227,7 +211,7 @@ class SettingsWindow(ModalView):
             size_hint_y=None,
             height=dp(60),
             spacing=dp(10),
-            padding=[dp(20), dp(5)]  # Отступы для кнопок
+            padding=[dp(20), dp(5)]
         )
         
         # Фон нижней панели
@@ -247,14 +231,14 @@ class SettingsWindow(ModalView):
         # Кнопки управления
         cancel_button = Button(
             text="Cancel",
-            background_normal='',  # Убираем стандартный фон
-            background_color=(3, 0, 0, 1),  # Более светлый красный
+            background_normal='',
+            background_color=(3, 0, 0, 1),
             **button_style
         )
         accept_button = Button(
             text="Save",
-            background_normal='',  # Убираем стандартный фон
-            background_color=(0, 0.7, 0, 1),  # Более светлый зеленый
+            background_normal='',
+            background_color=(0, 0.7, 0, 1),
             **button_style
         )
         
@@ -264,16 +248,10 @@ class SettingsWindow(ModalView):
         bottom_panel.add_widget(cancel_button)
         bottom_panel.add_widget(accept_button)
         
-        # Добавляем контент в ScrollView
-        scroll_view.add_widget(self.layout)
-        
-        # Добавляем контент и кнопки в основной layout
-        content_layout.add_widget(scroll_view)
-        content_layout.add_widget(bottom_panel)
-        
-        # Добавляем заголовок и контент в основной layout
+        # Собираем все вместе
         main_layout.add_widget(title_layout)
         main_layout.add_widget(content_layout)
+        main_layout.add_widget(bottom_panel)
         
         # Добавляем основной layout в окно
         self.add_widget(main_layout)
