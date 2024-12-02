@@ -264,7 +264,7 @@ class SettingsWindow(ModalView):
             'size_hint_x': 0.5,
             'size_hint_y': None,
             'height': dp(50),
-            'font_size': sp(16)
+            'font_size': sp(22)
         }
         
         # Кнопки управления
