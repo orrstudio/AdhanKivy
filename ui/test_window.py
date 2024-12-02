@@ -66,6 +66,8 @@ class TestWindow(GridLayout):
                  on_double_tap=None,
                  text_config=None,
                  **kwargs):
+        super().__init__(**kwargs)
+        
         # Регистрация шрифтов
         LabelBase.register(name='PrayerNameFont', fn_regular=prayer_name_font)
         LabelBase.register(name='PrayerTimeFont', fn_regular=prayer_time_font)
@@ -99,8 +101,6 @@ class TestWindow(GridLayout):
                 if key in text_config:
                     self.default_text_config[key].update(text_config[key])
         
-        super().__init__(**kwargs)
-        
         # Устанавливаем цвет фона
         self.background_color = (0, 0, 0, 1)  # Темно-серый фон
         self.background = True
@@ -126,18 +126,13 @@ class TestWindow(GridLayout):
             ('Gecə -----', '20:30')   # Ночная молитва
         ]
         
-        # Сохраняем начальную ширину как базовую
-        self.initial_width = self.width
-        
         # Привязываем обработчик изменения размера
-        self.bind(width=self.on_width_change)
-        
-        # Создаем метки при инициализации
+        self.bind(size=self.on_size)
+    
+    def on_size(self, *args):
+        # Перерисовываем метки при первом получении размера
         self.create_labels()
-            
-        # Включаем обработку касаний
-        self.bind(on_touch_down=self.on_touch_down)
-
+        
     def calculate_font_size(self, scale_factor=0.1):
         # Логарифмическая шкала для более плавного масштабирования
         base_size = min(self.width, self.height)
