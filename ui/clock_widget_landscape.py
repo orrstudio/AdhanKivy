@@ -6,7 +6,7 @@
 и возможностью его обновления через настройки.
 """
 
-from ui.base_clock import BaseClockLabel
+from ui.clock_functions import BaseClockLabel
 from logic.time_handler import TimeHandler
 from data.database import SettingsDatabase
 from ui.settings_window import SettingsWindow

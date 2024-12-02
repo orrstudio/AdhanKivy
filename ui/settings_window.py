@@ -1,5 +1,5 @@
 """
-Settings Window Module для OrrClock.
+Settings Window Module.
 Реализует минималистичный интерфейс настроек с выбором цвета.
 
 Основные компоненты:
@@ -9,7 +9,7 @@ Settings Window Module для OrrClock.
 """
 
 from kivy.uix.modalview import ModalView
-from ui.color_settings import ColorButton
+from ui.settings_color import ColorButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -202,56 +202,6 @@ class SettingsWindow(ModalView):
         
         # Добавляем сетку цветов сразу после заголовка
         self.layout.add_widget(colors_grid)
-        
-        # Вторая сетка цветов
-        colors_grid2 = GridLayout(
-            cols=3,
-            spacing=dp(10),
-            size_hint_y=None,  # Динамическая высота
-            padding=[dp(20), dp(10)]
-        )
-        colors_grid2.bind(minimum_height=colors_grid2.setter('height'))
-        
-        # Создаем кнопки цветов для второй сетки
-        for color_name, color_tuple in self.colors.items():
-            color_button = ColorButton(
-                color_name=color_name,
-                color_tuple=color_tuple,
-                text='',  # Без текста для минималистичного дизайна
-                size_hint=(1, None),
-                height=dp(50),
-                background_normal=''
-            )
-            color_button.bind(on_release=self._on_color_button_press)
-            colors_grid2.add_widget(color_button)
-        
-        # Добавляем вторую сетку цветов
-        self.layout.add_widget(colors_grid2)
-        
-        # Третья сетка цветов
-        colors_grid3 = GridLayout(
-            cols=3,
-            spacing=dp(10),
-            size_hint_y=None,  # Динамическая высота
-            padding=[dp(20), dp(10)]
-        )
-        colors_grid3.bind(minimum_height=colors_grid3.setter('height'))
-        
-        # Создаем кнопки цветов для третьей сетки
-        for color_name, color_tuple in self.colors.items():
-            color_button = ColorButton(
-                color_name=color_name,
-                color_tuple=color_tuple,
-                text='',  # Без текста для минималистичного дизайна
-                size_hint=(1, None),
-                height=dp(50),
-                background_normal=''
-            )
-            color_button.bind(on_release=self._on_color_button_press)
-            colors_grid3.add_widget(color_button)
-        
-        # Добавляем третью сетку цветов
-        self.layout.add_widget(colors_grid3)
         
         # Растягивающийся виджет между сеткой и кнопками
         self.layout.add_widget(Widget())

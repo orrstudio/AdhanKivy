@@ -3,8 +3,8 @@ from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.core.window import Window
 
-from .portrait_clock import PortraitClockLabel
-from .landscape_clock import LandscapeClockLabel
+from .clock_widget_portrait import PortraitClockLabel
+from .clock_widget_landscape import LandscapeClockLabel
 
 class ClockWidget(GridLayout):
     colors = {
