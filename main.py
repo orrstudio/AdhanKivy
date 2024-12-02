@@ -142,13 +142,6 @@ class MainWindowApp(App):
         # Добавляем заголовок в начало макета
         self.layout.add_widget(self.title_label)
 
-        # Создаем основной макет для контента
-        main_layout = GridLayout(
-            cols=1,  # Один столбец
-            spacing=0,
-            padding=0
-        )
-
         # Создаем таблицу молитв
         prayer_times_table = GridLayout(
             cols=2,  # Две колонки: время и название молитвы
@@ -158,27 +151,22 @@ class MainWindowApp(App):
             padding=(0, 0)  # Без отступов от краев
         )
         
-        prayer_times = [
-            ('Təhəccüd -', '05:30'),  # Тахаджуд (ночная молитва)
-            ('İmsak ----', '05:30'),  # Имсак (начало поста)
-            ('Günəş ----', '05:30'),  # Восход солнца
-            ('Günorta --', '13:00'),  # Полуденная молитва
-            ('İkindi ---', '15:00'),  # Послеполуденная молитва
-            ('Axşam ----', '16:30'),  # Вечерняя молитва
-            ('Gecə -----', '20:30')   # Ночная молитва
-        ]
-        
         # Привязываем обработчик изменения размера
         prayer_times_table.bind(width=self.on_width_change)
         
         # Создаем метки при инициализации
-        self.create_prayer_labels(prayer_times_table, prayer_times)
-        
-        # Добавляем таблицу молитв в основной макет
-        main_layout.add_widget(prayer_times_table)
+        self.create_prayer_labels(prayer_times_table, [
+            ('Təhəccüd -', '05:30'),
+            ('İmsak ----', '05:30'),
+            ('Günəş ----', '05:30'),
+            ('Günorta --', '13:00'),
+            ('İkindi ---', '15:00'),
+            ('Axşam ----', '16:30'),
+            ('Gecə -----', '20:30')
+        ])
 
-        # Добавляем основной макет в главный layout
-        self.layout.add_widget(main_layout)
+        # Добавляем таблицу молитв в основной layout
+        self.layout.add_widget(prayer_times_table)
 
         # Запускаем таймер обновления времени и мигания точек каждые 0.5 секунды
         self.is_colon_visible = True
