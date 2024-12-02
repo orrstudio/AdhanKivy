@@ -73,6 +73,7 @@ MainWindowApp
 
 # main.py
 import kivy
+from datetime import datetime
 kivy.require('2.2.1')
 
 from kivy.app import App
@@ -80,6 +81,7 @@ from kivy.core.window import Window
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.input.motionevent import MotionEvent
+from kivy.clock import Clock
 
 from ui.test_window import TestWindow
 from ui.clock_widget import ClockWidget
@@ -106,13 +108,15 @@ class MainWindowApp(App):
         
         # Создаем заголовок
         self.title_label = Label(
-            text='00:88', 
-            color=(1, 1, 1, 1),  # белый цвет
+            text=self.get_current_time(), 
+            font_name="fonts/DSEG-Classic/DSEG7Classic-Bold.ttf",
+            color=(0, 1, 0, 1),  # зеленый цвет как у часов
             size_hint_x=1,  # занимает всю ширину
             size_hint_y=None,  # отключаем автоматическую высоту
             height=str(Window.width * 0.3) + 'dp',  # высота зависит от ширины
             pos_hint={'top': 1},  # прижат к верху
-            font_size=str(Window.width // 2.5) + 'sp'  # начальный размер шрифта
+            font_size=str(Window.width // 3.5) + 'sp',  # начальный размер шрифта
+            halign='center'  # центрирование текста
         )
         
         # Привязываем обновление размера шрифта и высоты к изменению размера окна
@@ -121,6 +125,9 @@ class MainWindowApp(App):
         
         # Добавляем заголовок в начало макета
         self.layout.add_widget(self.title_label)
+        
+        # Запускаем таймер обновления времени каждую секунду
+        Clock.schedule_interval(self.update_time, 1)
         
         # Добавляем часы
         self.clock_widget = ClockWidget()
@@ -210,11 +217,19 @@ class MainWindowApp(App):
 
     def update_title_font_size(self, instance, width):
         """Обновляем размер шрифта в зависимости от ширины окна"""
-        self.title_label.font_size = str(width // 2.5) + 'sp'
+        self.title_label.font_size = str(width // 3.5) + 'sp'
 
     def update_title_height(self, instance, height):
         """Обновляем высоту заголовка в зависимости от ширины окна"""
         self.title_label.height = str(Window.width * 0.3) + 'dp'
+
+    def get_current_time(self):
+        """Получаем текущее время в формате ЧЧ:ММ"""
+        return datetime.now().strftime('%H:%M')
+    
+    def update_time(self, dt):
+        """Обновляем время в заголовке"""
+        self.title_label.text = self.get_current_time()
 
     def _on_clock_widget_created(self, clock_widget=None):
         """
