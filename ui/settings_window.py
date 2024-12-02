@@ -10,35 +10,41 @@ Settings Window Module.
 Текущая структура:
 
 ModalView (SettingsWindow)
-  └─ main_layout (BoxLayout)
-      ├─ title_layout (BoxLayout)
+  └─ main_layout (GridLayout)
+      ├─ title_layout (GridLayout)
       │    └─ title_label (Label)
       ├─ content_layout (ScrollView)
       │    └─ colors_grid (GridLayout)
       │         └─ color_buttons (ColorButton) x9
-      └─ bottom_panel (BoxLayout)
+      └─ bottom_panel (GridLayout)
            ├─ cancel_button (Button)
            └─ accept_button (Button)
 
 Все компоненты:
 
-1. main_layout:    BoxLayout с orientation='vertical', 
+1. main_layout:    GridLayout с cols=1, 
                    spacing=dp(0), size_hint=(1, 1)
-2. title_layout:   BoxLayout с size_hint_y=None, 
-                   height=dp(30), padding=[dp(20), 0]
+2. title_layout:   GridLayout с cols=1, 
+                   size_hint_y=None, 
+                   height=dp(30), 
+                   padding=[dp(20), 0]
 3. content_layout: ScrollView с do_scroll_x=False, 
-                   do_scroll_y=True, size_hint=(1, 1)
-4. colors_grid:    GridLayout с cols=3, spacing=dp(10), 
-                   size_hint_y=None, padding=[dp(20), dp(10)]
-5. bottom_panel:   BoxLayout с orientation='horizontal', 
-                   size_hint_y=None, height=dp(60), 
-                   spacing=dp(10), padding=[dp(20), dp(5)]
+                   do_scroll_y=True, 
+                   size_hint=(1, 1)
+4. colors_grid:    GridLayout с cols=3, 
+                   spacing=dp(10), 
+                   size_hint_y=None, 
+                   padding=[dp(20), dp(10)]
+5. bottom_panel:   GridLayout с cols=2, 
+                   size_hint_y=None, 
+                   height=dp(60), 
+                   spacing=dp(10), 
+                   padding=[dp(20), dp(5)]
 
 """
 
 from kivy.uix.modalview import ModalView
 from ui.settings_color import ColorButton
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
@@ -101,7 +107,8 @@ class SettingsSection(ScrollView):
         self.bind(pos=self._update_rect, size=self._update_rect)
         
         # Основной layout с адаптивными отступами
-        self.layout = BoxLayout(
+        self.layout = GridLayout(
+            cols=1,
             orientation='vertical', 
             spacing=0,
             padding=0,
@@ -166,16 +173,17 @@ class SettingsWindow(ModalView):
         self.auto_dismiss = True
         
         # Основной layout
-        main_layout = BoxLayout(
-            orientation='vertical',
+        main_layout = GridLayout(
+            cols=1,
             spacing=dp(0),
             size_hint=(1, 1)
         )
         
         # Заголовок
-        title_layout = BoxLayout(
+        title_layout = GridLayout(
+            cols=1,
             size_hint_y=None,
-            height=dp(30),  
+            height=dp(30),
             padding=[dp(20), 0]
         )
         
@@ -189,7 +197,7 @@ class SettingsWindow(ModalView):
         title_label = Label(
             text='SETTINGS',
             color=(1, 1, 1, 1),
-            font_size=sp(16),  
+            font_size=sp(16),
             bold=True,
             halign='center',
             valign='center'
@@ -217,7 +225,7 @@ class SettingsWindow(ModalView):
             color_button = ColorButton(
                 color_name=color_name,
                 color_tuple=color_tuple,
-                text='',  
+                text='',
                 size_hint=(1, None),
                 height=dp(50),
                 background_normal=''
@@ -234,8 +242,8 @@ class SettingsWindow(ModalView):
         content_layout.add_widget(colors_grid)
         
         # Нижняя панель с кнопками
-        bottom_panel = BoxLayout(
-            orientation='horizontal',
+        bottom_panel = GridLayout(
+            cols=2,
             size_hint_y=None,
             height=dp(60),
             spacing=dp(10),
