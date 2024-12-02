@@ -1,10 +1,83 @@
+"""
+Структура проекта
+
+📁 AdhanKivy/
+│
+├── 🐍 main.py
+│   └── 🏛️ MainWindowApp (Основной класс приложения)
+│       ├── __init__()
+│       │   - Инициализация параметров свайпа
+│       │   - Установка начальных значений
+│       │
+│       ├── build()
+│       │   - Настройка окна
+│       │   - Создание основного layout
+│       │   - Добавление виджетов:
+│       │     • ClockWidget
+│       │     • SettingsManager
+│       │     • TestWindow
+│       │   - Привязка обработчиков событий
+│       │
+│       ├── Методы переключения окон
+│       │   - switch_to_test()
+│       │   - switch_to_main()
+│       │
+│       ├── Обработчики событий
+│       │   - on_window_touch_down()
+│       │   - on_window_touch_up()
+│       │   - on_window_touch_down_double_tap()
+│       │
+│       └── Служебные методы
+│           - _on_clock_widget_created()
+│
+└── 📂 ui/
+    ├── 🕰️ clock_widget.py
+    ├── 🔧 settings_manager.py
+    └── 🧪 test_window.py
+
+Структура класса MainWindowApp:
+
+MainWindowApp
+│
+├── Атрибуты
+│   - current_window: текущее активное окно
+│   - touch_start_x, touch_start_y: координаты начала свайпа
+│   - SWIPE_THRESHOLD: порог длины свайпа
+│
+├── Методы создания интерфейса
+│   - build(): основной метод создания интерфейса
+│   - _on_clock_widget_created(): обновление виджета часов
+│
+├── Методы навигации
+│   - switch_to_test(): переход в тестовый режим
+│   - switch_to_main(): возврат в главный экран
+│
+└── Обработчики событий
+    - on_window_touch_down(): начало касания
+    - on_window_touch_up(): обработка свайпа
+    - on_window_touch_down_double_tap(): обработка двойного тапа
+
+🔍 Основные компоненты:
+
+1. Главное окно с часами
+2. Тестовое окно
+3. Окно настроек
+4. Система навигации жестами
+
+Интересные особенности:
+- Использует Kivy для создания кроссплатформенного интерфейса
+- Реализована навигация через свайпы и двойные тапы
+- Гибкая система переключения между экранами
+
+"""
+
 # main.py
 import kivy
 kivy.require('2.2.1')
 
 from kivy.app import App
 from kivy.core.window import Window
-from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.input.motionevent import MotionEvent
 
 from ui.test_window import TestWindow
@@ -24,7 +97,11 @@ class MainWindowApp(App):
         Window.clearcolor = (0, 0, 0, 1)
         
         # Основной layout
-        self.layout = FloatLayout()
+        self.layout = GridLayout(
+            cols=1,  # Один столбец
+            spacing=0,
+            padding=0
+        )
         
         # Добавляем часы
         self.clock_widget = ClockWidget()
