@@ -6,6 +6,34 @@ Settings Window Module.
 - Компактный заголовок
 - Сетка из 9 цветов с выделением активного белой рамкой
 - Кнопки Save/Cancel для применения/отмены изменений
+
+Текущая структура:
+
+ModalView (SettingsWindow)
+  └─ main_layout (BoxLayout)
+      ├─ title_layout (BoxLayout)
+      │    └─ title_label (Label)
+      ├─ content_layout (ScrollView)
+      │    └─ colors_grid (GridLayout)
+      │         └─ color_buttons (ColorButton) x9
+      └─ bottom_panel (BoxLayout)
+           ├─ cancel_button (Button)
+           └─ accept_button (Button)
+
+Все компоненты:
+
+1. main_layout:    BoxLayout с orientation='vertical', 
+                   spacing=dp(0), size_hint=(1, 1)
+2. title_layout:   BoxLayout с size_hint_y=None, 
+                   height=dp(30), padding=[dp(20), 0]
+3. content_layout: ScrollView с do_scroll_x=False, 
+                   do_scroll_y=True, size_hint=(1, 1)
+4. colors_grid:    GridLayout с cols=3, spacing=dp(10), 
+                   size_hint_y=None, padding=[dp(20), dp(10)]
+5. bottom_panel:   BoxLayout с orientation='horizontal', 
+                   size_hint_y=None, height=dp(60), 
+                   spacing=dp(10), padding=[dp(20), dp(5)]
+
 """
 
 from kivy.uix.modalview import ModalView
