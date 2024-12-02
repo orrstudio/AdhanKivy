@@ -86,6 +86,7 @@ from kivy.clock import Clock
 from ui.test_window import TestWindow
 from ui.clock_widget import ClockWidget
 from ui.settings_manager import SettingsManager
+from logic.time_handler import TimeHandler
 
 class MainWindowApp(App):
     def __init__(self, **kwargs):
@@ -126,8 +127,9 @@ class MainWindowApp(App):
         # Добавляем заголовок в начало макета
         self.layout.add_widget(self.title_label)
         
-        # Запускаем таймер обновления времени каждую секунду
-        Clock.schedule_interval(self.update_time, 1)
+        # Запускаем таймер обновления времени и мигания точек каждые 0.5 секунды
+        self.is_colon_visible = True
+        Clock.schedule_interval(self.update_time_with_colon, 0.5)
         
         # Добавляем часы
         self.clock_widget = ClockWidget()
@@ -223,13 +225,14 @@ class MainWindowApp(App):
         """Обновляем высоту заголовка в зависимости от ширины окна"""
         self.title_label.height = str(Window.width * 0.3) + 'dp'
 
-    def get_current_time(self):
-        """Получаем текущее время в формате ЧЧ:ММ"""
-        return datetime.now().strftime('%H:%M')
+    def get_current_time(self, show_colon=True):
+        """Получаем текущее время с возможностью скрыть двоеточие"""
+        return TimeHandler.get_formatted_time(show_colon)
     
-    def update_time(self, dt):
-        """Обновляем время в заголовке"""
-        self.title_label.text = self.get_current_time()
+    def update_time_with_colon(self, dt):
+        """Обновляем время с мигающим двоеточием"""
+        self.is_colon_visible = not self.is_colon_visible
+        self.title_label.text = self.get_current_time(self.is_colon_visible)
 
     def _on_clock_widget_created(self, clock_widget=None):
         """
