@@ -1,4 +1,4 @@
-from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.core.window import Window
@@ -6,7 +6,7 @@ from kivy.core.window import Window
 from .portrait_clock import PortraitClockLabel
 from .landscape_clock import LandscapeClockLabel
 
-class ClockWidget(FloatLayout):
+class ClockWidget(GridLayout):
     colors = {
         'lime': (0, 1, 0, 1),
         'aqua': (0, 1, 1, 1),
@@ -21,6 +21,7 @@ class ClockWidget(FloatLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.cols = 1
         self.current_orientation = None
         self._on_clock_widget_created = None
         
