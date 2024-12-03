@@ -159,7 +159,9 @@ class MainWindowApp(App):
         # Создаем метки при инициализации
         self.create_prayer_labels(prayer_times_table, [
             ('Təhəccüd -', '05:30'),
+            ('----------', '-----', {'font_size': 1, 'font_name': 'fonts/SourceCodePro/SourceCodePro-Regular.ttf'}),
             ('İmsak ----', '05:30'),
+            ('----------', '-----', {'font_size': 1, 'font_name': 'fonts/SourceCodePro/SourceCodePro-Regular.ttf'}),
             ('Günəş ----', '05:30'),
             ('Günorta --', '13:00'),
             ('İkindi ---', '15:00'),
@@ -254,39 +256,60 @@ class MainWindowApp(App):
         prayer_times_table.cols = 2
         prayer_times_table.spacing = (10, 10)  # Небольшой отступ
         
-        for prayer, time in prayer_times:
-            # Динамический расчет размера шрифта для названия молитвы
-            prayer_font_size = base_font_size * max(1, Window.width / 600)  # Уменьшаем коэффициент
-            
-            # Динамический расчет размера шрифта для времени
-            time_font_size = base_font_size * max(1, Window.width / 600)  # Уменьшаем коэффициент
-            
-            prayer_label = Label(
-                text=prayer,
-                font_size=prayer_font_size * 0.40, 
-                font_name='PrayerNameFont',
+        for item in prayer_times:
+            # Если элемент содержит 3 параметра - это особый случай (разделитель)
+            if len(item) == 3 and isinstance(item[2], dict):
+                prayer, time, params = item
+                prayer_label = Label(
+                    text=prayer,
+                    font_size=params.get('font_size', 1),
+                    font_name=params.get('font_name', 'PrayerNameFont'),
+                    size_hint_x=None,
+                    size_hint_y=None,
+                    height=base_font_size * 0.01,
+                    color=(1, 1, 1, 0)
+                )
+                time_label = Label(
+                    text=time,
+                    font_size=params.get('font_size', 1),
+                    font_name=params.get('font_name', 'PrayerNameFont'),
+                    size_hint_x=None,
+                    size_hint_y=None,
+                    height=base_font_size * 0.01,
+                    color=(1, 1, 1, 0)
+                )
+            else:
+                # Стандартный случай для обычных строк
+                prayer, time = item
+                prayer_font_size = base_font_size * max(1, Window.width / 600)
+                time_font_size = base_font_size * max(1, Window.width / 600)
+                
+                prayer_label = Label(
+                    text=prayer,
+                    font_size=prayer_font_size * 0.40, 
+                    font_name='PrayerNameFont',
                 size_hint_x=None,  # Отключаем относительные размеры по горизонтали
                 size_hint_y=None,  # Отключаем относительные размеры по вертикали
                 width=Window.width * 0.68,  # Абсолютная ширина
                 height=prayer_font_size * 0.35,  # Динамическая высота
-                halign='left',
-                valign='middle',
+                    halign='left',
+                    valign='middle',
                 text_size=(Window.width * 0.52, None),  # Указываем размер текста
                 color=(1, 1, 1, 1)  # Белый цвет
-            )
-            time_label = Label(
-                text=time,
-                font_size=time_font_size * 0.50,
-                font_name='PrayerTimeFont',
+                )
+                time_label = Label(
+                    text=time,
+                    font_size=time_font_size * 0.50,
+                    font_name='PrayerTimeFont',
                 size_hint_x=None,  # Отключаем относительные размеры по горизонтали
                 size_hint_y=None,  # Отключаем относительные размеры по вертикали
                 width=Window.width * 0.0,  # Абсолютная ширина
                 height=time_font_size * 0.5,  # Динамическая высота
-                halign='right',
-                valign='middle',
+                    halign='right',
+                    valign='middle',
                 text_size=(Window.width * 0.42, None),  # Указываем размер текста
                 color=(1, 1, 1, 1)  # Белый цвет
-            )
+                )
             
             prayer_times_table.add_widget(prayer_label)
             prayer_times_table.add_widget(time_label)
@@ -294,7 +317,10 @@ class MainWindowApp(App):
     def on_width_change(self, instance, width):
         # Перересовываем метки при изменении ширины
         self.create_prayer_labels(instance, [
-            ('Təhəccüd -', '05:30'),
+            ('', '', {}),
+            ('===>>> ---', '00:00'),
+            (' ', ' ', {}),
+            ('Təhəccüd -', '00:30'),
             ('İmsak ----', '05:30'),
             ('Günəş ----', '05:30'),
             ('Günorta --', '13:00'),
