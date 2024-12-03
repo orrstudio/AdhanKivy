@@ -158,10 +158,11 @@ class MainWindowApp(App):
         
         # Создаем метки при инициализации
         self.create_prayer_labels(prayer_times_table, [
-            ('Təhəccüd -', '05:30'),
-            ('----------', '-----', {'font_size': 1, 'font_name': 'fonts/SourceCodePro/SourceCodePro-Regular.ttf'}),
+            ('', '', {}),
+            ('===>>> ---', '00:00'),
+            (' ', ' ', {}),
+            ('Təhəccüd -', '00:30'),
             ('İmsak ----', '05:30'),
-            ('----------', '-----', {'font_size': 1, 'font_name': 'fonts/SourceCodePro/SourceCodePro-Regular.ttf'}),
             ('Günəş ----', '05:30'),
             ('Günorta --', '13:00'),
             ('İkindi ---', '15:00'),
