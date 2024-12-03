@@ -92,6 +92,9 @@ from ui.settings_manager import SettingsManager
 from ui.clock_widget import ClockWidget
 from data.database import SettingsDatabase
 from logic.time_handler import TimeHandler
+from ui.main_portrait import create_portrait_prayer_times_table
+from ui.main_landscape import create_landscape_prayer_times_table
+from ui.main_square import create_square_prayer_times_table
 
 class MainWindowApp(App):
     def __init__(self, **kwargs):
@@ -141,37 +144,24 @@ class MainWindowApp(App):
         # Привязываем обновление размера шрифта и высоты к изменению размера окна
         Window.bind(width=self.update_title_font_size)
         Window.bind(height=self.update_title_height)
+        Window.bind(on_resize=self.on_window_resize)
         
         # Добавляем заголовок в начало макета
         self.layout.add_widget(self.title_label)
 
-        # Создаем таблицу молитв
-        prayer_times_table = GridLayout(
-            cols=2,  # Две колонки: время и название молитвы
-            spacing=(10, 10),  # Отступы между ячейками
-            size_hint=(0.9, None),  # 90% ширины
-            pos_hint={'center_x': 0.5}  # По центру по горизонтали
-        )
+        # Определение ориентации и создание соответствующей таблицы молитв
+        current_orientation = self.get_current_orientation()
         
-        # Привязываем обработчик изменения размера
-        prayer_times_table.bind(width=self.on_width_change)
+        if current_orientation == 'portrait':
+            prayer_times_table = create_portrait_prayer_times_table(self)
+        elif current_orientation == 'landscape':
+            prayer_times_table = create_landscape_prayer_times_table(self)
+        else:  # square
+            prayer_times_table = create_square_prayer_times_table(self)
         
-        # Создаем метки при инициализации
-        self.create_prayer_labels(prayer_times_table, [
-            ('', '', {}),
-            ('===>>> ---', '00:00'),
-            (' ', ' ', {}),
-            ('Təhəccüd -', '00:30'),
-            ('İmsak ----', '05:30'),
-            ('Günəş ----', '05:30'),
-            ('Günorta --', '13:00'),
-            ('İkindi ---', '15:00'),
-            ('Axşam ----', '16:30'),
-            ('Gecə -----', '20:30')
-        ])
-
-        # Добавляем таблицу молитв в основной layout
-        self.layout.add_widget(prayer_times_table)
+        # Добавление таблицы молитв, если она не None
+        if prayer_times_table:
+            self.layout.add_widget(prayer_times_table)
 
         # Запускаем таймер обновления времени и мигания точек каждые 0.5 секунды
         self.is_colon_visible = True
@@ -181,7 +171,20 @@ class MainWindowApp(App):
         self.current_window = 'main'
         
         return self.layout
+
+    def get_current_orientation(self):
+        """
+        Точное определение ориентации экрана
+        """
+        width, height = Window.size
         
+        if width > height * 1.2:
+            return 'landscape'
+        elif height > width * 1.2:
+            return 'portrait'
+        else:
+            return 'square'
+
     def on_window_touch_down_double_tap(self, window, touch):
         """Обработчик двойного касания"""
         if touch.is_double_tap:
@@ -329,6 +332,72 @@ class MainWindowApp(App):
             ('Axşam ----', '16:30'),
             ('Gecə -----', '20:30')
         ])
+
+    def on_window_resize(self, instance, width, height):
+        """
+        Обработчик изменения размера окна
+        """
+        # Удаляем старую таблицу
+        for child in self.layout.children[:]:
+            if isinstance(child, GridLayout) and child != self.title_label:
+                self.layout.remove_widget(child)
         
+        # Определяем новую ориентацию
+        current_orientation = self.get_current_orientation()
+        
+        # Создаем новую таблицу
+        if current_orientation == 'portrait':
+            prayer_times_table = create_portrait_prayer_times_table(self)
+        elif current_orientation == 'landscape':
+            prayer_times_table = create_landscape_prayer_times_table(self)
+        else:  # square
+            prayer_times_table = create_square_prayer_times_table(self)
+        
+        # Добавляем таблицу, если она не None
+        if prayer_times_table:
+            self.layout.add_widget(prayer_times_table)
+
+    def classify_block_orientation(self, block):
+        """
+        Классифицирует блок по его ориентации
+        
+        :param block: Kivy виджет
+        :return: 'portrait', 'landscape', или 'square'
+        """
+        # Получаем размеры блока
+        width = block.width
+        height = block.height
+        
+        # Определяем ориентацию с некоторым допуском
+        tolerance = 0.1  # 10% погрешности
+        
+        if abs(width - height) / max(width, height) <= tolerance:
+            return 'square'
+        elif width > height * (1 + tolerance):
+            return 'landscape'
+        elif height > width * (1 + tolerance):
+            return 'portrait'
+        else:
+            return 'square'
+
+    def separate_blocks_by_orientation(self, layout):
+        """
+        Разделяет блоки layout по ориентации
+        
+        :param layout: Kivy layout
+        :return: Словарь с разделенными блоками
+        """
+        orientations = {
+            'portrait': [],
+            'landscape': [],
+            'square': []
+        }
+        
+        for child in layout.children:
+            orientation = self.classify_block_orientation(child)
+            orientations[orientation].append(child)
+        
+        return orientations
+
 if __name__ == "__main__":
     MainWindowApp().run()
