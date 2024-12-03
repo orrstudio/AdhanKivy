@@ -287,11 +287,11 @@ class MainWindowApp(App):
                 
                 prayer_label = Label(
                     text=prayer,
-                    font_size=prayer_font_size * 0.40, 
+                    font_size=prayer_font_size * 0.35, 
                     font_name='PrayerNameFont',
                 size_hint_x=None,  # Отключаем относительные размеры по горизонтали
                 size_hint_y=None,  # Отключаем относительные размеры по вертикали
-                width=Window.width * 0.68,  # Абсолютная ширина
+                width=Window.width * 0.6,  # Абсолютная ширина
                 height=prayer_font_size * 0.35,  # Динамическая высота
                     halign='left',
                     valign='middle',
@@ -300,11 +300,11 @@ class MainWindowApp(App):
                 )
                 time_label = Label(
                     text=time,
-                    font_size=time_font_size * 0.50,
+                    font_size=time_font_size * 0.40,
                     font_name='PrayerTimeFont',
                 size_hint_x=None,  # Отключаем относительные размеры по горизонтали
                 size_hint_y=None,  # Отключаем относительные размеры по вертикали
-                width=Window.width * 0.0,  # Абсолютная ширина
+                width=Window.width * 0.28,  # Абсолютная ширина
                 height=time_font_size * 0.5,  # Динамическая высота
                     halign='right',
                     valign='middle',
