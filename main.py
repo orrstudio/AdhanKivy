@@ -172,18 +172,13 @@ class MainWindowApp(App):
         
         if current_orientation == 'portrait':
             portrait_layout = GridLayout(cols=1)
-            space_label1, line_label1, date_hijri_label, line_label2, date_gregorian_label, line_label3, space_label2, space_label3, nex_time_layout, line_label4, space_label4 = create_portrait_widgets(self)
+            space_label1, date_hijri_label, date_gregorian_label, line_label1, nex_time_layout, line_label2 = create_portrait_widgets(self)
             portrait_layout.add_widget(space_label1)
             portrait_layout.add_widget(line_label1)
             portrait_layout.add_widget(date_hijri_label)
             portrait_layout.add_widget(line_label2)
             portrait_layout.add_widget(date_gregorian_label)
-            portrait_layout.add_widget(line_label3)
-            portrait_layout.add_widget(space_label2)
-            portrait_layout.add_widget(space_label3)
             portrait_layout.add_widget(nex_time_layout)
-            portrait_layout.add_widget(line_label4)
-            portrait_layout.add_widget(space_label4)
             main_window_body = portrait_layout
         elif current_orientation == 'landscape':
             main_window_body = create_landscape_prayer_times_table(self)
@@ -327,15 +322,13 @@ class MainWindowApp(App):
         # Создаем новую таблицу
         if current_orientation == 'portrait':
             portrait_layout = GridLayout(cols=1)
-            line_label1, date_hijri_label, date_gregorian_label, line_label3, nex_time_layout, line_label4, space_label4 = create_portrait_widgets(self)
-            
+            space_label1, date_hijri_label, date_gregorian_label, line_label1, nex_time_layout, line_label2 = create_portrait_widgets(self)
+            portrait_layout.add_widget(space_label1)
             portrait_layout.add_widget(line_label1)
             portrait_layout.add_widget(date_hijri_label)
+            portrait_layout.add_widget(line_label2)
             portrait_layout.add_widget(date_gregorian_label)
-            portrait_layout.add_widget(line_label3)
             portrait_layout.add_widget(nex_time_layout)
-            portrait_layout.add_widget(line_label4)
-            portrait_layout.add_widget(space_label4)
             main_window_body = portrait_layout
         elif current_orientation == 'landscape':
             main_window_body = create_landscape_prayer_times_table(self)

@@ -9,16 +9,15 @@ def create_line_label(base_font_size):
         text='―' * 150,  # Много тире
         font_name='PrayerNameFont',
         height=base_font_size * 0.1, # Высота пропорциональна базовому шрифту
-        size_hint_x=1, # Занимает всю ширину
         size_hint_y=None,  # Фиксированная высота
-        color=(1, 1, 1, 1),  # Белый цвет
-        halign='center',  # Центрирование по горизонтали
-        valign='middle',  # Центрирование по вертикали
-        #font_size=base_font_size * 0.1,  # Размер шрифта пропорционально базовому
     )
 
 def create_space_label(base_font_size):
-    return Label(text=' ', height=base_font_size * 0.2)
+    return Label(
+        text=' ', 
+        height=base_font_size * 0.02,  # Очень маленькая фиксированная высота
+        size_hint_y=None  # Не растягивается
+    )
 
 def create_portrait_widgets(self):
     """
@@ -101,12 +100,10 @@ def create_portrait_widgets(self):
 
     # Возвращаем виджеты
     return (
-        #create_space_label(base_font_size), 
-        create_line_label(base_font_size), 
-        date_hijri_label, 
-        date_gregorian_label, 
-        create_line_label(base_font_size), 
-        nex_time_layout, 
-        create_line_label(base_font_size), 
-        create_space_label(base_font_size)
+        create_space_label(base_font_size),  # space_label1
+        date_hijri_label,                    # date_hijri_label
+        date_gregorian_label,                # date_gregorian_label
+        create_line_label(base_font_size),   # line_label1
+        nex_time_layout,                     # nex_time_layout
+        create_line_label(base_font_size)    # line_label2
     )
