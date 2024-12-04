@@ -110,7 +110,7 @@ from ui.settings_manager import SettingsManager
 from ui.clock_widget import ClockWidget
 from data.database import SettingsDatabase
 from logic.clock_functions import get_formatted_time
-from ui.main_test_portrait import create_portrait_widgets
+from ui.main_portrait import create_portrait_widgets
 from ui.main_landscape import create_landscape_prayer_times_table
 from ui.main_square import create_square_prayer_times_table
 
@@ -385,9 +385,9 @@ class MainWindowApp(App):
         """
         Создает виджеты для портретной ориентации
         """
-        from ui.main_test_portrait import create_portrait_widgets as create_portrait_widgets_func
+        from ui.main_portrait import create_portrait_widgets as create_portrait_widgets_func
         
-        # Используем функцию из main_test_portrait с новой сигнатурой
+        # Используем функцию из main_portrait с новой сигнатурой
         return create_portrait_widgets_func(self, layout)
 
 if __name__ == "__main__":

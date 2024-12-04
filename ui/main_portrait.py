@@ -1,135 +1,112 @@
-"""
-Модуль генерации таблицы молитв для портретной ориентации.
-
-Функционал:
-- Создание полной таблицы молитв
-- Адаптация под портретную ориентацию экрана
-- Сохранение оригинального дизайна и логики отображения
-
-Особенности:
-- Динамический расчет размеров шрифта
-"""
-
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+from kivy.uix.gridlayout import GridLayout
 from kivy.core.window import Window
-from ui.main_test_portrait import create_date_widget_portrait
+from datetime import datetime
+import locale
 
-def create_portrait_prayer_times_table(self):
+def create_line_label(base_font_size):
+    return Label(
+        text='―' * 150,  # Много тире
+        font_name='PrayerNameFont',
+        height=base_font_size * 0.1, # Высота пропорциональна базовому шрифту
+        size_hint_y=None,  # Фиксированная высота
+    )
+
+def create_space_label(base_font_size):
+    return Label(
+        text=' ', 
+        height=base_font_size * 0.02,  # Очень маленькая фиксированная высота
+        size_hint_y=None  # Не растягивается
+    )
+
+def create_portrait_widgets(self, portrait_layout):
     """
-    Создает таблицу молитв для портретной ориентации
-    Адаптивная сетка с двумя колонками для названий и времени молитв
+    Создает и добавляет виджеты в портретный layout
+    
+    Args:
+        portrait_layout (GridLayout): Layout для добавления виджетов
+    
+    Returns:
+        GridLayout: Layout с добавленными виджетами
     """
-    # Создаем общий контейнер
-    portrait_layout = GridLayout(
-        cols=1,  # Один столбец
-        spacing=(10, 10),  # Отступы между элементами
-        size_hint=(0.9, None),  # Занимаем 90% ширины, высота авто
-        pos_hint={'center_x': 0.5}  # Центрируем по горизонтали
+    # Устанавливаем локаль для корректного отображения даты
+    locale.setlocale(locale.LC_TIME, 'en_US.UTF-8')
+    
+    # Расчет базового размера шрифта
+    base_font_size = self.calculate_font_size(scale_factor=0.15)
+
+    # Получаем текущую дату
+    current_date = datetime.now()
+    
+    # Форматируем даты
+    formatted_date_xijri = current_date.strftime('%d %B %Y').capitalize()
+    formatted_date_gregorian = current_date.strftime('%d %B %Y').capitalize()
+
+    # Создаем Label для даты Хиджри
+    date_hijri_label = Label(
+        text=formatted_date_xijri,
+        font_name='PrayerNameFont',
+        font_size=base_font_size * 0.25,  # Размер шрифта пропорционально базовому
+        color=(1, 1, 1, 1),  # Белый цвет
+        size_hint_x=1,  # Занимает всю ширину
+        size_hint_y=None,  # Фиксированная высота
+        height=base_font_size * 0.3,  # Высота пропорциональна базовому шрифту
+        halign='center',  # Центрирование по горизонтали
+        valign='middle',  # Центрирование по вертикали
+    )
+
+    # Создаем Label для даты Григорианской
+    date_gregorian_label = Label(
+        text=formatted_date_gregorian,
+        font_name='PrayerNameFont',
+        font_size=base_font_size * 0.25,  # Размер шрифта пропорционально базовому
+        color=(1, 1, 1, 1),  # Белый цвет
+        size_hint_x=1,  # Занимает всю ширину
+        size_hint_y=None,  # Фиксированная высота
+        height=base_font_size * 0.3,  # Высота пропорциональна базовому шрифту
+        halign='center',  # Центрирование по горизонтали
+        valign='middle',  # Центрирование по вертикали
     )
     
-    # Создаем и добавляем виджеты
-    space1_widget, date_widget, date_hijri_widget, line1_widget, day_hello_widget = create_date_widget_portrait(self)
-    portrait_layout.add_widget(space1_widget)
-    portrait_layout.add_widget(date_widget)
-    portrait_layout.add_widget(date_hijri_widget)
-    portrait_layout.add_widget(line1_widget)
-    portrait_layout.add_widget(day_hello_widget)
-    
-    # Создаем GridLayout для таблицы молитв с двумя колонками
-    prayer_times_table = GridLayout(
-        cols=2,  # Две колонки: название молитвы и время
-        spacing=(10, 10),  # Отступы между элементами сетки
-        size_hint=(0.9, None),  # Занимаем 90% ширины, высота авто
-        pos_hint={'center_x': 0.5}  # Центрируем по горизонтали
+    # Создаем GridLayout для NextTimeName и NextTimeNumbers
+    nex_time_layout = GridLayout(
+        cols=2,  # Два столбца
+        size_hint_x=1,  # Занимает всю ширину
+        size_hint_y=None,  # Фиксированная высота
+        height=base_font_size * 0.6,  # Высота пропорциональна базовому шрифту
+        spacing=(10, 0)  # Небольшой отступ между элементами
     )
-    
-    # Расчет базового размера шрифта с учетом размера экрана
-    base_font_size = self.calculate_font_size(scale_factor=5)
-    
-    # Список молитв с временами (статический для демонстрации)
-    prayer_times = [
-        #('', '', {}),  # Пустая строка для отступа
-        ('=====>>>>>', '00:00'),  # Специальная строка
-        (' ', ' ', {}),  # Еще один отступ
-        ('Təhəccüd -', '00:30'),  # Ночная молитва
-        ('İmsak ----', '05:30'),  # Утренняя молитва до восхода
-        ('Günəş ----', '05:30'),  # Молитва восхода
-        ('Günorta --', '13:00'),  # Полуденная молитва
-        ('İkindi ---', '15:00'),  # Послеполуденная молитва
-        ('Axşam ----', '16:30'),  # Вечерняя молитва
-        ('Gecə -----', '20:30')   # Ночная молитва
-    ]
-    
-    # Итерация по каждой молитве для создания Label
-    for item in prayer_times:
-        # Проверка на наличие дополнительных параметров
-        if len(item) == 3 and isinstance(item[2], dict):
-            # Распаковка элемента с параметрами
-            prayer, time, params = item
-            # Создание Label для названия молитвы с особыми параметрами
-            prayer_label = Label(
-                text=prayer,
-                font_size=params.get('font_size', 1),  # Размер шрифта из параметров
-                font_name=params.get('font_name', 'PrayerNameFont'),  # Шрифт из параметров
-                size_hint_x=None,  # Фиксированная ширина
-                size_hint_y=None,  # Фиксированная высота
-                height=base_font_size * 0.01,  # Маленькая высота
-                color=(1, 1, 1, 0)  # Прозрачный цвет
-            )
-            # Создание Label для времени молитвы с особыми параметрами
-            time_label = Label(
-                text=time,
-                font_size=params.get('font_size', 1),
-                font_name=params.get('font_name', 'PrayerNameFont'),
-                size_hint_x=None,
-                size_hint_y=None,
-                height=base_font_size * 0.01,
-                color=(1, 1, 1, 0)
-            )
-        else:
-            # Стандартная обработка элементов без параметров
-            prayer, time = item
-            # Динамический расчет размера шрифта в зависимости от ширины экрана
-            prayer_font_size = base_font_size * max(1, Window.width / 600)
-            time_font_size = base_font_size * max(1, Window.width / 600)
-            
-            # Создание Label для названия молитвы
-            prayer_label = Label(
-                text=prayer,
-                font_size=prayer_font_size * 0.25,  # Уменьшаем размер шрифта
-                font_name='PrayerNameFont',  # Специальный шрифт
-                size_hint_x=None,  # Фиксированная ширина
-                size_hint_y=None,  # Фиксированная высота
-                width=Window.width * 0.6,  # Ширина 60% от экрана
-                height=prayer_font_size * 0.38,  # Высота пропорциональна шрифту
-                halign='left',  # Выравнивание по левому краю
-                valign='middle',  # Вертикальное центрирование
-                text_size=(Window.width * 0.45, None),  # Размер текста
-                color=(1, 1, 1, 1)  # Белый цвет
-            )
-            
-            # Создание Label для времени молитвы
-            time_label = Label(
-                text=time,
-                font_size=time_font_size * 0.35,  # Уменьшаем размер шрифта
-                font_name='PrayerTimeFont',  # Специальный шрифт для времени
-                size_hint_x=None,  # Фиксированная ширина
-                size_hint_y=None,  # Фиксированная высота
-                width=Window.width * 0.25,  # Ширина 28% от экрана
-                height=time_font_size * 0.38,  # Высота пропорциональна шрифту
-                halign='right',  # Выравнивание по правому краю
-                valign='middle',  # Вертикальное центрирование
-                text_size=(Window.width * 0.35, None),  # Размер текста
-                color=(1, 1, 1, 1)  # Белый цвет
-            )
-        
-        # Добавление Label в таблицу молитв
-        prayer_times_table.add_widget(prayer_label)
-        prayer_times_table.add_widget(time_label)
-    
-    # Добавляем таблицу молитв в общий контейнер
-    portrait_layout.add_widget(prayer_times_table)
-    
-    # Возвращаем общий контейнер с датой и таблицей
+
+    # Создаем Label для NextTimeName
+    next_time_name_label = Label(
+        text='NextTime -',
+        font_name='PrayerNameFont',
+        font_size=base_font_size * 0.3,  # Маленький размер
+        color=(1, 1, 1, 1),  # Белый цвет
+        halign='left',  # Выравнивание вправо
+    )
+
+    # Создаем Label для NextTimeNumbers
+    next_time_numbers_label = Label(
+        text='00:00',
+        font_name='PrayerTimeFont',  # Шрифт как у часиков
+        font_size=base_font_size * 0.5,  # Большой размер шрифта
+        color=(1, 1, 1, 1),  # Белый цвет
+        size_hint_x=1,  # Занимает всю ширину
+        height=base_font_size * 0.6,  # Высота пропорциональна базовому шрифту
+        halign='right',  # Выравнивание влево
+    )
+
+    # Добавляем Label в GridLayout
+    nex_time_layout.add_widget(next_time_name_label)
+    nex_time_layout.add_widget(next_time_numbers_label)
+
+    # Добавляем виджеты в layout в нужном порядке
+    portrait_layout.add_widget(create_space_label(base_font_size))
+    portrait_layout.add_widget(date_hijri_label)
+    portrait_layout.add_widget(date_gregorian_label)
+    portrait_layout.add_widget(create_line_label(base_font_size))  # line_label2
+    portrait_layout.add_widget(nex_time_layout)
+    portrait_layout.add_widget(create_line_label(base_font_size))  # line_label2
+
     return portrait_layout
