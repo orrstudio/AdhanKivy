@@ -5810,3 +5810,343 @@
 2024-12-05 03:27:39,829 - INFO: DEBUG: Начало сохранения настроек окна
 2024-12-05 03:27:39,829 - INFO: DEBUG: Параметры - width: 672, height: 245, x: 920, y: 387
 2024-12-05 03:27:39,838 - INFO: DEBUG: Сохранены настройки окна в БД
+2024-12-05 03:28:15,060 - INFO: Kivy: v2.3.0
+2024-12-05 03:28:15,061 - INFO: Logger: Record log in /home/orr/.kivy/logs/kivy_24-12-05_95.txt
+2024-12-05 03:28:15,061 - INFO: Kivy: Installed at "/home/orr/GitHub/AdhanKivy/venv/lib/python3.12/site-packages/kivy/__init__.py"
+2024-12-05 03:28:15,061 - INFO: Python: v3.12.7 (main, Oct  1 2024, 11:15:50) [GCC 14.2.1 20240910]
+2024-12-05 03:28:15,061 - INFO: Python: Interpreter at "/home/orr/GitHub/AdhanKivy/venv/bin/python"
+2024-12-05 03:28:15,061 - INFO: Logger: Purge log fired. Processing...
+2024-12-05 03:28:15,062 - INFO: Logger: Purge finished!
+2024-12-05 03:28:15,080 - INFO: Factory: 195 symbols loaded
+2024-12-05 03:28:15,149 - INFO: Image: Providers: img_tex, img_dds, img_sdl2 (img_pil, img_ffpyplayer ignored)
+2024-12-05 03:28:15,163 - INFO: Window: Provider: sdl2
+2024-12-05 03:28:15,381 - INFO: GL: Using the "OpenGL" graphics system
+2024-12-05 03:28:15,381 - INFO: GL: Backend used <sdl2>
+2024-12-05 03:28:15,381 - INFO: GL: OpenGL version <b'4.6.0 NVIDIA 565.57.01'>
+2024-12-05 03:28:15,382 - INFO: GL: OpenGL vendor <b'NVIDIA Corporation'>
+2024-12-05 03:28:15,382 - INFO: GL: OpenGL renderer <b'NVIDIA GeForce GTX 1650/PCIe/SSE2'>
+2024-12-05 03:28:15,382 - INFO: GL: OpenGL parsed version: 4, 6
+2024-12-05 03:28:15,382 - INFO: GL: Shading version <b'4.60 NVIDIA'>
+2024-12-05 03:28:15,382 - INFO: GL: Texture max size <32768>
+2024-12-05 03:28:15,382 - INFO: GL: Texture max units <32>
+2024-12-05 03:28:15,392 - INFO: Window: auto add sdl2 input provider
+2024-12-05 03:28:15,392 - INFO: Window: virtual keyboard not allowed, single mode, not docked
+2024-12-05 03:28:15,394 - INFO: Text: Provider: sdl2
+2024-12-05 03:28:15,400 - INFO: Platform: Linux-6.11.9-arch1-1-x86_64-with-glibc2.40
+2024-12-05 03:28:15,400 - INFO: Python Platform: Linux
+2024-12-05 03:28:15,400 - INFO: Kivy Platform: linux
+2024-12-05 03:28:15,400 - INFO: Window Size: 800x600
+2024-12-05 03:28:15,400 - INFO: Is Mobile Device: False
+2024-12-05 03:28:15,400 - INFO: Machine: x86_64
+2024-12-05 03:28:15,401 - INFO: Processor: 
+2024-12-05 03:28:15,401 - INFO: Monitor:
+2024-12-05 03:28:15,401 - INFO:   Monitor 0 (Screen): 800x600 at (2480, 240) (Primary)
+2024-12-05 03:28:15,401 - INFO: Window Position: (2480, 240)
+2024-12-05 03:28:15,401 - INFO: Window Size: 800x600
+2024-12-05 03:28:15,401 - INFO: GET: Найдены настройки - width: 672, height: 245, x: 920, y: 387
+2024-12-05 03:28:15,401 - INFO: APPLY: Загруженные настройки - width: 672, height: 245, x: 920, y: 387
+2024-12-05 03:28:15,422 - INFO: Восстановлены настройки окна: размер 672x245, позиция (920, 387)
+2024-12-05 03:28:15,426 - INFO: Base: Start application main loop
+2024-12-05 03:28:15,437 - INFO: GL: NPOT texture support is available
+2024-12-05 03:28:15,463 - INFO: WindowSDL: Window is now on display 1
+2024-12-05 03:28:15,464 - INFO: WindowSDL: Window is now on display 0
+2024-12-05 03:28:15,464 - INFO: WindowSDL: Window is now on display 1
+2024-12-05 03:28:36,232 - INFO: Base: Leaving application in progress...
+2024-12-05 03:28:36,233 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:28:36,234 - INFO: DEBUG: Window.width = 718
+2024-12-05 03:28:36,234 - INFO: DEBUG: Window.height = 1032
+2024-12-05 03:28:36,235 - INFO: DEBUG: Window.left = 0
+2024-12-05 03:28:36,235 - INFO: DEBUG: Window.top = 37
+2024-12-05 03:28:36,236 - INFO: DEBUG: Window.system_size = [718, 1032]
+2024-12-05 03:28:36,236 - INFO: DEBUG: Window.size = (718, 1032)
+2024-12-05 03:28:36,236 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:28:36,237 - INFO: DEBUG: Параметры - width: 718, height: 1032, x: 0, y: 37
+2024-12-05 03:28:36,243 - INFO: DEBUG: Сохранены настройки окна в БД
+2024-12-05 03:29:27,987 - INFO: Kivy: v2.3.0
+2024-12-05 03:29:27,987 - INFO: Logger: Record log in /home/orr/.kivy/logs/kivy_24-12-05_96.txt
+2024-12-05 03:29:27,988 - INFO: Kivy: Installed at "/home/orr/GitHub/AdhanKivy/venv/lib/python3.12/site-packages/kivy/__init__.py"
+2024-12-05 03:29:27,988 - INFO: Python: v3.12.7 (main, Oct  1 2024, 11:15:50) [GCC 14.2.1 20240910]
+2024-12-05 03:29:27,988 - INFO: Python: Interpreter at "/home/orr/GitHub/AdhanKivy/venv/bin/python"
+2024-12-05 03:29:27,988 - INFO: Logger: Purge log fired. Processing...
+2024-12-05 03:29:27,989 - INFO: Logger: Purge finished!
+2024-12-05 03:29:28,007 - INFO: Factory: 195 symbols loaded
+2024-12-05 03:29:28,076 - INFO: Image: Providers: img_tex, img_dds, img_sdl2 (img_pil, img_ffpyplayer ignored)
+2024-12-05 03:29:28,090 - INFO: Window: Provider: sdl2
+2024-12-05 03:29:28,308 - INFO: GL: Using the "OpenGL" graphics system
+2024-12-05 03:29:28,309 - INFO: GL: Backend used <sdl2>
+2024-12-05 03:29:28,309 - INFO: GL: OpenGL version <b'4.6.0 NVIDIA 565.57.01'>
+2024-12-05 03:29:28,309 - INFO: GL: OpenGL vendor <b'NVIDIA Corporation'>
+2024-12-05 03:29:28,309 - INFO: GL: OpenGL renderer <b'NVIDIA GeForce GTX 1650/PCIe/SSE2'>
+2024-12-05 03:29:28,310 - INFO: GL: OpenGL parsed version: 4, 6
+2024-12-05 03:29:28,310 - INFO: GL: Shading version <b'4.60 NVIDIA'>
+2024-12-05 03:29:28,310 - INFO: GL: Texture max size <32768>
+2024-12-05 03:29:28,310 - INFO: GL: Texture max units <32>
+2024-12-05 03:29:28,321 - INFO: Window: auto add sdl2 input provider
+2024-12-05 03:29:28,322 - INFO: Window: virtual keyboard not allowed, single mode, not docked
+2024-12-05 03:29:28,324 - INFO: Text: Provider: sdl2
+2024-12-05 03:29:28,342 - INFO: Platform: Linux-6.11.9-arch1-1-x86_64-with-glibc2.40
+2024-12-05 03:29:28,343 - INFO: Python Platform: Linux
+2024-12-05 03:29:28,343 - INFO: Kivy Platform: linux
+2024-12-05 03:29:28,343 - INFO: Window Size: 800x600
+2024-12-05 03:29:28,343 - INFO: Is Mobile Device: False
+2024-12-05 03:29:28,343 - INFO: Machine: x86_64
+2024-12-05 03:29:28,343 - INFO: Processor: 
+2024-12-05 03:29:28,343 - INFO: Monitor:
+2024-12-05 03:29:28,343 - INFO:   Monitor 0 (Screen): 800x600 at (2480, 240) (Primary)
+2024-12-05 03:29:28,343 - INFO: Window Position: (2480, 240)
+2024-12-05 03:29:28,343 - INFO: Window Size: 800x600
+2024-12-05 03:29:28,347 - INFO: Base: Start application main loop
+2024-12-05 03:29:28,348 - INFO: GL: NPOT texture support is available
+2024-12-05 03:29:30,909 - INFO: WindowSDL: Window is now on display 1
+2024-12-05 03:29:35,639 - INFO: Base: Leaving application in progress...
+2024-12-05 03:29:35,639 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:29:35,640 - INFO: DEBUG: Window.width = 432
+2024-12-05 03:29:35,640 - INFO: DEBUG: Window.height = 760
+2024-12-05 03:29:35,641 - INFO: DEBUG: Window.left = 495
+2024-12-05 03:29:35,641 - INFO: DEBUG: Window.top = 164
+2024-12-05 03:29:35,641 - INFO: DEBUG: Window.system_size = [432, 760]
+2024-12-05 03:29:35,642 - INFO: DEBUG: Window.size = (432, 760)
+2024-12-05 03:29:35,642 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:29:35,643 - INFO: DEBUG: Параметры - width: 432, height: 760, x: 495, y: 164
+2024-12-05 03:29:35,649 - INFO: DEBUG: Сохранены настройки окна в БД
+2024-12-05 03:29:39,588 - INFO: Kivy: v2.3.0
+2024-12-05 03:29:39,588 - INFO: Logger: Record log in /home/orr/.kivy/logs/kivy_24-12-05_97.txt
+2024-12-05 03:29:39,588 - INFO: Kivy: Installed at "/home/orr/GitHub/AdhanKivy/venv/lib/python3.12/site-packages/kivy/__init__.py"
+2024-12-05 03:29:39,589 - INFO: Python: v3.12.7 (main, Oct  1 2024, 11:15:50) [GCC 14.2.1 20240910]
+2024-12-05 03:29:39,589 - INFO: Python: Interpreter at "/home/orr/GitHub/AdhanKivy/venv/bin/python"
+2024-12-05 03:29:39,589 - INFO: Logger: Purge log fired. Processing...
+2024-12-05 03:29:39,590 - INFO: Logger: Purge finished!
+2024-12-05 03:29:39,608 - INFO: Factory: 195 symbols loaded
+2024-12-05 03:29:39,683 - INFO: Image: Providers: img_tex, img_dds, img_sdl2 (img_pil, img_ffpyplayer ignored)
+2024-12-05 03:29:39,697 - INFO: Window: Provider: sdl2
+2024-12-05 03:29:39,910 - INFO: GL: Using the "OpenGL" graphics system
+2024-12-05 03:29:39,910 - INFO: GL: Backend used <sdl2>
+2024-12-05 03:29:39,910 - INFO: GL: OpenGL version <b'4.6.0 NVIDIA 565.57.01'>
+2024-12-05 03:29:39,910 - INFO: GL: OpenGL vendor <b'NVIDIA Corporation'>
+2024-12-05 03:29:39,911 - INFO: GL: OpenGL renderer <b'NVIDIA GeForce GTX 1650/PCIe/SSE2'>
+2024-12-05 03:29:39,911 - INFO: GL: OpenGL parsed version: 4, 6
+2024-12-05 03:29:39,911 - INFO: GL: Shading version <b'4.60 NVIDIA'>
+2024-12-05 03:29:39,911 - INFO: GL: Texture max size <32768>
+2024-12-05 03:29:39,911 - INFO: GL: Texture max units <32>
+2024-12-05 03:29:39,920 - INFO: Window: auto add sdl2 input provider
+2024-12-05 03:29:39,920 - INFO: Window: virtual keyboard not allowed, single mode, not docked
+2024-12-05 03:29:39,923 - INFO: Text: Provider: sdl2
+2024-12-05 03:29:39,929 - INFO: Platform: Linux-6.11.9-arch1-1-x86_64-with-glibc2.40
+2024-12-05 03:29:39,929 - INFO: Python Platform: Linux
+2024-12-05 03:29:39,929 - INFO: Kivy Platform: linux
+2024-12-05 03:29:39,929 - INFO: Window Size: 800x600
+2024-12-05 03:29:39,929 - INFO: Is Mobile Device: False
+2024-12-05 03:29:39,929 - INFO: Machine: x86_64
+2024-12-05 03:29:39,929 - INFO: Processor: 
+2024-12-05 03:29:39,929 - INFO: Monitor:
+2024-12-05 03:29:39,929 - INFO:   Monitor 0 (Screen): 800x600 at (2480, 240) (Primary)
+2024-12-05 03:29:39,929 - INFO: Window Position: (2480, 240)
+2024-12-05 03:29:39,929 - INFO: Window Size: 800x600
+2024-12-05 03:29:39,930 - INFO: GET: Найдены настройки - width: 432, height: 760, x: 495, y: 164
+2024-12-05 03:29:39,930 - INFO: APPLY: Загруженные настройки - width: 432, height: 760, x: 495, y: 164
+2024-12-05 03:29:39,950 - INFO: Восстановлены настройки окна: размер 432x760, позиция (495, 164)
+2024-12-05 03:29:39,961 - INFO: Base: Start application main loop
+2024-12-05 03:29:39,973 - INFO: GL: NPOT texture support is available
+2024-12-05 03:29:40,020 - INFO: WindowSDL: Window is now on display 1
+2024-12-05 03:29:40,020 - INFO: WindowSDL: Window is now on display 0
+2024-12-05 03:29:40,020 - INFO: WindowSDL: Window is now on display 1
+2024-12-05 03:29:46,111 - INFO: Base: Leaving application in progress...
+2024-12-05 03:29:46,112 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:29:46,112 - INFO: DEBUG: Window.width = 484
+2024-12-05 03:29:46,113 - INFO: DEBUG: Window.height = 321
+2024-12-05 03:29:46,113 - INFO: DEBUG: Window.left = 495
+2024-12-05 03:29:46,114 - INFO: DEBUG: Window.top = 164
+2024-12-05 03:29:46,114 - INFO: DEBUG: Window.system_size = [484, 321]
+2024-12-05 03:29:46,115 - INFO: DEBUG: Window.size = (484, 321)
+2024-12-05 03:29:46,115 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:29:46,116 - INFO: DEBUG: Параметры - width: 484, height: 321, x: 495, y: 164
+2024-12-05 03:29:46,122 - INFO: DEBUG: Сохранены настройки окна в БД
+2024-12-05 03:29:48,607 - INFO: Kivy: v2.3.0
+2024-12-05 03:29:48,607 - INFO: Logger: Record log in /home/orr/.kivy/logs/kivy_24-12-05_98.txt
+2024-12-05 03:29:48,607 - INFO: Kivy: Installed at "/home/orr/GitHub/AdhanKivy/venv/lib/python3.12/site-packages/kivy/__init__.py"
+2024-12-05 03:29:48,607 - INFO: Python: v3.12.7 (main, Oct  1 2024, 11:15:50) [GCC 14.2.1 20240910]
+2024-12-05 03:29:48,607 - INFO: Python: Interpreter at "/home/orr/GitHub/AdhanKivy/venv/bin/python"
+2024-12-05 03:29:48,608 - INFO: Logger: Purge log fired. Processing...
+2024-12-05 03:29:48,608 - INFO: Logger: Purge finished!
+2024-12-05 03:29:48,627 - INFO: Factory: 195 symbols loaded
+2024-12-05 03:29:48,702 - INFO: Image: Providers: img_tex, img_dds, img_sdl2 (img_pil, img_ffpyplayer ignored)
+2024-12-05 03:29:48,717 - INFO: Window: Provider: sdl2
+2024-12-05 03:29:48,957 - INFO: GL: Using the "OpenGL" graphics system
+2024-12-05 03:29:48,957 - INFO: GL: Backend used <sdl2>
+2024-12-05 03:29:48,957 - INFO: GL: OpenGL version <b'4.6.0 NVIDIA 565.57.01'>
+2024-12-05 03:29:48,958 - INFO: GL: OpenGL vendor <b'NVIDIA Corporation'>
+2024-12-05 03:29:48,958 - INFO: GL: OpenGL renderer <b'NVIDIA GeForce GTX 1650/PCIe/SSE2'>
+2024-12-05 03:29:48,958 - INFO: GL: OpenGL parsed version: 4, 6
+2024-12-05 03:29:48,958 - INFO: GL: Shading version <b'4.60 NVIDIA'>
+2024-12-05 03:29:48,958 - INFO: GL: Texture max size <32768>
+2024-12-05 03:29:48,958 - INFO: GL: Texture max units <32>
+2024-12-05 03:29:48,968 - INFO: Window: auto add sdl2 input provider
+2024-12-05 03:29:48,968 - INFO: Window: virtual keyboard not allowed, single mode, not docked
+2024-12-05 03:29:48,970 - INFO: Text: Provider: sdl2
+2024-12-05 03:29:48,976 - INFO: Platform: Linux-6.11.9-arch1-1-x86_64-with-glibc2.40
+2024-12-05 03:29:48,976 - INFO: Python Platform: Linux
+2024-12-05 03:29:48,976 - INFO: Kivy Platform: linux
+2024-12-05 03:29:48,977 - INFO: Window Size: 800x600
+2024-12-05 03:29:48,977 - INFO: Is Mobile Device: False
+2024-12-05 03:29:48,977 - INFO: Machine: x86_64
+2024-12-05 03:29:48,977 - INFO: Processor: 
+2024-12-05 03:29:48,977 - INFO: Monitor:
+2024-12-05 03:29:48,977 - INFO:   Monitor 0 (Screen): 800x600 at (2480, 240) (Primary)
+2024-12-05 03:29:48,977 - INFO: Window Position: (2480, 240)
+2024-12-05 03:29:48,977 - INFO: Window Size: 800x600
+2024-12-05 03:29:48,977 - INFO: GET: Найдены настройки - width: 484, height: 321, x: 495, y: 164
+2024-12-05 03:29:48,977 - INFO: APPLY: Загруженные настройки - width: 484, height: 321, x: 495, y: 164
+2024-12-05 03:29:48,998 - INFO: Восстановлены настройки окна: размер 484x321, позиция (495, 164)
+2024-12-05 03:29:49,003 - INFO: Base: Start application main loop
+2024-12-05 03:29:49,014 - INFO: GL: NPOT texture support is available
+2024-12-05 03:29:49,036 - INFO: WindowSDL: Window is now on display 1
+2024-12-05 03:29:49,036 - INFO: WindowSDL: Window is now on display 0
+2024-12-05 03:29:49,036 - INFO: WindowSDL: Window is now on display 1
+2024-12-05 03:29:50,244 - INFO: WindowSDL: Window is now on display 0
+2024-12-05 03:29:52,205 - INFO: Base: Leaving application in progress...
+2024-12-05 03:29:52,209 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:29:52,209 - INFO: DEBUG: Window.width = 484
+2024-12-05 03:29:52,210 - INFO: DEBUG: Window.height = 321
+2024-12-05 03:29:52,210 - INFO: DEBUG: Window.left = 2128
+2024-12-05 03:29:52,210 - INFO: DEBUG: Window.top = 293
+2024-12-05 03:29:52,211 - INFO: DEBUG: Window.system_size = [484, 321]
+2024-12-05 03:29:52,211 - INFO: DEBUG: Window.size = (484, 321)
+2024-12-05 03:29:52,211 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:29:52,212 - INFO: DEBUG: Параметры - width: 484, height: 321, x: 2128, y: 293
+2024-12-05 03:29:52,217 - INFO: DEBUG: Сохранены настройки окна в БД
+2024-12-05 03:29:54,778 - INFO: Kivy: v2.3.0
+2024-12-05 03:29:54,779 - INFO: Logger: Record log in /home/orr/.kivy/logs/kivy_24-12-05_99.txt
+2024-12-05 03:29:54,779 - INFO: Kivy: Installed at "/home/orr/GitHub/AdhanKivy/venv/lib/python3.12/site-packages/kivy/__init__.py"
+2024-12-05 03:29:54,779 - INFO: Python: v3.12.7 (main, Oct  1 2024, 11:15:50) [GCC 14.2.1 20240910]
+2024-12-05 03:29:54,779 - INFO: Python: Interpreter at "/home/orr/GitHub/AdhanKivy/venv/bin/python"
+2024-12-05 03:29:54,779 - INFO: Logger: Purge log fired. Processing...
+2024-12-05 03:29:54,780 - INFO: Logger: Purge finished!
+2024-12-05 03:29:54,797 - INFO: Factory: 195 symbols loaded
+2024-12-05 03:29:54,866 - INFO: Image: Providers: img_tex, img_dds, img_sdl2 (img_pil, img_ffpyplayer ignored)
+2024-12-05 03:29:54,880 - INFO: Window: Provider: sdl2
+2024-12-05 03:29:55,082 - INFO: GL: Using the "OpenGL" graphics system
+2024-12-05 03:29:55,083 - INFO: GL: Backend used <sdl2>
+2024-12-05 03:29:55,083 - INFO: GL: OpenGL version <b'4.6.0 NVIDIA 565.57.01'>
+2024-12-05 03:29:55,083 - INFO: GL: OpenGL vendor <b'NVIDIA Corporation'>
+2024-12-05 03:29:55,083 - INFO: GL: OpenGL renderer <b'NVIDIA GeForce GTX 1650/PCIe/SSE2'>
+2024-12-05 03:29:55,083 - INFO: GL: OpenGL parsed version: 4, 6
+2024-12-05 03:29:55,083 - INFO: GL: Shading version <b'4.60 NVIDIA'>
+2024-12-05 03:29:55,083 - INFO: GL: Texture max size <32768>
+2024-12-05 03:29:55,084 - INFO: GL: Texture max units <32>
+2024-12-05 03:29:55,094 - INFO: Window: auto add sdl2 input provider
+2024-12-05 03:29:55,094 - INFO: Window: virtual keyboard not allowed, single mode, not docked
+2024-12-05 03:29:55,097 - INFO: Text: Provider: sdl2
+2024-12-05 03:29:55,103 - INFO: Platform: Linux-6.11.9-arch1-1-x86_64-with-glibc2.40
+2024-12-05 03:29:55,103 - INFO: Python Platform: Linux
+2024-12-05 03:29:55,103 - INFO: Kivy Platform: linux
+2024-12-05 03:29:55,103 - INFO: Window Size: 800x600
+2024-12-05 03:29:55,103 - INFO: Is Mobile Device: False
+2024-12-05 03:29:55,103 - INFO: Machine: x86_64
+2024-12-05 03:29:55,103 - INFO: Processor: 
+2024-12-05 03:29:55,103 - INFO: Monitor:
+2024-12-05 03:29:55,103 - INFO:   Monitor 0 (Screen): 800x600 at (2480, 240) (Primary)
+2024-12-05 03:29:55,103 - INFO: Window Position: (2480, 240)
+2024-12-05 03:29:55,103 - INFO: Window Size: 800x600
+2024-12-05 03:29:55,104 - INFO: GET: Найдены настройки - width: 484, height: 321, x: 2128, y: 293
+2024-12-05 03:29:55,104 - INFO: APPLY: Загруженные настройки - width: 484, height: 321, x: 2128, y: 293
+2024-12-05 03:29:55,124 - INFO: Восстановлены настройки окна: размер 484x321, позиция (2128, 293)
+2024-12-05 03:29:55,128 - INFO: Base: Start application main loop
+2024-12-05 03:29:55,139 - INFO: GL: NPOT texture support is available
+2024-12-05 03:30:00,269 - INFO: Base: Leaving application in progress...
+2024-12-05 03:30:00,270 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:30:00,270 - INFO: DEBUG: Window.width = 1920
+2024-12-05 03:30:00,271 - INFO: DEBUG: Window.height = 1002
+2024-12-05 03:30:00,272 - INFO: DEBUG: Window.left = 1920
+2024-12-05 03:30:00,272 - INFO: DEBUG: Window.top = 78
+2024-12-05 03:30:00,273 - INFO: DEBUG: Window.system_size = [1920, 1002]
+2024-12-05 03:30:00,273 - INFO: DEBUG: Window.size = (1920, 1002)
+2024-12-05 03:30:00,274 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:30:00,274 - INFO: DEBUG: Параметры - width: 1920, height: 1002, x: 1920, y: 78
+2024-12-05 03:30:00,282 - INFO: DEBUG: Сохранены настройки окна в БД
+2024-12-05 03:30:02,762 - INFO: Kivy: v2.3.0
+2024-12-05 03:30:02,762 - INFO: Logger: Record log in /home/orr/.kivy/logs/kivy_24-12-05_100.txt
+2024-12-05 03:30:02,762 - INFO: Kivy: Installed at "/home/orr/GitHub/AdhanKivy/venv/lib/python3.12/site-packages/kivy/__init__.py"
+2024-12-05 03:30:02,762 - INFO: Python: v3.12.7 (main, Oct  1 2024, 11:15:50) [GCC 14.2.1 20240910]
+2024-12-05 03:30:02,762 - INFO: Python: Interpreter at "/home/orr/GitHub/AdhanKivy/venv/bin/python"
+2024-12-05 03:30:02,762 - INFO: Logger: Purge log fired. Processing...
+2024-12-05 03:30:02,763 - INFO: Logger: Purge finished!
+2024-12-05 03:30:02,780 - INFO: Factory: 195 symbols loaded
+2024-12-05 03:30:02,850 - INFO: Image: Providers: img_tex, img_dds, img_sdl2 (img_pil, img_ffpyplayer ignored)
+2024-12-05 03:30:02,864 - INFO: Window: Provider: sdl2
+2024-12-05 03:30:03,063 - INFO: GL: Using the "OpenGL" graphics system
+2024-12-05 03:30:03,063 - INFO: GL: Backend used <sdl2>
+2024-12-05 03:30:03,064 - INFO: GL: OpenGL version <b'4.6.0 NVIDIA 565.57.01'>
+2024-12-05 03:30:03,064 - INFO: GL: OpenGL vendor <b'NVIDIA Corporation'>
+2024-12-05 03:30:03,064 - INFO: GL: OpenGL renderer <b'NVIDIA GeForce GTX 1650/PCIe/SSE2'>
+2024-12-05 03:30:03,064 - INFO: GL: OpenGL parsed version: 4, 6
+2024-12-05 03:30:03,064 - INFO: GL: Shading version <b'4.60 NVIDIA'>
+2024-12-05 03:30:03,064 - INFO: GL: Texture max size <32768>
+2024-12-05 03:30:03,064 - INFO: GL: Texture max units <32>
+2024-12-05 03:30:03,075 - INFO: Window: auto add sdl2 input provider
+2024-12-05 03:30:03,075 - INFO: Window: virtual keyboard not allowed, single mode, not docked
+2024-12-05 03:30:03,077 - INFO: Text: Provider: sdl2
+2024-12-05 03:30:03,083 - INFO: Platform: Linux-6.11.9-arch1-1-x86_64-with-glibc2.40
+2024-12-05 03:30:03,083 - INFO: Python Platform: Linux
+2024-12-05 03:30:03,083 - INFO: Kivy Platform: linux
+2024-12-05 03:30:03,083 - INFO: Window Size: 800x600
+2024-12-05 03:30:03,083 - INFO: Is Mobile Device: False
+2024-12-05 03:30:03,083 - INFO: Machine: x86_64
+2024-12-05 03:30:03,083 - INFO: Processor: 
+2024-12-05 03:30:03,083 - INFO: Monitor:
+2024-12-05 03:30:03,083 - INFO:   Monitor 0 (Screen): 800x600 at (2480, 240) (Primary)
+2024-12-05 03:30:03,083 - INFO: Window Position: (2480, 240)
+2024-12-05 03:30:03,084 - INFO: Window Size: 800x600
+2024-12-05 03:30:03,084 - INFO: GET: Найдены настройки - width: 1920, height: 1002, x: 1920, y: 78
+2024-12-05 03:30:03,084 - INFO: APPLY: Загруженные настройки - width: 1920, height: 1002, x: 1920, y: 78
+2024-12-05 03:30:03,105 - INFO: Восстановлены настройки окна: размер 1920x1002, позиция (1920, 78)
+2024-12-05 03:30:03,109 - INFO: Base: Start application main loop
+2024-12-05 03:30:03,118 - INFO: GL: NPOT texture support is available
+2024-12-05 03:30:19,083 - INFO: Base: Leaving application in progress...
+2024-12-05 03:30:19,084 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:30:19,084 - INFO: DEBUG: Window.width = 696
+2024-12-05 03:30:19,084 - INFO: DEBUG: Window.height = 998
+2024-12-05 03:30:19,084 - INFO: DEBUG: Window.left = 1920
+2024-12-05 03:30:19,084 - INFO: DEBUG: Window.top = 78
+2024-12-05 03:30:19,084 - INFO: DEBUG: Window.system_size = [696, 998]
+2024-12-05 03:30:19,084 - INFO: DEBUG: Window.size = (696, 998)
+2024-12-05 03:30:19,084 - INFO: DEBUG: Начало сохранения настроек окна
+2024-12-05 03:30:19,084 - INFO: DEBUG: Параметры - width: 696, height: 998, x: 1920, y: 78
+2024-12-05 03:30:19,091 - INFO: DEBUG: Сохранены настройки окна в БД
+2024-12-05 03:30:22,268 - INFO: Kivy: v2.3.0
+2024-12-05 03:30:22,268 - INFO: Logger: Record log in /home/orr/.kivy/logs/kivy_24-12-05_0.txt
+2024-12-05 03:30:22,268 - INFO: Kivy: Installed at "/home/orr/GitHub/AdhanKivy/venv/lib/python3.12/site-packages/kivy/__init__.py"
+2024-12-05 03:30:22,268 - INFO: Python: v3.12.7 (main, Oct  1 2024, 11:15:50) [GCC 14.2.1 20240910]
+2024-12-05 03:30:22,268 - INFO: Python: Interpreter at "/home/orr/GitHub/AdhanKivy/venv/bin/python"
+2024-12-05 03:30:22,269 - INFO: Logger: Purge log fired. Processing...
+2024-12-05 03:30:22,269 - INFO: Logger: Purge finished!
+2024-12-05 03:30:22,287 - INFO: Factory: 195 symbols loaded
+2024-12-05 03:30:22,356 - INFO: Image: Providers: img_tex, img_dds, img_sdl2 (img_pil, img_ffpyplayer ignored)
+2024-12-05 03:30:22,370 - INFO: Window: Provider: sdl2
+2024-12-05 03:30:22,600 - INFO: GL: Using the "OpenGL" graphics system
+2024-12-05 03:30:22,601 - INFO: GL: Backend used <sdl2>
+2024-12-05 03:30:22,601 - INFO: GL: OpenGL version <b'4.6.0 NVIDIA 565.57.01'>
+2024-12-05 03:30:22,601 - INFO: GL: OpenGL vendor <b'NVIDIA Corporation'>
+2024-12-05 03:30:22,601 - INFO: GL: OpenGL renderer <b'NVIDIA GeForce GTX 1650/PCIe/SSE2'>
+2024-12-05 03:30:22,601 - INFO: GL: OpenGL parsed version: 4, 6
+2024-12-05 03:30:22,601 - INFO: GL: Shading version <b'4.60 NVIDIA'>
+2024-12-05 03:30:22,602 - INFO: GL: Texture max size <32768>
+2024-12-05 03:30:22,602 - INFO: GL: Texture max units <32>
+2024-12-05 03:30:22,611 - INFO: Window: auto add sdl2 input provider
+2024-12-05 03:30:22,611 - INFO: Window: virtual keyboard not allowed, single mode, not docked
+2024-12-05 03:30:22,613 - INFO: Text: Provider: sdl2
+2024-12-05 03:30:22,619 - INFO: Platform: Linux-6.11.9-arch1-1-x86_64-with-glibc2.40
+2024-12-05 03:30:22,619 - INFO: Python Platform: Linux
+2024-12-05 03:30:22,619 - INFO: Kivy Platform: linux
+2024-12-05 03:30:22,619 - INFO: Window Size: 800x600
+2024-12-05 03:30:22,619 - INFO: Is Mobile Device: False
+2024-12-05 03:30:22,620 - INFO: Machine: x86_64
+2024-12-05 03:30:22,620 - INFO: Processor: 
+2024-12-05 03:30:22,620 - INFO: Monitor:
+2024-12-05 03:30:22,620 - INFO:   Monitor 0 (Screen): 800x600 at (2480, 240) (Primary)
+2024-12-05 03:30:22,620 - INFO: Window Position: (2480, 240)
+2024-12-05 03:30:22,620 - INFO: Window Size: 800x600
+2024-12-05 03:30:22,620 - INFO: GET: Найдены настройки - width: 696, height: 998, x: 1920, y: 78
+2024-12-05 03:30:22,620 - INFO: APPLY: Загруженные настройки - width: 696, height: 998, x: 1920, y: 78
+2024-12-05 03:30:22,641 - INFO: Восстановлены настройки окна: размер 696x998, позиция (1920, 78)
+2024-12-05 03:30:22,651 - INFO: Base: Start application main loop
+2024-12-05 03:30:22,662 - INFO: GL: NPOT texture support is available
