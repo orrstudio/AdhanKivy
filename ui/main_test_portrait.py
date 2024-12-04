@@ -19,12 +19,15 @@ def create_space_label(base_font_size):
         size_hint_y=None  # Не растягивается
     )
 
-def create_portrait_widgets(self):
+def create_portrait_widgets(self, portrait_layout):
     """
-    Создает виджет даты для портретной ориентации
+    Создает и добавляет виджеты в портретный layout
+    
+    Args:
+        portrait_layout (GridLayout): Layout для добавления виджетов
     
     Returns:
-        Label: Виджет с отформатированной датой
+        GridLayout: Layout с добавленными виджетами
     """
     # Устанавливаем локаль для корректного отображения даты
     locale.setlocale(locale.LC_TIME, 'en_US.UTF-8')
@@ -98,12 +101,12 @@ def create_portrait_widgets(self):
     nex_time_layout.add_widget(next_time_name_label)
     nex_time_layout.add_widget(next_time_numbers_label)
 
-    # Возвращаем виджеты
-    return (
-        create_space_label(base_font_size),  # space_label1
-        date_hijri_label,                    # date_hijri_label
-        date_gregorian_label,                # date_gregorian_label
-        create_line_label(base_font_size),   # line_label1
-        nex_time_layout,                     # nex_time_layout
-        create_line_label(base_font_size)    # line_label2
-    )
+    # Добавляем виджеты в layout в нужном порядке
+    portrait_layout.add_widget(create_space_label(base_font_size))
+    portrait_layout.add_widget(date_hijri_label)
+    portrait_layout.add_widget(date_gregorian_label)
+    portrait_layout.add_widget(create_line_label(base_font_size))  # line_label2
+    portrait_layout.add_widget(nex_time_layout)
+    portrait_layout.add_widget(create_line_label(base_font_size))  # line_label2
+
+    return portrait_layout

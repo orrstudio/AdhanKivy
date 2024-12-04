@@ -101,7 +101,7 @@ from kivy.uix.label import Label
 from kivy.input.motionevent import MotionEvent
 from kivy.clock import Clock
 from kivy.core.text import LabelBase
-from kivy.metrics import sp
+from kivy.metrics import sp, dp
 from kivy.uix.anchorlayout import AnchorLayout
 
 # Импорты локальных модулей приложения
@@ -171,14 +171,14 @@ class MainWindowApp(App):
         current_orientation = self.get_current_orientation()
         
         if current_orientation == 'portrait':
-            portrait_layout = GridLayout(cols=1)
-            space_label1, date_hijri_label, date_gregorian_label, line_label1, nex_time_layout, line_label2 = create_portrait_widgets(self)
-            portrait_layout.add_widget(space_label1)
-            portrait_layout.add_widget(line_label1)
-            portrait_layout.add_widget(date_hijri_label)
-            portrait_layout.add_widget(line_label2)
-            portrait_layout.add_widget(date_gregorian_label)
-            portrait_layout.add_widget(nex_time_layout)
+            portrait_layout = GridLayout(
+                cols=1,
+                spacing=dp(0),
+                size_hint=(1, 1)
+            )
+            
+            # Создаем и заполняем портретный layout
+            portrait_layout = self.create_portrait_widgets(portrait_layout)
             main_window_body = portrait_layout
         elif current_orientation == 'landscape':
             main_window_body = create_landscape_prayer_times_table(self)
@@ -321,14 +321,14 @@ class MainWindowApp(App):
         
         # Создаем новую таблицу
         if current_orientation == 'portrait':
-            portrait_layout = GridLayout(cols=1)
-            space_label1, date_hijri_label, date_gregorian_label, line_label1, nex_time_layout, line_label2 = create_portrait_widgets(self)
-            portrait_layout.add_widget(space_label1)
-            portrait_layout.add_widget(line_label1)
-            portrait_layout.add_widget(date_hijri_label)
-            portrait_layout.add_widget(line_label2)
-            portrait_layout.add_widget(date_gregorian_label)
-            portrait_layout.add_widget(nex_time_layout)
+            portrait_layout = GridLayout(
+                cols=1,
+                spacing=dp(0),
+                size_hint=(1, 1)
+            )
+            
+            # Создаем и заполняем портретный layout
+            portrait_layout = self.create_portrait_widgets(portrait_layout)
             main_window_body = portrait_layout
         elif current_orientation == 'landscape':
             main_window_body = create_landscape_prayer_times_table(self)
@@ -380,6 +380,15 @@ class MainWindowApp(App):
             orientations[orientation].append(child)
         
         return orientations
+
+    def create_portrait_widgets(self, layout):
+        """
+        Создает виджеты для портретной ориентации
+        """
+        from ui.main_test_portrait import create_portrait_widgets as create_portrait_widgets_func
+        
+        # Используем функцию из main_test_portrait с новой сигнатурой
+        return create_portrait_widgets_func(self, layout)
 
 if __name__ == "__main__":
     MainWindowApp().run()
