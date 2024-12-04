@@ -13,7 +13,7 @@
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.core.window import Window
-from ui.date_widget_portrait import create_date_widget_portrait
+from ui.main_test_portrait import create_date_widget_portrait
 
 def create_portrait_prayer_times_table(self):
     """
