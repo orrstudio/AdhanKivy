@@ -20,7 +20,7 @@ def create_portrait_prayer_times_table(self):
     Создает таблицу молитв для портретной ориентации
     Адаптивная сетка с двумя колонками для названий и времени молитв
     """
-    # Создаем общий контейнер для даты и таблицы молитв
+    # Создаем общий контейнер
     portrait_layout = GridLayout(
         cols=1,  # Один столбец
         spacing=(10, 10),  # Отступы между элементами
@@ -28,7 +28,7 @@ def create_portrait_prayer_times_table(self):
         pos_hint={'center_x': 0.5}  # Центрируем по горизонтали
     )
     
-    # Создаем и добавляем виджет даты
+    # Создаем и добавляем виджеты
     space1_widget, date_widget, date_hijri_widget, line1_widget, day_hello_widget = create_date_widget_portrait(self)
     portrait_layout.add_widget(space1_widget)
     portrait_layout.add_widget(date_widget)
@@ -45,7 +45,7 @@ def create_portrait_prayer_times_table(self):
     )
     
     # Расчет базового размера шрифта с учетом размера экрана
-    base_font_size = self.calculate_font_size(scale_factor=0.15)
+    base_font_size = self.calculate_font_size(scale_factor=5)
     
     # Список молитв с временами (статический для демонстрации)
     prayer_times = [

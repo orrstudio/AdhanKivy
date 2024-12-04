@@ -3,47 +3,89 @@
 
 📁 AdhanKivy/
 │
-├── ⏰ main.py
-│   └── 🏛️ MainWindowApp (Основной класс приложения)
-│       ├── Инициализация и настройка окна
-│       │   - Регистрация шрифтов
-│       │   - Создание основного layout
-│       │   - Настройка заголовка с часами
+├── 📄 main.py - Основной файл приложения
+│   │
+│   ├── GridLayout (основной, cols=1)
+│   │   │
+│   │   ├── Label (title_label) - Часы с мигающим двоеточием
+│   │   │
+│   │   └── AnchorLayout (тело приложения)
+│   │   │       │
+│   │   │       ├── Портретная ориентация (main_portrait.py)
+│   │   │       │   │
+│   │   │       │   ├── DateWidget (date_widget_portrait.py)
+│   │   │       │   │   ├── Label - Дата (Хиджри)
+│   │   │       │   │   └── Label - Дата (Григорианская)
+│   │   │       │   │
+│   │   │       │   └── GridLayout - Таблица времен молитв
+│   │   │       │       ├── Label - Название молитвы (PrayerNameFont)
+│   │   │       │       └── Label - Время молитвы (PrayerTimeFont)
+│   │   │       │
+│   │   │       ├── Ландшафтная ориентация (main_landscape.py)
+│   │   │       │   │
+│   │   │       │   └── GridLayout - Пустой
+│   │   │       │
+│   │   │       └── Квадратная ориентация (main_square.py)
+│   │   │           │
+│   │   │           └── GridLayout - Пустой
+│   │   │
+│   │   └── SettingsWindow (settings_window.py)
+│   │       ├── ColorPicker (settings_color.py) - Выбор цвета
+│   │       └── Button - Применить/Закрыть
+│   │
+│   └── Класс MainWindowApp
 │       │
-│       ├── Методы ориентации
-│       │   - get_current_orientation()
-│       │   - on_window_resize()
+│       ├── Основные методы
+│       │   - build() - Инициализация приложения и создание основного layout
+│       │   - get_current_orientation() - Определение текущей ориентации экрана
+│       │   - on_window_touch_down_double_tap() - Обработка двойного касания для настроек
 │       │
-│       ├── Методы адаптивности
-│       │   - calculate_font_size()
-│       │   - update_title_font_size()
-│       │   - update_title_height()
+│       ├── Методы работы с заголовком
+│       │   - update_title_font_size() - Обновление размера шрифта заголовка
+│       │   - update_title_height() - Обновление высоты заголовка
+│       │   - update_title_color() - Обновление цвета заголовка
 │       │
-│       └── Методы управления временем
-│           - get_current_time()
-│           - update_time_with_colon()
+│       ├── Методы работы со временем
+│       │   - get_current_time() - Получение текущего времени с опцией скрытия двоеточия
+│       │   - update_time_with_colon() - Обновление времени с мигающим двоеточием
+│       │
+│       ├── Методы для настроек
+│       │   - _on_clock_widget_created() - Обновление ссылки на виджет часов
+│       │   - apply_initial_color() - Применение начального цвета
+│       │   - update_color() - Обновление цвета по имени
+│       │
+│       ├── Методы масштабирования
+│       │   - calculate_font_size() - Расчет размера шрифта с логарифмическим масштабированием
+│       │   - on_window_resize() - Обработка изменения размера окна
+│       │
+│       └── Методы классификации
+│           - classify_block_orientation() - Определение ориентации блока
+│           - separate_blocks_by_orientation() - Разделение блоков по ориентации
+│    
+├── 📁 ui/
+│   ├── 📄 clock_widget.py - Виджет часов
+│   ├── 📄 clock_functions.py - Вспомогательные функции часов
+│   ├── 📄 date_widget_portrait.py - Виджет даты для портретной ориентации
+│   ├── 📄 main_portrait.py - Основной интерфейс в портретной ориентации
+│   ├── 📄 main_landscape.py - Основной интерфейс в ландшафтной ориентации
+│   ├── 📄 main_square.py - Основной интерфейс в квадратной ориентации
+│   ├── 📄 settings_window.py - Окно настроек
+│   ├── 📄 settings_color.py - Виджет выбора цвета
+│   └── 📄 settings_manager.py - Управление настройками
 │
-├── 🖼️ ui/
-│   ├── 🕰️ main_portrait.py - Таблица молитв для портретной ориентации
-│   │   Генерирует полную таблицу молитв с адаптацией под вертикальный экран
-│   │
-│   ├── 🕰️ main_landscape.py - Таблица молитв для ландшафтной ориентации
-│   │   Возвращает пустой layout для горизонтального экрана
-│   │
-│   ├── 🕰️ main_square.py - Таблица молитв для квадратной ориентации
-│   │   Возвращает пустой layout для квадратного экрана
-│   │
-│   ├── 🕰️ clock_widget.py - Виджет часов
-│   ├── 🕰️ clock_functions.py - Вспомогательные функции для работы с часами
-│   ├── 🔧 settings_manager.py - Управление настройками приложения
-│   └── 🖥️ settings_window.py - Окно настроек
+├── 📁 logic/
+│   └── 📄 time_handler.py - Обработка времени и форматирование
 │
 ├── 📁 data/
-│   └── 📊 database.py
+│   ├── 📄 database.py - Работа с базой данных
+│   └── 📄 settings.db - SQLite база настроек
 │
-└── 📁 logic/
-    └── ⏰ time_handler.py
-
+├── 📁 audio/ - Звуковые файлы для азана
+├── 📁 fonts/ - Шрифты приложения
+├── 📁 images/ - Изображения
+│
+├── 📄 buildozer.spec - Конфигурация для сборки под Android
+└── 📄 requirements.txt - Зависимости проекта
 """
 
 # main.py
@@ -166,7 +208,9 @@ class MainWindowApp(App):
             return 'square'
 
     def on_window_touch_down_double_tap(self, window, touch):
-        """Обработчик двойного касания"""
+        """
+        Обработчик двойного касания
+        """
         if touch.is_double_tap:
             # Открываем окно настроек
             self.settings_manager = SettingsManager(None, self)
@@ -174,19 +218,27 @@ class MainWindowApp(App):
         return False
 
     def update_title_font_size(self, instance, width):
-        """Обновляем размер шрифта в зависимости от ширины окна"""
+        """
+        Обновляем размер шрифта в зависимости от ширины окна
+        """
         self.title_label.font_size = str(width // 3.5) + 'sp'
 
     def update_title_height(self, instance, height):
-        """Обновляем высоту заголовка в зависимости от ширины окна"""
+        """
+        Обновляем высоту заголовка в зависимости от ширины окна
+        """
         self.title_label.height = str(Window.width * 0.3) + 'dp'
 
     def get_current_time(self, show_colon=True):
-        """Получаем текущее время с возможностью скрыть двоеточие"""
+        """
+        Получаем текущее время с возможностью скрыть двоеточие
+        """
         return TimeHandler.get_formatted_time(show_colon)
     
     def update_time_with_colon(self, dt):
-        """Обновляем время с мигающим двоеточием"""
+        """
+        Обновляем время с мигающим двоеточием
+        """
         self.is_colon_visible = not self.is_colon_visible
         self.title_label.text = self.get_current_time(self.is_colon_visible)
 
@@ -202,32 +254,50 @@ class MainWindowApp(App):
         self.settings_manager.apply_saved_color()
 
     def apply_initial_color(self, dt):
-        """Применение начального цвета после инициализации"""
+        """
+        Применение начального цвета после инициализации
+        """
         initial_color = self.settings_manager.db.get_setting('color')
         if initial_color:
             color_tuple = SettingsWindow.get_color_tuple(initial_color)
             self.update_title_color(color_tuple)
         
     def update_title_color(self, color):
-        """Обновляем цвет заголовка"""
+        """
+        Обновляем цвет заголовка
+        """
         self.title_label.color = color
         
     def update_color(self, color_name):
-        """Обновляем цвет по имени"""
+        """
+        Обновляем цвет по имени
+        """
         color_tuple = SettingsWindow.get_color_tuple(color_name)
         self.update_title_color(color_tuple)
 
-    def calculate_font_size(self, scale_factor=0.1):
-        # Логарифмическая шкала для более плавного масштабирования
+    def calculate_font_size(self, scale_factor=5):
+        """
+        Простой процент от высоты (Window.height * scale_factor) 
+        дает слишком резкие изменения размера шрифта 
+        а логарифмическая формула делает изменения более плавными.
+        """
+        # Логарифмическая шкала берет меньшую сторону 
+        # экрана для более плавного масштабирования
         base_size = min(Window.width, Window.height)
         
-        # Используем логарифмическую функцию для более естественного масштабирования
+        # Логарифмическая функция для более 
+        # естественного масштабирования. 
+        # Делаем масштабирование нелинейным 
+        # (медленнее растет при больших размерах)
         logarithmic_scale = math.log(base_size + 1, 10)  # +1 чтобы избежать деления на ноль
         
-        # Применяем нелинейное масштабирование
+        # Применяем нелинейное масштабирование 
+        # умножая на размер и коэффициент
         font_size = logarithmic_scale * base_size * scale_factor
         
-        # Устанавливаем жесткие границы
+        # Устанавливаем жесткие границы. 
+        # Ограничивая размер (не меньше 10 
+        # и не больше 20% от размера экрана)
         return max(min(font_size, base_size * 0.2), 10)
 
     def on_window_resize(self, instance, width, height):
