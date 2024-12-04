@@ -1,7 +1,6 @@
 # data/database.py
 from pathlib import Path
 import sqlite3
-import logging
 from logic.display_utils import is_mobile_device, find_current_monitor, get_monitor_info
 from kivy.core.window import Window
 
@@ -60,9 +59,6 @@ class SettingsDatabase:
         """
         Сохраняет настройки окна в БД
         """
-        logging.info(f"DEBUG: Начало сохранения настроек окна")
-        logging.info(f"DEBUG: Параметры - width: {width}, height: {height}, x: {x}, y: {y}")
-        
         try:
             # Сохраняем абсолютные координаты
             self.cursor.execute('''
@@ -70,12 +66,9 @@ class SettingsDatabase:
                 (id, width, height, x, y) 
                 VALUES (1, ?, ?, ?, ?)
             ''', (width, height, x, y))
-            
             self.connection.commit()
-            logging.info("DEBUG: Сохранены настройки окна в БД")
-            
-        except Exception as e:
-            logging.error(f"Ошибка при сохранении настроек окна: {e}")
+        except Exception:
+            pass
 
     def get_window_settings(self):
         """
@@ -84,15 +77,10 @@ class SettingsDatabase:
         try:
             self.cursor.execute('SELECT width, height, x, y FROM window_settings WHERE id = 1')
             settings = self.cursor.fetchone()
-            
             if settings:
-                width, height, x, y = settings
-                logging.info(f"GET: Найдены настройки - width: {width}, height: {height}, x: {x}, y: {y}")
-                return width, height, x, y
-                
-        except Exception as e:
-            logging.error(f"Ошибка при загрузке настроек окна: {e}")
-        
+                return settings
+        except Exception:
+            pass
         return None
 
     def apply_window_settings(self, window):
@@ -100,16 +88,8 @@ class SettingsDatabase:
         Применяет настройки окна
         """
         settings = self.get_window_settings()
-        
         if settings:
             width, height, x, y = settings
-            logging.info(f"APPLY: Загруженные настройки - width: {width}, height: {height}, x: {x}, y: {y}")
-            
-            # Устанавливаем размер
             window.size = (width, height)
-            
-            # Устанавливаем позицию
             window.left = x
             window.top = y
-            
-            logging.info(f"Восстановлены настройки окна: размер {width}x{height}, позиция ({x}, {y})")
