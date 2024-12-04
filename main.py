@@ -77,9 +77,6 @@ class MainWindowApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.current_window = 'main'
-        self.touch_start_x = None
-        self.touch_start_y = None
-        self.SWIPE_THRESHOLD = 200  # Минимальная длина свайпа в пикселях
         
     def build(self):
         # Регистрация шрифтов
