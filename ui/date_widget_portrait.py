@@ -77,12 +77,12 @@ def create_date_widget_portrait(self):
 
     # Создаем Label для дня недели
     day_label = Label(
-        text='next time --',
+        text='NextTime -',
         font_name='PrayerNameFont',
-        font_size=base_font_size * 0.2,  # Маленький размер
+        font_size=base_font_size * 0.3,  # Маленький размер
         color=(1, 1, 1, 1),  # Белый цвет
         size_hint_x=1,  # Занимает всю ширину
-        halign='right',  # Выравнивание вправо
+        halign='left',  # Выравнивание вправо
     )
 
     # Создаем Label 
@@ -92,7 +92,7 @@ def create_date_widget_portrait(self):
         font_size=base_font_size * 0.5,  # Большой размер шрифта
         color=(1, 1, 1, 1),  # Белый цвет
         size_hint_x=1,  # Занимает всю ширину
-        halign='left',  # Выравнивание влево
+        halign='right',  # Выравнивание влево
     )
 
     # Добавляем Label в GridLayout
