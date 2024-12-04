@@ -52,6 +52,7 @@ from datetime import datetime
 import math
 kivy.require('2.2.1')
 
+# Импорты базовых классов Kivy
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.gridlayout import GridLayout
@@ -62,6 +63,7 @@ from kivy.core.text import LabelBase
 from kivy.metrics import sp
 from kivy.uix.anchorlayout import AnchorLayout
 
+# Импорты локальных модулей приложения
 from ui.settings_window import SettingsWindow
 from ui.settings_manager import SettingsManager
 from ui.clock_widget import ClockWidget
