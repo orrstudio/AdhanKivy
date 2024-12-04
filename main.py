@@ -79,6 +79,9 @@ class MainWindowApp(App):
         self.current_window = 'main'
         
     def build(self):
+        # Создаем менеджер настроек перед применением цвета
+        self.settings_manager = SettingsManager(None, self)
+        
         # Регистрация шрифтов
         LabelBase.register(
             name='PrayerNameFont', 
@@ -143,6 +146,9 @@ class MainWindowApp(App):
 
         # Устанавливаем текущее окно
         self.current_window = 'main'
+        
+        # Применяем сохраненный цвет
+        Clock.schedule_once(self.apply_initial_color, 0.1)
         
         return self.layout
 
