@@ -1,6 +1,15 @@
 from kivy.uix.label import Label
 from kivy.core.window import Window
-from logic.time_handler import TimeHandler
+from datetime import datetime
+
+# Неразрывный пробел как константа
+NBSP = chr(0x00A0)
+
+def get_formatted_time(show_colon=True):
+    """Форматирование времени с двоеточием или пробелом"""
+    current_time = datetime.now().strftime("%H%M")
+    separator = ':' if show_colon else NBSP
+    return f"{current_time[:2]}{separator}{current_time[2:]}"
 
 class BaseClockLabel(Label):
     def __init__(self, **kwargs):
@@ -59,7 +68,7 @@ class BaseClockLabel(Label):
         self.valign = 'top'  # Прижимаем к верху
         
         # Сначала устанавливаем текст
-        self.text = TimeHandler.get_formatted_time(self.is_colon_visible)
+        self.text = get_formatted_time(self.is_colon_visible)
         self.texture_update()
         
         # Потом считаем размер шрифта
@@ -77,7 +86,7 @@ class BaseClockLabel(Label):
     def toggle_colon_visibility(self):
         """Переключение видимости двоеточия"""
         self.is_colon_visible = not self.is_colon_visible
-        self.text = TimeHandler.get_formatted_time(self.is_colon_visible)
+        self.text = get_formatted_time(self.is_colon_visible)
         
     def on_window_resize(self, instance, width, height):
         """Обработка изменения размера окна"""

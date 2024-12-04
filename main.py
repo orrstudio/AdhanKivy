@@ -74,7 +74,7 @@
 │   └── 📄 settings_manager.py - Управление настройками
 │
 ├── 📁 logic/
-│   └── 📄 time_handler.py - Обработка времени и форматирование
+│   └── 📄 clock_functions.py - Обработка времени и форматирование
 │
 ├── 📁 data/
 │   ├── 📄 database.py - Работа с базой данных
@@ -110,7 +110,7 @@ from ui.settings_window import SettingsWindow
 from ui.settings_manager import SettingsManager
 from ui.clock_widget import ClockWidget
 from data.database import SettingsDatabase
-from logic.time_handler import TimeHandler
+from logic.clock_functions import get_formatted_time
 from ui.main_portrait import create_portrait_prayer_times_table
 from ui.main_landscape import create_landscape_prayer_times_table
 from ui.main_square import create_square_prayer_times_table
@@ -233,7 +233,7 @@ class MainWindowApp(App):
         """
         Получаем текущее время с возможностью скрыть двоеточие
         """
-        return TimeHandler.get_formatted_time(show_colon)
+        return get_formatted_time(show_colon)
     
     def update_time_with_colon(self, dt):
         """

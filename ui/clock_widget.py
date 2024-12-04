@@ -1,7 +1,7 @@
 from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
-
-from .clock_functions import BaseClockLabel
+from kivy.properties import BooleanProperty
+from logic.clock_functions import BaseClockLabel
 
 class ClockWidget(GridLayout):
     colors = {
