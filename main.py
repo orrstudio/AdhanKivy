@@ -110,7 +110,7 @@ from ui.settings_manager import SettingsManager
 from ui.clock_widget import ClockWidget
 from data.database import SettingsDatabase
 from logic.clock_functions import get_formatted_time
-from ui.main_portrait import create_portrait_prayer_times_table
+from ui.main_test_portrait import create_portrait_widgets
 from ui.main_landscape import create_landscape_prayer_times_table
 from ui.main_square import create_square_prayer_times_table
 
@@ -171,15 +171,28 @@ class MainWindowApp(App):
         current_orientation = self.get_current_orientation()
         
         if current_orientation == 'portrait':
-            prayer_times_table = create_portrait_prayer_times_table(self)
+            portrait_layout = GridLayout(cols=1)
+            space_label1, line_label1, date_hijri_label, line_label2, date_gregorian_label, line_label3, space_label2, space_label3, nex_time_layout, line_label4, space_label4 = create_portrait_widgets(self)
+            portrait_layout.add_widget(space_label1)
+            portrait_layout.add_widget(line_label1)
+            portrait_layout.add_widget(date_hijri_label)
+            portrait_layout.add_widget(line_label2)
+            portrait_layout.add_widget(date_gregorian_label)
+            portrait_layout.add_widget(line_label3)
+            portrait_layout.add_widget(space_label2)
+            portrait_layout.add_widget(space_label3)
+            portrait_layout.add_widget(nex_time_layout)
+            portrait_layout.add_widget(line_label4)
+            portrait_layout.add_widget(space_label4)
+            main_window_body = portrait_layout
         elif current_orientation == 'landscape':
-            prayer_times_table = create_landscape_prayer_times_table(self)
+            main_window_body = create_landscape_prayer_times_table(self)
         else:  # square
-            prayer_times_table = create_square_prayer_times_table(self)
+            main_window_body = create_square_prayer_times_table(self)
         
         # Добавление таблицы молитв, если она не None
-        if prayer_times_table:
-            self.layout.add_widget(prayer_times_table)
+        if main_window_body:
+            self.layout.add_widget(main_window_body)
 
         # Запускаем таймер обновления времени и мигания точек каждые 0.5 секунды
         self.is_colon_visible = True
@@ -313,15 +326,25 @@ class MainWindowApp(App):
         
         # Создаем новую таблицу
         if current_orientation == 'portrait':
-            prayer_times_table = create_portrait_prayer_times_table(self)
+            portrait_layout = GridLayout(cols=1)
+            line_label1, date_hijri_label, date_gregorian_label, line_label3, nex_time_layout, line_label4, space_label4 = create_portrait_widgets(self)
+            
+            portrait_layout.add_widget(line_label1)
+            portrait_layout.add_widget(date_hijri_label)
+            portrait_layout.add_widget(date_gregorian_label)
+            portrait_layout.add_widget(line_label3)
+            portrait_layout.add_widget(nex_time_layout)
+            portrait_layout.add_widget(line_label4)
+            portrait_layout.add_widget(space_label4)
+            main_window_body = portrait_layout
         elif current_orientation == 'landscape':
-            prayer_times_table = create_landscape_prayer_times_table(self)
+            main_window_body = create_landscape_prayer_times_table(self)
         else:  # square
-            prayer_times_table = create_square_prayer_times_table(self)
+            main_window_body = create_square_prayer_times_table(self)
         
         # Добавляем таблицу, если она не None
-        if prayer_times_table:
-            self.layout.add_widget(prayer_times_table)
+        if main_window_body:
+            self.layout.add_widget(main_window_body)
 
     def classify_block_orientation(self, block):
         """
