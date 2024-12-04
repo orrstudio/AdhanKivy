@@ -1,3 +1,15 @@
+import logging
+
+# Настройка логирования
+logging.basicConfig(
+    level=logging.INFO, 
+    format='%(asctime)s - %(levelname)s: %(message)s',
+    handlers=[
+        logging.FileHandler('app_log.txt', encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
+
 """
 Структура проекта
 
@@ -113,13 +125,23 @@ from logic.clock_functions import get_formatted_time
 from ui.main_portrait import create_portrait_widgets
 from ui.main_landscape import create_landscape_prayer_times_table
 from ui.main_square import create_square_prayer_times_table
+from logic.display_utils import is_mobile_device, log_display_info
 
 class MainWindowApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.current_window = 'main'
+        # Инициализируем базу данных настроек
+        self.settings_db = SettingsDatabase()
         
     def build(self):
+        # Логируем информацию о дисплее
+        log_display_info()
+
+        # Пытаемся применить сохраненные настройки окна
+        if not is_mobile_device():
+            self.settings_db.apply_window_settings(Window)
+
         # Создаем менеджер настроек перед применением цвета
         self.settings_manager = SettingsManager(None, self)
         
@@ -389,6 +411,26 @@ class MainWindowApp(App):
         
         # Используем функцию из main_portrait с новой сигнатурой
         return create_portrait_widgets_func(self, layout)
+
+    def on_stop(self):
+        """
+        Вызывается при закрытии приложения
+        """
+        logging.info("DEBUG: Начало сохранения настроек окна")
+        logging.info(f"DEBUG: Window.width = {Window.width}")
+        logging.info(f"DEBUG: Window.height = {Window.height}")
+        logging.info(f"DEBUG: Window.left = {Window.left}")
+        logging.info(f"DEBUG: Window.top = {Window.top}")
+        logging.info(f"DEBUG: Window.system_size = {Window.system_size}")
+        logging.info(f"DEBUG: Window.size = {Window.size}")
+        
+        # Сохраняем текущие настройки окна
+        self.settings_db.save_window_settings(
+            width=Window.width,
+            height=Window.height,
+            x=Window.left,
+            y=Window.top
+        )
 
 if __name__ == "__main__":
     MainWindowApp().run()
