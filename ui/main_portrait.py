@@ -13,12 +13,29 @@
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.core.window import Window
+from ui.date_widget_portrait import create_date_widget_portrait
 
 def create_portrait_prayer_times_table(self):
     """
     Создает таблицу молитв для портретной ориентации
     Адаптивная сетка с двумя колонками для названий и времени молитв
     """
+    # Создаем общий контейнер для даты и таблицы молитв
+    portrait_layout = GridLayout(
+        cols=1,  # Один столбец
+        spacing=(10, 10),  # Отступы между элементами
+        size_hint=(0.9, None),  # Занимаем 90% ширины, высота авто
+        pos_hint={'center_x': 0.5}  # Центрируем по горизонтали
+    )
+    
+    # Создаем и добавляем виджет даты
+    space1_widget, date_widget, date_hijri_widget, line1_widget, day_hello_widget = create_date_widget_portrait(self)
+    portrait_layout.add_widget(space1_widget)
+    portrait_layout.add_widget(date_widget)
+    portrait_layout.add_widget(date_hijri_widget)
+    portrait_layout.add_widget(line1_widget)
+    portrait_layout.add_widget(day_hello_widget)
+    
     # Создаем GridLayout для таблицы молитв с двумя колонками
     prayer_times_table = GridLayout(
         cols=2,  # Две колонки: название молитвы и время
@@ -32,7 +49,7 @@ def create_portrait_prayer_times_table(self):
     
     # Список молитв с временами (статический для демонстрации)
     prayer_times = [
-        ('', '', {}),  # Пустая строка для отступа
+        #('', '', {}),  # Пустая строка для отступа
         ('=====>>>>>', '00:00'),  # Специальная строка
         (' ', ' ', {}),  # Еще один отступ
         ('Təhəccüd -', '00:30'),  # Ночная молитва
@@ -91,6 +108,7 @@ def create_portrait_prayer_times_table(self):
                 text_size=(Window.width * 0.45, None),  # Размер текста
                 color=(1, 1, 1, 1)  # Белый цвет
             )
+            
             # Создание Label для времени молитвы
             time_label = Label(
                 text=time,
@@ -110,5 +128,8 @@ def create_portrait_prayer_times_table(self):
         prayer_times_table.add_widget(prayer_label)
         prayer_times_table.add_widget(time_label)
     
-    # Возвращаем сформированную таблицу молитв
-    return prayer_times_table
+    # Добавляем таблицу молитв в общий контейнер
+    portrait_layout.add_widget(prayer_times_table)
+    
+    # Возвращаем общий контейнер с датой и таблицей
+    return portrait_layout
