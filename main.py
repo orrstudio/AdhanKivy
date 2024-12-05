@@ -47,7 +47,7 @@ class MainWindowApp(App):
         )
         LabelBase.register(
             name='PrayerTimeFont', 
-            fn_regular='fonts/DSEG-Classic/DSEG14Classic-Regular.ttf'
+            fn_regular='fonts/DSEG-Classic/DSEG7Classic-Bold.ttf'
         )
 
         # Черный фон
