@@ -25,7 +25,7 @@ def create_prayer_times_layout(self, base_font_size):
         # Label для названия молитвы
         prayer_name_label = Label(
             text=prayer_name,
-            font_name='PrayerNameFont',
+            font_name='FontSourceCodePro-Regular',
             font_size=base_font_size * 0.4,  # Маленький размер
             color=(1, 1, 1, 1),  # Белый цвет
             halign='left',
@@ -37,7 +37,7 @@ def create_prayer_times_layout(self, base_font_size):
         # Label для времени молитвы
         prayer_time_label = Label(
             text=prayer_time,
-            font_name='PrayerTimeFont',
+            font_name='FontDSEG7-Bold',
             font_size=base_font_size * 0.45,  # Большой размер шрифта
             color=(1, 1, 1, 1),  # Белый цвет
             halign='right',
@@ -73,7 +73,7 @@ def create_next_time_layout(self, base_font_size):
     # Создаем Label для NextTimeName
     next_time_name_1_label = Label(
         text='növbəti\nnamaza',
-        font_name='PrayerNameFont',
+        font_name='FontSourceCodePro-Regular',
         font_size=base_font_size * 0.2,  # Маленький размер
         color=(1, 1, 1, 1),  # Белый цвет
         size_hint_x=1,  # Занимает всю ширину
@@ -83,7 +83,7 @@ def create_next_time_layout(self, base_font_size):
     # Создаем Label для NextTimeNumbers
     next_time_numbers_label = Label(
         text='00:00',
-        font_name='PrayerTimeFont',  # Шрифт как у часиков
+        font_name='FontDSEG7-Bold',  # Шрифт как у часиков
         font_size=base_font_size * 0.55,  # Большой размер шрифта
         color=(1, 1, 1, 1),  # Белый цвет
         size_hint_x=1,  # Занимает всю ширину
@@ -92,7 +92,7 @@ def create_next_time_layout(self, base_font_size):
 
     next_time_name_2_label = Label(
         text='dəqiqə\nqalır',
-        font_name='PrayerNameFont',
+        font_name='FontSourceCodePro-Regular',
         font_size=base_font_size * 0.2,  # Маленький размер
         color=(1, 1, 1, 1),  # Белый цвет
         size_hint_x=1,  # Занимает всю ширину

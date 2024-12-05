@@ -1,14 +1,14 @@
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.core.window import Window
-from datetime import datetime
 import locale
 from ui.main_portrait_prayer_times import create_prayer_times_layout, create_next_time_layout
+from logic.date_formatted import create_gregorian_date_label, create_hijri_date_label, get_formatted_dates
 
 def create_line_label(base_font_size):
     return Label(
         text='―' * 150,  # Много тире для линии
-        font_name='PrayerNameFont',
+        font_name='FontSourceCodePro-Regular',
         height=base_font_size * 0.1, # Фиксированная высота
         size_hint_y=None,  # Нужно для фиксированной высоты
     )
@@ -36,38 +36,14 @@ def create_portrait_widgets(self, portrait_layout):
     # Расчет базового размера шрифта
     base_font_size = self.calculate_font_size(scale_factor=0.15)
 
-    # Получаем текущую дату
-    current_date = datetime.now()
-    
-    # Форматируем даты
-    formatted_date_xijri = current_date.strftime('%d %B %Y').capitalize()
-    formatted_date_gregorian = current_date.strftime('%d %B %Y').capitalize()
+    # Получаем отформатированные даты
+    formatted_dates = get_formatted_dates()
 
-    # Создаем Label для даты Хиджри
-    date_hijri_label = Label(
-        text=formatted_date_xijri,
-        font_name='PrayerNameFont',
-        font_size=base_font_size * 0.2,  # Размер шрифта
-        color=(1, 1, 1, 1),  # Белый цвет
-        size_hint_x=1,  # Занимает всю ширину
-        size_hint_y=None,  # Фиксированная высота
-        height=base_font_size * 0.25,  # Фиксированная высота
-        halign='center',  # Центр по горизонтали
-        valign='middle',  # Центр по вертикали
-    )
+    # Создаем Label для даты Хиджры
+    date_hijri_label = create_hijri_date_label(base_font_size)
 
-    # Создаем Label для даты Григорианской
-    date_gregorian_label = Label(
-        text=formatted_date_gregorian,
-        font_name='PrayerNameFont',
-        font_size=base_font_size * 0.2,  # Размер шрифта
-        color=(1, 1, 1, 1),  # Белый цвет
-        size_hint_x=1,  # Занимает всю ширину
-        size_hint_y=None,  # Фиксированная высота
-        height=base_font_size * 0.25,  # Фиксированная высота
-        halign='center',  # Центр по горизонтали
-        valign='middle',  # Центр по вертикали
-    )
+    # Создаем Layout для даты
+    date_layout = create_gregorian_date_label(base_font_size)
     
     # Создаем GridLayout для NextTimeName и NextTimeNumbers
     nex_time_layout = create_next_time_layout(self, base_font_size)
@@ -75,7 +51,7 @@ def create_portrait_widgets(self, portrait_layout):
     # Добавляем виджеты в layout в нужном порядке
     portrait_layout.add_widget(create_space_label(base_font_size))
     portrait_layout.add_widget(date_hijri_label)
-    portrait_layout.add_widget(date_gregorian_label)
+    portrait_layout.add_widget(date_layout)
     portrait_layout.add_widget(create_line_label(base_font_size))  # line_label2
     portrait_layout.add_widget(nex_time_layout)
     portrait_layout.add_widget(create_line_label(base_font_size))  # line_label2

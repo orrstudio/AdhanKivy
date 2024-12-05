@@ -24,6 +24,7 @@ from ui.main_portrait import create_portrait_widgets
 from ui.main_landscape import create_landscape_prayer_times_table
 from ui.main_square import create_square_prayer_times_table
 from logic.display_utils import is_mobile_device
+from logic.fonts_registration import register_fonts
 
 class MainWindowApp(App):
     def __init__(self, **kwargs):
@@ -41,15 +42,8 @@ class MainWindowApp(App):
         self.settings_manager = SettingsManager(None, self)
         
         # Регистрация шрифтов
-        LabelBase.register(
-            name='PrayerNameFont', 
-            fn_regular='fonts/SourceCodePro/SourceCodePro-ExtraLight.ttf'
-        )
-        LabelBase.register(
-            name='PrayerTimeFont', 
-            fn_regular='fonts/DSEG-Classic/DSEG7Classic-Bold.ttf'
-        )
-
+        register_fonts()
+        
         # Черный фон
         Window.clearcolor = (0, 0, 0, 1)
         
