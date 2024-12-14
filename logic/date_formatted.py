@@ -28,6 +28,21 @@ MONTH_TO_ROMAN = {
     12: 'XII'
 }
 
+HIJRI_MONTH_TO_ROMAN = {
+    1: 'I',     # Мухаррам
+    2: 'II',    # Сафар
+    3: 'III',   # Раби аль-авваль
+    4: 'IV',    # Раби ас-сани
+    5: 'V',     # Джумада аль-уля
+    6: 'VI',    # Джумада ас-сани
+    7: 'VII',   # Раджаб
+    8: 'VIII',  # Шаабан
+    9: 'IX',    # Рамадан
+    10: 'X',    # Шавваль
+    11: 'XI',   # Зу-ль-када
+    12: 'XII'   # Зу-ль-хиджа
+}
+
 def get_formatted_dates():
     """
     Возвращает отформатированные даты
@@ -52,123 +67,106 @@ def get_formatted_dates():
             'font': 'FontDSEG7-Light',
         },
         'month': {
-            'text': f".{MONTH_TO_ROMAN[month]}.",
+            'text': f"/{MONTH_TO_ROMAN[month]}/",
             'font': 'FontSourceCodePro-Light'
         },
         'year': {
             'text': current_date.strftime('%Y'),
             'font': 'FontDSEG7-Light'
         },
-        'full_gregorian': f"{WEEKDAY_TO_ROMAN[weekday]} - {current_date.strftime('%d')}.{MONTH_TO_ROMAN[month]}.{current_date.strftime('%Y')}"
+        'full_gregorian': f"{WEEKDAY_TO_ROMAN[weekday]} - {current_date.strftime('%d')}.{MONTH_TO_ROMAN[month]}.{current_date.strftime('%Y')}",
+        
+        # Добавляем части для даты хиджры
+        'hijri_day': {
+            'text': '15',
+            'font': 'FontDSEG7-Light'
+        },
+        'hijri_month': {
+            'text': f"/{HIJRI_MONTH_TO_ROMAN[5]}/",  # Используем римские цифры для месяца
+            'font': 'FontSourceCodePro-Light'
+        },
+        'hijri_year': {
+            'text': '1445',
+            'font': 'FontDSEG7-Light'
+        }
     }
-    
-    # Дата хиджры (пока в старом формате)
-    date_parts['hijri'] = current_date.strftime('%d %B %Y').capitalize()
     
     return date_parts
 
 def create_gregorian_date_label(base_font_size):
     """
-    Создает Label для григорианской даты с разными шрифтами и размерами
+    Создает Label для григорианской даты с разными шрифтами и размерами в одной строке
     
     Args:
         base_font_size (float): Базовый размер шрифта
     
     Returns:
-        GridLayout: Layout с Label для частей даты
+        Label: Label с датой в одной строке
     """
     formatted_dates = get_formatted_dates()
     
-    # Извлекаем размеры шрифтов для каждой части, с значениями по умолчанию
-    weekday_font_size = formatted_dates["weekday"].get('font_size', base_font_size * 0.2)
-    day_font_size = formatted_dates["day"].get('font_size', base_font_size * 0.2)
-    month_font_size = formatted_dates["month"].get('font_size', base_font_size * 0.2)
-    year_font_size = formatted_dates["year"].get('font_size', base_font_size * 0.2)
+    # Определяем размеры для каждой части и округляем их до целых чисел
+    weekday_size = int(base_font_size * 0.24)    # Размер для "VI -"
+    day_size = int(base_font_size * 0.19)       # Размер для "14"
+    month_size = int(base_font_size * 0.24)      # Размер для ".XII."
+    year_size = int(base_font_size * 0.19)      # Размер для "2024"
     
-    print(f"Debug: font_sizes - Weekday: {weekday_font_size}, Day: {day_font_size}, Month: {month_font_size}, Year: {year_font_size}")
+    # Формируем текст с разметкой для разных шрифтов и размеров
+    marked_text = (
+        f'[size={weekday_size}][font=FontSourceCodePro-Light]{formatted_dates["weekday"]["text"]}[/font][/size] '
+        f'[size={day_size}][font=FontDSEG7-Light]{formatted_dates["day"]["text"]}[/font][/size]'
+        f'[size={month_size}][font=FontSourceCodePro-Light]{formatted_dates["month"]["text"]}[/font][/size]'
+        f'[size={year_size}][font=FontDSEG7-Light]{formatted_dates["year"]["text"]}[/font][/size]'
+    )
     
-    # Создаем Label для каждой части даты
-    weekday_label = Label(
-        text=formatted_dates["weekday"]["text"],
-        font_name=formatted_dates["weekday"]["font"],
-        font_size=weekday_font_size,
+    # Создаем Label с поддержкой разметки
+    date_label = Label(
+        text=marked_text,
+        markup=True,  # Включаем поддержку разметки
         color=(1, 1, 1, 1),
         size_hint_x=1,
         size_hint_y=None,
-        height=weekday_font_size * 1.2,
+        height=base_font_size * 0.3,  # Увеличиваем высоту для разных размеров
         halign='center',
         valign='middle'
     )
     
-    day_label = Label(
-        text=formatted_dates["day"]["text"],
-        font_name=formatted_dates["day"]["font"],
-        font_size=day_font_size,
-        color=(1, 1, 1, 1),
-        size_hint_x=1,
-        size_hint_y=None,
-        height=day_font_size * 1.2,
-        halign='center',
-        valign='middle'
-    )
-    
-    month_label = Label(
-        text=formatted_dates["month"]["text"],
-        font_name=formatted_dates["month"]["font"],
-        font_size=month_font_size,
-        color=(1, 1, 1, 1),
-        size_hint_x=1,
-        size_hint_y=None,
-        height=month_font_size * 1.2,
-        halign='center',
-        valign='middle'
-    )
-    
-    year_label = Label(
-        text=formatted_dates["year"]["text"],
-        font_name=formatted_dates["year"]["font"],
-        font_size=year_font_size,
-        color=(1, 1, 1, 1),
-        size_hint_x=1,
-        size_hint_y=None,
-        height=year_font_size * 1.2,
-        halign='center',
-        valign='middle'
-    )
-    
-    # Создаем GridLayout для размещения Label
-    date_layout = GridLayout(
-        cols=4,
-        size_hint_y=None,
-        height=max(weekday_font_size, day_font_size, month_font_size, year_font_size) * 1.2
-    )
-    date_layout.add_widget(weekday_label)
-    date_layout.add_widget(day_label)
-    date_layout.add_widget(month_label)
-    date_layout.add_widget(year_label)
-    
-    return date_layout
+    return date_label
 
 def create_hijri_date_label(base_font_size):
     """
-    Создает Label для даты Хиджры
+    Создает Label для даты Хиджры с разными шрифтами и размерами в одной строке
     
     Args:
         base_font_size (float): Базовый размер шрифта
     
     Returns:
-        Label: Label с датой Хиджры
+        Label: Label с датой Хиджры в одной строке
     """
     formatted_dates = get_formatted_dates()
     
-    return Label(
-        text=formatted_dates['hijri'],
-        font_name='FontSourceCodePro-Regular',
-        font_size=base_font_size * 0.2,  # Размер шрифта
-        color=(1, 1, 1, 1),  # Белый цвет
-        size_hint_x=1,  # Занимает всю ширину
-        size_hint_y=None,  # Фиксированная высота
-        height=base_font_size * 0.25,  # Фиксированная высота
-        halign='center',  # Центр по горизонтали
-        valign='middle',  # Центр по вертикали
+    # Определяем размеры для каждой части и округляем их до целых чисел
+    day_size = int(base_font_size * 0.19)
+    month_size = int(base_font_size * 0.24)
+    year_size = int(base_font_size * 0.19)
+    
+    # Формируем текст с разметкой для разных шрифтов и размеров
+    marked_text = (
+        f'[size={day_size}][font=FontDSEG7-Light]{formatted_dates["hijri_day"]["text"]}[/font][/size]'
+        f'[size={month_size}][font=FontSourceCodePro-Light]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
+        f'[size={year_size}][font=FontDSEG7-Light]{formatted_dates["hijri_year"]["text"]}[/font][/size]'
     )
+    
+    # Создаем Label с поддержкой разметки
+    date_label = Label(
+        text=marked_text,
+        markup=True,
+        color=(1, 1, 1, 1),
+        size_hint_x=1,
+        size_hint_y=None,
+        height=base_font_size * 0.3,
+        halign='center',
+        valign='middle'
+    )
+    
+    return date_label
