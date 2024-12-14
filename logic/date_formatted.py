@@ -135,26 +135,33 @@ def create_gregorian_date_label(base_font_size):
 
 def create_hijri_date_label(base_font_size):
     """
-    Создает Label для даты Хиджры с разными шрифтами и размерами в одной строке
+    Создает Label с датами хиджры и григорианской в одной строке
     
     Args:
         base_font_size (float): Базовый размер шрифта
     
     Returns:
-        Label: Label с датой Хиджры в одной строке
+        Label: Label с обеими датами в одной строке
     """
     formatted_dates = get_formatted_dates()
     
     # Определяем размеры для каждой части и округляем их до целых чисел
-    day_size = int(base_font_size * 0.19)
+    size = int(base_font_size * 0.19)
     month_size = int(base_font_size * 0.24)
-    year_size = int(base_font_size * 0.19)
     
-    # Формируем текст с разметкой для разных шрифтов и размеров
+    # Формируем текст с разметкой для обеих дат
     marked_text = (
-        f'[size={day_size}][font=FontDSEG7-Light]{formatted_dates["hijri_day"]["text"]}[/font][/size]'
+        # Дата хиджры
+        f'[size={size}][font=FontDSEG7-Light]{formatted_dates["hijri_day"]["text"]}[/font][/size]'
         f'[size={month_size}][font=FontSourceCodePro-Light]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
-        f'[size={year_size}][font=FontDSEG7-Light]{formatted_dates["hijri_year"]["text"]}[/font][/size]'
+        f'[size={size}][font=FontDSEG7-Light]{formatted_dates["hijri_year"]["text"]}[/font][/size]'
+        # Разделитель
+        f'[size={size}][font=FontSourceCodePro-Light] - [/font][/size]'
+        # Григорианская дата
+        f'[size={size}][font=FontSourceCodePro-Light]{formatted_dates["weekday"]["text"]}[/font][/size] '
+        f'[size={size}][font=FontDSEG7-Light]{formatted_dates["day"]["text"]}[/font][/size]'
+        f'[size={month_size}][font=FontSourceCodePro-Light]{formatted_dates["month"]["text"]}[/font][/size]'
+        f'[size={size}][font=FontDSEG7-Light]{formatted_dates["year"]["text"]}[/font][/size]'
     )
     
     # Создаем Label с поддержкой разметки

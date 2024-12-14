@@ -36,14 +36,8 @@ def create_portrait_widgets(self, portrait_layout):
     # Расчет базового размера шрифта
     base_font_size = self.calculate_font_size(scale_factor=0.15)
 
-    # Получаем отформатированные даты
-    formatted_dates = get_formatted_dates()
-
-    # Создаем Label для даты Хиджры
+    # Создаем Label для даты Хиджры (включает обе даты)
     date_hijri_label = create_hijri_date_label(base_font_size)
-
-    # Создаем Layout для даты
-    date_layout = create_gregorian_date_label(base_font_size)
     
     # Создаем GridLayout для NextTimeName и NextTimeNumbers
     nex_time_layout = create_next_time_layout(self, base_font_size)
@@ -51,7 +45,6 @@ def create_portrait_widgets(self, portrait_layout):
     # Добавляем виджеты в layout в нужном порядке
     portrait_layout.add_widget(create_space_label(base_font_size))
     portrait_layout.add_widget(date_hijri_label)
-    portrait_layout.add_widget(date_layout)
     portrait_layout.add_widget(create_line_label(base_font_size))  # line_label2
     portrait_layout.add_widget(nex_time_layout)
     portrait_layout.add_widget(create_line_label(base_font_size))  # line_label2
