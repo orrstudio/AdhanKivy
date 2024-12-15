@@ -59,26 +59,22 @@ def get_formatted_dates():
     # Части даты с указанием шрифтов и размеров
     date_parts = {
         'weekday': {
-            'text': f"{WEEKDAY_TO_ROMAN[weekday]} -",
-            'font': 'FontSourceCodePro-Light',
-            'font_size': 40
+            'text': f" -{WEEKDAY_TO_ROMAN[weekday]}-",  # Добавляем разделитель здесь
+            'font': 'Roman7'
         },
         'day': {
             'text': current_date.strftime('%d'),
-            'font': 'FontDSEG7-Light',
-            'font_size': 40
+            'font': 'FontDSEG7-Light'
         },
         'month': {
             'text': f"/{MONTH_TO_ROMAN[month]}/",
-            'font': 'FontSourceCodePro-Light',
-            'font_size': 40
+            'font': 'Roman7'
         },
         'year': {
             'text': current_date.strftime('%Y'),
-            'font': 'FontDSEG7-Light',
-            'font_size': 40
+            'font': 'FontDSEG7-Light'
         },
-        'full_gregorian': f"{WEEKDAY_TO_ROMAN[weekday]} - {current_date.strftime('%d')}.{MONTH_TO_ROMAN[month]}.{current_date.strftime('%Y')}",
+        'full_gregorian': f" - {WEEKDAY_TO_ROMAN[weekday]} - {current_date.strftime('%d')}.{MONTH_TO_ROMAN[month]}.{current_date.strftime('%Y')}",
         
         # Части для даты хиджры с размерами
         'hijri_day': {
@@ -87,8 +83,8 @@ def get_formatted_dates():
             'font_size': 40
         },
         'hijri_month': {
-            'text': f"/{HIJRI_MONTH_TO_ROMAN[5]}/",
-            'font': 'FontSourceCodePro-Light',
+            'text': f"/{HIJRI_MONTH_TO_ROMAN[12]}/",
+            'font': 'Roman7',
             'font_size': 40
         },
         'hijri_year': {
@@ -120,9 +116,9 @@ def create_gregorian_date_label(base_font_size):
     
     # Формируем текст с разметкой для разных шрифтов и размеров
     marked_text = (
-        f'[size={int(weekday_size)}][font=FontSourceCodePro-Light]{formatted_dates["weekday"]["text"]}[/font][/size] '
+        f'[size={int(weekday_size)}][font=Roman7]{formatted_dates["weekday"]["text"]}[/font][/size]'
         f'[size={int(day_size)}][font=FontDSEG7-Light]{formatted_dates["day"]["text"]}[/font][/size]'
-        f'[size={int(month_size)}][font=FontSourceCodePro-Light]{formatted_dates["month"]["text"]}[/font][/size]'
+        f'[size={int(month_size)}][font=Roman7]{formatted_dates["month"]["text"]}[/font][/size]'
         f'[size={int(year_size)}][font=FontDSEG7-Light]{formatted_dates["year"]["text"]}[/font][/size]'
     )
     
@@ -157,27 +153,24 @@ def create_hijri_date_label(base_font_size):
     adaptive_base_size = window_width * 0.04  # 4% от ширины окна
     
     # Получаем размеры для каждой части из словаря или используем адаптивные значения
-    hijri_day_size = int(adaptive_base_size * 0.9)    # чуть меньше базового
-    hijri_month_size = int(adaptive_base_size * 1.1)  # чуть больше базового
-    hijri_year_size = int(adaptive_base_size * 0.9)   # чуть меньше базового
-    separator_size = int(adaptive_base_size * 0.9)     # для разделителя
-    greg_weekday_size = int(adaptive_base_size * 0.9)  # для дня недели
-    greg_day_size = int(adaptive_base_size * 0.9)      # для дня
-    greg_month_size = int(adaptive_base_size * 1.1)    # для месяца
-    greg_year_size = int(adaptive_base_size * 0.9)     # для года
+    hijri_day_size = int(adaptive_base_size * 1)    # чуть меньше базового
+    hijri_month_size = int(adaptive_base_size * 1.20)
+    hijri_year_size = int(adaptive_base_size * 1)   # чуть меньше базового
+    greg_weekday_size = int(adaptive_base_size * 1.30)
+    greg_day_size = int(adaptive_base_size * 1)      # для дня
+    greg_month_size = int(adaptive_base_size * 1.20)
+    greg_year_size = int(adaptive_base_size * 1)     # для года
     
     # Формируем текст с разметкой для обеих дат
     marked_text = (
         # Дата хиджры
-        f'[size={hijri_day_size}][font=FontDSEG7-Light]{formatted_dates["hijri_day"]["text"]}[/font][/size]'
-        f'[size={hijri_month_size}][font=FontSourceCodePro-Light]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
         f'[size={hijri_year_size}][font=FontDSEG7-Light]{formatted_dates["hijri_year"]["text"]}[/font][/size]'
-        # Разделитель
-        f'[size={separator_size}][font=FontSourceCodePro-Light] - [/font][/size]'
+        f'[size={hijri_month_size}][font=Roman7]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
+        f'[size={hijri_day_size}][font=FontDSEG7-Light]{formatted_dates["hijri_day"]["text"]}[/font][/size]'
         # Григорианская дата
-        f'[size={greg_weekday_size}][font=FontSourceCodePro-Light]{formatted_dates["weekday"]["text"]}[/font][/size] '
+        f'[size={greg_weekday_size}][font=Roman7]{formatted_dates["weekday"]["text"]}[/font][/size]'
         f'[size={greg_day_size}][font=FontDSEG7-Light]{formatted_dates["day"]["text"]}[/font][/size]'
-        f'[size={greg_month_size}][font=FontSourceCodePro-Light]{formatted_dates["month"]["text"]}[/font][/size]'
+        f'[size={greg_month_size}][font=Roman7]{formatted_dates["month"]["text"]}[/font][/size]'
         f'[size={greg_year_size}][font=FontDSEG7-Light]{formatted_dates["year"]["text"]}[/font][/size]'
     )
     
@@ -190,7 +183,8 @@ def create_hijri_date_label(base_font_size):
         size_hint_y=None,
         height=window_width * 0.06,  # Высота тоже адаптивная
         halign='center',
-        valign='middle'
+        valign='middle',
+        text_size=(Window.width, window_width * 0.06)  # Задаем полный размер текста
     )
     
     # Привязываем обновление размеров к изменению размера окна
@@ -207,30 +201,31 @@ def update_label_size(label, *args):
     
     # Обновляем высоту метки
     label.height = window_width * 0.06
-    
-    # Получаем текущий текст и обновляем размеры
-    formatted_dates = get_formatted_dates()
+    label.text_size = (window_width, window_width * 0.06)
     
     # Рассчитываем новые размеры
-    hijri_day_size = int(adaptive_base_size * 0.9)
-    hijri_month_size = int(adaptive_base_size * 1.1)
-    hijri_year_size = int(adaptive_base_size * 0.9)
-    separator_size = int(adaptive_base_size * 0.9)
-    greg_weekday_size = int(adaptive_base_size * 0.9)
-    greg_day_size = int(adaptive_base_size * 0.9)
-    greg_month_size = int(adaptive_base_size * 1.1)
-    greg_year_size = int(adaptive_base_size * 0.9)
+    hijri_day_size = int(adaptive_base_size * 1)
+    hijri_month_size = int(adaptive_base_size * 1)
+    hijri_year_size = int(adaptive_base_size * 1)
+    greg_weekday_size = int(adaptive_base_size * 1)
+    greg_day_size = int(adaptive_base_size * 1)
+    greg_month_size = int(adaptive_base_size * 1)
+    greg_year_size = int(adaptive_base_size * 1)
+    
+    # Получаем форматированные даты заново
+    formatted_dates = get_formatted_dates()
     
     # Обновляем текст с новыми размерами
     marked_text = (
-        f'[size={hijri_day_size}][font=FontDSEG7-Light]{formatted_dates["hijri_day"]["text"]}[/font][/size]'
-        f'[size={hijri_month_size}][font=FontSourceCodePro-Light]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
         f'[size={hijri_year_size}][font=FontDSEG7-Light]{formatted_dates["hijri_year"]["text"]}[/font][/size]'
-        f'[size={separator_size}][font=FontSourceCodePro-Light] - [/font][/size]'
-        f'[size={greg_weekday_size}][font=FontSourceCodePro-Light]{formatted_dates["weekday"]["text"]}[/font][/size] '
+        f'[size={hijri_month_size}][font=Roman7]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
+        f'[size={hijri_day_size}][font=FontDSEG7-Light]{formatted_dates["hijri_day"]["text"]}[/font][/size]'
+        f'[size={greg_weekday_size}][font=Roman7]{formatted_dates["weekday"]["text"]}[/font][/size]'
         f'[size={greg_day_size}][font=FontDSEG7-Light]{formatted_dates["day"]["text"]}[/font][/size]'
-        f'[size={greg_month_size}][font=FontSourceCodePro-Light]{formatted_dates["month"]["text"]}[/font][/size]'
+        f'[size={greg_month_size}][font=Roman7]{formatted_dates["month"]["text"]}[/font][/size]'
         f'[size={greg_year_size}][font=FontDSEG7-Light]{formatted_dates["year"]["text"]}[/font][/size]'
     )
     
+    # Обновляем текст метки
     label.text = marked_text
+    label.texture_update()
