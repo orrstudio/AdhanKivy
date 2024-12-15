@@ -63,9 +63,11 @@ def register_fonts():
         name='FontDSEG14-Bold', 
         fn_regular='fonts/DSEG-Classic/DSEG14Classic-Bold.ttf'
     )
-
-    # Регистрация шрифта Roman7
     LabelBase.register(
-        name='Roman7',
-        fn_regular='fonts/roman_font_7.ttf'
+        name='DalekBold',
+        fn_regular='fonts/RimFonts/DalekPinpointBold.ttf'
+    )
+    LabelBase.register(
+        name='GothicRegular',
+        fn_regular='fonts/RimFonts/SawarabiGothic-Regular.ttf'
     )

@@ -59,20 +59,24 @@ def get_formatted_dates():
     # Части даты с указанием шрифтов и размеров
     date_parts = {
         'weekday': {
-            'text': f" -{WEEKDAY_TO_ROMAN[weekday]}-",  # Добавляем разделитель здесь
-            'font': 'Roman7'
+            'text': f"  -  {WEEKDAY_TO_ROMAN[weekday]}  - ",  # Добавляем разделитель здесь
+            'font': 'DalekBold', 
+            'font_size': 40
         },
         'day': {
             'text': current_date.strftime('%d'),
-            'font': 'FontDSEG7-Light'
+            'font': 'FontDSEG7-Light',
+            'font_size': 40
         },
         'month': {
             'text': f"/{MONTH_TO_ROMAN[month]}/",
-            'font': 'Roman7'
+            'font': 'GothicRegular',
+            'font_size': 40
         },
         'year': {
             'text': current_date.strftime('%Y'),
-            'font': 'FontDSEG7-Light'
+            'font': 'FontDSEG7-Light',
+            'font_size': 40
         },
         'full_gregorian': f" - {WEEKDAY_TO_ROMAN[weekday]} - {current_date.strftime('%d')}.{MONTH_TO_ROMAN[month]}.{current_date.strftime('%Y')}",
         
@@ -84,7 +88,7 @@ def get_formatted_dates():
         },
         'hijri_month': {
             'text': f"/{HIJRI_MONTH_TO_ROMAN[12]}/",
-            'font': 'Roman7',
+            'font': 'GothicRegular',
             'font_size': 40
         },
         'hijri_year': {
@@ -116,9 +120,9 @@ def create_gregorian_date_label(base_font_size):
     
     # Формируем текст с разметкой для разных шрифтов и размеров
     marked_text = (
-        f'[size={int(weekday_size)}][font=Roman7]{formatted_dates["weekday"]["text"]}[/font][/size]'
+        f'[size={int(weekday_size)}][font=DalekBold]{formatted_dates["weekday"]["text"]}[/font][/size]'
         f'[size={int(day_size)}][font=FontDSEG7-Light]{formatted_dates["day"]["text"]}[/font][/size]'
-        f'[size={int(month_size)}][font=Roman7]{formatted_dates["month"]["text"]}[/font][/size]'
+        f'[size={int(month_size)}][font=GothicRegular]{formatted_dates["month"]["text"]}[/font][/size]'
         f'[size={int(year_size)}][font=FontDSEG7-Light]{formatted_dates["year"]["text"]}[/font][/size]'
     )
     
@@ -154,23 +158,23 @@ def create_hijri_date_label(base_font_size):
     
     # Получаем размеры для каждой части из словаря или используем адаптивные значения
     hijri_day_size = int(adaptive_base_size * 1)    # чуть меньше базового
-    hijri_month_size = int(adaptive_base_size * 1.20)
+    hijri_month_size = int(adaptive_base_size * 1.0)
     hijri_year_size = int(adaptive_base_size * 1)   # чуть меньше базового
-    greg_weekday_size = int(adaptive_base_size * 1.30)
+    greg_weekday_size = int(adaptive_base_size * 1.0)
     greg_day_size = int(adaptive_base_size * 1)      # для дня
-    greg_month_size = int(adaptive_base_size * 1.20)
+    greg_month_size = int(adaptive_base_size * 1.0)
     greg_year_size = int(adaptive_base_size * 1)     # для года
     
     # Формируем текст с разметкой для обеих дат
     marked_text = (
         # Дата хиджры
         f'[size={hijri_year_size}][font=FontDSEG7-Light]{formatted_dates["hijri_year"]["text"]}[/font][/size]'
-        f'[size={hijri_month_size}][font=Roman7]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
+        f'[size={hijri_month_size}][font=GothicRegular]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
         f'[size={hijri_day_size}][font=FontDSEG7-Light]{formatted_dates["hijri_day"]["text"]}[/font][/size]'
         # Григорианская дата
-        f'[size={greg_weekday_size}][font=Roman7]{formatted_dates["weekday"]["text"]}[/font][/size]'
+        f'[size={greg_weekday_size}][font=DalekBold]{formatted_dates["weekday"]["text"]}[/font][/size]'
         f'[size={greg_day_size}][font=FontDSEG7-Light]{formatted_dates["day"]["text"]}[/font][/size]'
-        f'[size={greg_month_size}][font=Roman7]{formatted_dates["month"]["text"]}[/font][/size]'
+        f'[size={greg_month_size}][font=GothicRegular]{formatted_dates["month"]["text"]}[/font][/size]'
         f'[size={greg_year_size}][font=FontDSEG7-Light]{formatted_dates["year"]["text"]}[/font][/size]'
     )
     
@@ -218,11 +222,11 @@ def update_label_size(label, *args):
     # Обновляем текст с новыми размерами
     marked_text = (
         f'[size={hijri_year_size}][font=FontDSEG7-Light]{formatted_dates["hijri_year"]["text"]}[/font][/size]'
-        f'[size={hijri_month_size}][font=Roman7]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
+        f'[size={hijri_month_size}][font=GothicRegular]{formatted_dates["hijri_month"]["text"]}[/font][/size]'
         f'[size={hijri_day_size}][font=FontDSEG7-Light]{formatted_dates["hijri_day"]["text"]}[/font][/size]'
-        f'[size={greg_weekday_size}][font=Roman7]{formatted_dates["weekday"]["text"]}[/font][/size]'
+        f'[size={greg_weekday_size}][font=DalekBold]{formatted_dates["weekday"]["text"]}[/font][/size]'
         f'[size={greg_day_size}][font=FontDSEG7-Light]{formatted_dates["day"]["text"]}[/font][/size]'
-        f'[size={greg_month_size}][font=Roman7]{formatted_dates["month"]["text"]}[/font][/size]'
+        f'[size={greg_month_size}][font=GothicRegular]{formatted_dates["month"]["text"]}[/font][/size]'
         f'[size={greg_year_size}][font=FontDSEG7-Light]{formatted_dates["year"]["text"]}[/font][/size]'
     )
     
