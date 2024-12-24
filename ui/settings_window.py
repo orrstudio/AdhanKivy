@@ -1,16 +1,50 @@
 """
-Settings Window Module для OrrClock.
+Settings Window Module.
 Реализует минималистичный интерфейс настроек с выбором цвета.
 
 Основные компоненты:
 - Компактный заголовок
 - Сетка из 9 цветов с выделением активного белой рамкой
 - Кнопки Save/Cancel для применения/отмены изменений
+
+Текущая структура:
+
+ModalView (SettingsWindow)
+  └─ main_layout (GridLayout)
+      ├─ title_layout (GridLayout)
+      │    └─ title_label (Label)
+      ├─ content_layout (ScrollView)
+      │    └─ colors_grid (GridLayout)
+      │         └─ color_buttons (ColorButton) x9
+      └─ bottom_panel (GridLayout)
+           ├─ cancel_button (Button)
+           └─ accept_button (Button)
+
+Все компоненты:
+
+1. main_layout:    GridLayout с cols=1, 
+                   spacing=dp(0), size_hint=(1, 1)
+2. title_layout:   GridLayout с cols=1, 
+                   size_hint_y=None, 
+                   height=dp(30), 
+                   padding=[dp(20), 0]
+3. content_layout: ScrollView с do_scroll_x=False, 
+                   do_scroll_y=True, 
+                   size_hint=(1, 1)
+4. colors_grid:    GridLayout с cols=3, 
+                   spacing=dp(10), 
+                   size_hint_y=None, 
+                   padding=[dp(20), dp(10)]
+5. bottom_panel:   GridLayout с cols=2, 
+                   size_hint_y=None, 
+                   height=dp(60), 
+                   spacing=dp(10), 
+                   padding=[dp(20), dp(5)]
+
 """
 
 from kivy.uix.modalview import ModalView
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
+from ui.settings_color import ColorButton
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
@@ -19,29 +53,17 @@ from kivy.graphics import Color, Line, Rectangle
 from kivy.metrics import dp, sp
 from kivy.core.window import Window
 from kivy.clock import Clock
+from kivy.uix.button import Button
 from data.database import SettingsDatabase
 import logging
 logger = logging.getLogger(__name__)
 
-class ColorButton(Button):
-    """Кнопка выбора цвета"""
-    def __init__(self, color_name, color_tuple, **kwargs):
-        super().__init__(**kwargs)
-        self.color_name = color_name
-        self.color_tuple = color_tuple
-        self.background_color = color_tuple
-        self.background_normal = ''
-        self.size_hint = (1, None)
-        self.height = self.width  # Квадратная кнопка
-        
-    def on_size(self, *args):
-        self.height = self.width  # Поддерживаем квадратную форму при изменении размера
-
-class SettingsCard(BoxLayout):
+class SettingsCard(GridLayout):
     """Карточка для группы настроек"""
     def __init__(self, title="", **kwargs):
         super().__init__(**kwargs)
-        self.orientation = 'vertical'
+        self.cols = 1
+        self.row_default_height = dp(5)
         self.size_hint_y = None
         self.height = dp(200)  # Начальная высота
         self.padding = [dp(10), dp(5)]
@@ -85,10 +107,11 @@ class SettingsSection(ScrollView):
         self.bind(pos=self._update_rect, size=self._update_rect)
         
         # Основной layout с адаптивными отступами
-        self.layout = BoxLayout(
+        self.layout = GridLayout(
+            cols=1,
             orientation='vertical', 
-            spacing=dp(15),
-            padding=[dp(20), dp(10), dp(20), dp(20)],
+            spacing=0,
+            padding=0,
             pos_hint={'center_x': 0.5, 'center_y': 0.5},
             size_hint_y=None
         )
@@ -99,6 +122,40 @@ class SettingsSection(ScrollView):
     def _update_rect(self, instance, value):
         self.rect.pos = instance.pos
         self.rect.size = instance.size
+
+class CustomButton(Button):
+    def __init__(self, icon_path='', **kwargs):
+        super().__init__(**kwargs)
+        self.background_normal = ''
+        self.icon_path = icon_path
+        self.icon_size = dp(30)
+        
+        with self.canvas.before:
+            self.bg_color = Color(*self.background_color)
+            self.bg_rect = Rectangle(pos=self.pos, size=self.size)
+            
+        with self.canvas.after:
+            self.icon_color = Color(1, 1, 1, 1)
+            self.icon = Rectangle(source=self.icon_path, size=(self.icon_size, self.icon_size))
+        
+        self.bind(pos=self._update_icon, size=self._update_icon)
+        self.bind(size=self._update_background, pos=self._update_background)
+    
+    def _update_icon(self, *args):
+        if hasattr(self, 'icon'):
+            # Явно вычисляем центр
+            center_x = self.x + self.width/2
+            center_y = self.y + self.height/2
+            
+            self.icon.pos = (
+                center_x - self.icon_size/2,
+                center_y - self.icon_size/2
+            )
+            self.icon.size = (self.icon_size, self.icon_size)
+            
+    def _update_background(self, *args):
+        self.bg_rect.pos = self.pos
+        self.bg_rect.size = self.size
 
 class SettingsWindow(ModalView):
     """
@@ -146,22 +203,24 @@ class SettingsWindow(ModalView):
         self.active_button = None  # Инициализируем как None
         
         # Настройка размеров окна
-        # Настройка размеров окна
         self.size_hint = (1, 1)  # Полный размер экрана
-        self.width = Window.width
-        self.height = Window.height
+        self.auto_dismiss = True
+        self.padding = 0  # Убираем внутренний отступ ModalView
+        self.background = ''  # Убираем стандартный фон
+        self.background_color = (0, 0, 0, 1)  # Черный фон
         
         # Основной layout
-        self.layout = BoxLayout(
-            orientation='vertical',
-            spacing=dp(10),
-            padding=[dp(0), dp(0), dp(0), dp(0)]
+        main_layout = GridLayout(
+            cols=1,
+            spacing=dp(0),
+            size_hint=(1, 1)
         )
         
-        # Создание заголовка
-        title_layout = BoxLayout(
+        # Заголовок
+        title_layout = GridLayout(
+            cols=1,
             size_hint_y=None,
-            height=dp(40),
+            height=dp(30),
             padding=[dp(20), 0]
         )
         
@@ -175,29 +234,35 @@ class SettingsWindow(ModalView):
         title_label = Label(
             text='SETTINGS',
             color=(1, 1, 1, 1),
-            font_size=sp(20),
+            font_size=sp(16),
             bold=True,
             halign='center',
             valign='center'
         )
         title_layout.add_widget(title_label)
-        self.layout.add_widget(title_layout)
         
-        # Сетка цветов сразу после заголовка
+        # Контент (ScrollView)
+        content_layout = ScrollView(
+            do_scroll_x=False,
+            do_scroll_y=True,
+            size_hint=(1, 1)
+        )
+        
+        # Сетка цветов
         colors_grid = GridLayout(
             cols=3,
             spacing=dp(10),
             size_hint_y=None,
-            height=dp(180),
             padding=[dp(20), dp(10)]
         )
+        colors_grid.bind(minimum_height=colors_grid.setter('height'))
         
         # Создаем кнопки цветов
         for color_name, color_tuple in self.colors.items():
             color_button = ColorButton(
                 color_name=color_name,
                 color_tuple=color_tuple,
-                text='',  # Без текста для минималистичного дизайна
+                text='',
                 size_hint=(1, None),
                 height=dp(50),
                 background_normal=''
@@ -210,15 +275,12 @@ class SettingsWindow(ModalView):
             
             colors_grid.add_widget(color_button)
         
-        # Добавляем сетку цветов сразу после заголовка
-        self.layout.add_widget(colors_grid)
-        
-        # Растягивающийся виджет между сеткой и кнопками
-        self.layout.add_widget(Widget())
+        # Добавляем сетку цветов в ScrollView
+        content_layout.add_widget(colors_grid)
         
         # Нижняя панель с кнопками
-        bottom_panel = BoxLayout(
-            orientation='horizontal',
+        bottom_panel = GridLayout(
+            cols=2,
             size_hint_y=None,
             height=dp(60),
             spacing=dp(10),
@@ -236,31 +298,37 @@ class SettingsWindow(ModalView):
             'size_hint_x': 0.5,
             'size_hint_y': None,
             'height': dp(50),
-            'font_size': sp(16)
+            'font_size': sp(22)
         }
         
         # Кнопки управления
-        cancel_button = Button(
-            text="Cancel",
-            background_normal='',  # Убираем стандартный фон
-            background_color=(3, 0, 0, 1),  # Более светлый красный
-            **button_style
-        )
-        accept_button = Button(
-            text="Save",
-            background_normal='',  # Убираем стандартный фон
-            background_color=(0, 0.7, 0, 1),  # Более светлый зеленый
+        cancel_button = CustomButton(
+            icon_path='fonts/Awesome/use/x.png',
+            text="",  # Убираем текст
+            background_color=(3, 0, 0, 1),
             **button_style
         )
         
+        accept_button = CustomButton(
+            icon_path='fonts/Awesome/use/ok.png',
+            text="",  # Убираем текст
+            background_color=(0, 0.7, 0, 1),
+            **button_style
+        )
+
         cancel_button.bind(on_release=self.dismiss)
         accept_button.bind(on_release=self.on_accept)
         
         bottom_panel.add_widget(cancel_button)
         bottom_panel.add_widget(accept_button)
         
-        self.layout.add_widget(bottom_panel)
-        self.add_widget(self.layout)
+        # Собираем все вместе
+        main_layout.add_widget(title_layout)
+        main_layout.add_widget(content_layout)
+        main_layout.add_widget(bottom_panel)
+        
+        # Добавляем основной layout в окно
+        self.add_widget(main_layout)
         
         # Добавляем рамку к активной кнопке после отрисовки
         Clock.schedule_once(self._add_initial_border, 0)
@@ -283,7 +351,15 @@ class SettingsWindow(ModalView):
         button.canvas.after.clear()
         with button.canvas.after:
             Color(1, 1, 1, 1)
-            Line(rectangle=(button.x, button.y, button.width, button.height), width=2)
+            self.border_line = Line(rectangle=(button.x, button.y, button.width, button.height), width=2)
+        
+        # Привязываем обновление рамки к изменению размера и позиции кнопки
+        button.bind(pos=self._update_border, size=self._update_border)
+    
+    def _update_border(self, instance, value):
+        """Обновляет размер и позицию рамки при изменении размера кнопки"""
+        if hasattr(self, 'border_line'):
+            self.border_line.rectangle = (instance.x, instance.y, instance.width, instance.height)
 
     def _on_color_button_press(self, button):
         """
@@ -314,9 +390,11 @@ class SettingsWindow(ModalView):
             if self.selected_color:
                 # Преобразуем название цвета в нижний регистр
                 color_key = self.selected_color.lower()
+                
                 if color_key in self.colors:
                     # Сохраняем в базу данных
                     self.db.save_setting('color', color_key)
+                    
                     # Применяем цвет через callback
                     if self.apply_callback:
                         self.apply_callback(self.colors[color_key])
@@ -350,7 +428,7 @@ class SettingsWindow(ModalView):
     
     def dismiss(self, *args):
         """При отмене возвращаем исходный цвет"""
-        if not self.selected_color or args:  # args будут не пусты при явном вызове dismiss
+        if not self.selected_color or args:  
             if hasattr(self.main_window, 'update_color') and self.initial_color:
                 self.main_window.update_color(self.initial_color)
         super().dismiss()
@@ -369,7 +447,7 @@ class SettingsWindow(ModalView):
             'grey': (0.7, 0.7, 0.7, 1),
             'white': (1, 1, 1, 1)
         }
-        return colors.get(color_name, (0, 1, 0, 1))  # По умолчанию возвращаем Lime
+        return colors.get(color_name, (0, 1, 0, 1))  
 
     @staticmethod
     def get_color_name(color_tuple):
@@ -385,4 +463,4 @@ class SettingsWindow(ModalView):
             (0.7, 0.7, 0.7, 1): 'grey',
             (1, 1, 1, 1): 'white'
         }
-        return colors.get(color_tuple, 'lime')  # По умолчанию возвращаем 'lime'
+        return colors.get(color_tuple, 'lime')  
